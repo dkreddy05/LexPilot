@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: lexpilot-app
+
+  # ---------------------------------------------------------------------------
+  # Database — PostgreSQL with pgvector
+  # ---------------------------------------------------------------------------
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/lexpilot}
+    username: ${SPRING_DATASOURCE_USERNAME:lexpilot}
+    password: ${SPRING_DATASOURCE_PASSWORD:lexpilot_dev}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # use Flyway/Liquibase for schema management in prod
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+  # ---------------------------------------------------------------------------
+  # Redis
+  # ---------------------------------------------------------------------------
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      timeout: 2000ms
+
+  # ---------------------------------------------------------------------------
+  # Kafka
+  # ---------------------------------------------------------------------------
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+    consumer:
+      group-id: lexpilot-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+  # ---------------------------------------------------------------------------
+  # Virtual Threads — Java 21 / Project Loom
+  # ---------------------------------------------------------------------------
+  threads:
+    virtual:
+      enabled: true  # TODO: validate performance under load; disable if Pinning issues arise
+
+  # ---------------------------------------------------------------------------
+  # Security — Permit actuator endpoints without auth
+  # ---------------------------------------------------------------------------
+  security:
+    api-key:
+      header-name: X-Api-Key
+      # TODO: Move to a secrets manager (AWS Secrets Manager / Vault) in production.
+      #       For local dev, the key is set via the LEXPILOT_API_KEY env var.
+
+# ---------------------------------------------------------------------------
+# Actuator
+# ---------------------------------------------------------------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+# ---------------------------------------------------------------------------
+# Server
+# ---------------------------------------------------------------------------
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# ---------------------------------------------------------------------------
+# LexPilot custom configuration namespace
+# ---------------------------------------------------------------------------
+lexpilot:
+  api-key: ${LEXPILOT_API_KEY:dev-api-key-change-me}
+
+  embedding-service:
+    base-url: ${LEXPILOT_EMBEDDING_SERVICE_URL:http://localhost:8000}
+    # TODO: configure connection pool / timeout when implementing
+
+  llm:
+    api-key: ${LLM_API_KEY:}
+    base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
+    model: gpt-4o-mini  # TODO: make configurable per request type
+    max-tokens: 1024
+    temperature: 0.2
+
+  ingestion:
+    kafka-topic: lexpilot.ingestion.documents
+    # TODO: chunk size / overlap configurable here
+    chunk-size: 512
+    chunk-overlap: 64
+
+  retrieval:
+    vector-top-k: 20
+    bm25-top-k: 20
+    rrf-top-k: 10  # final candidates after fusion
+
+  rate-limiting:
+    # TODO: configure via Bucket4j + Redis; values below are placeholders
+    requests-per-minute: 60
+    requests-per-day: 1000

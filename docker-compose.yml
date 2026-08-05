@@ -1,0 +1,181 @@
+version: "3.9"
+
+# ---------------------------------------------------------------------------
+# LexPilot — Docker Compose
+# Services: postgres (pgvector), kafka (KRaft), redis, embedding-service,
+#           lexpilot-app, frontend
+# ---------------------------------------------------------------------------
+
+networks:
+  lexpilot-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  kafka-data:
+
+services:
+
+  # -------------------------------------------------------------------------
+  # Postgres 16 with pgvector extension
+  # -------------------------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: lexpilot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lexpilot
+      POSTGRES_USER: lexpilot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lexpilot_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./lexpilot-app/src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lexpilot -d lexpilot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - lexpilot-net
+
+  # -------------------------------------------------------------------------
+  # Kafka in KRaft mode (no Zookeeper)
+  # -------------------------------------------------------------------------
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: lexpilot-kafka
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:29092"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: "lexpilot-kafka-cluster-001"
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      - lexpilot-net
+
+  # -------------------------------------------------------------------------
+  # Redis 7
+  # -------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: lexpilot-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lexpilot-net
+
+  # -------------------------------------------------------------------------
+  # embedding-service — FastAPI (Python)
+  # -------------------------------------------------------------------------
+  embedding-service:
+    build:
+      context: ./embedding-service
+      dockerfile: Dockerfile
+    container_name: lexpilot-embedding
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_EMBED: "BAAI/bge-small-en-v1.5"
+      MODEL_RERANK: "BAAI/bge-reranker-base"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s   # model download on first start
+    networks:
+      - lexpilot-net
+
+  # -------------------------------------------------------------------------
+  # lexpilot-app — Spring Boot monolith
+  # -------------------------------------------------------------------------
+  lexpilot-app:
+    build:
+      context: ./lexpilot-app
+      dockerfile: Dockerfile
+    container_name: lexpilot-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/lexpilot
+      SPRING_DATASOURCE_USERNAME: lexpilot
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-lexpilot_dev}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      LEXPILOT_EMBEDDING_SERVICE_URL: http://embedding-service:8000
+      LEXPILOT_API_KEY: ${LEXPILOT_API_KEY:-dev-api-key-change-me}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      embedding-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 45s
+    networks:
+      - lexpilot-net
+
+  # -------------------------------------------------------------------------
+  # frontend — Next.js 15
+  # -------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lexpilot-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080/api/v1
+    depends_on:
+      lexpilot-app:
+        condition: service_healthy
+    networks:
+      - lexpilot-net

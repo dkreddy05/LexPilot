@@ -1,0 +1,39 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Java / Maven (lexpilot-app)
+lexpilot-app/target/
+lexpilot-app/.mvn/
+lexpilot-app/*.log
+application.properties
+application-*.properties
+application-secrets.yml
+application-local.yml
+
+# Python / FastAPI (embedding-service)
+embedding-service/__pycache__/
+embedding-service/*.pyc
+embedding-service/.pytest_cache/
+embedding-service/venv/
+embedding-service/.venv/
+embedding-service/*.egg-info/
+
+# Frontend (Next.js / Node)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*

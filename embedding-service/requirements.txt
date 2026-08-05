@@ -1,0 +1,19 @@
+# LexPilot — Embedding Service Dependencies
+# ---------------------------------------------------------------------------
+# Pin versions for reproducibility. Update with `pip-compile` when upgrading.
+# ---------------------------------------------------------------------------
+
+# Web framework
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+
+# Data validation
+pydantic==2.7.4
+
+# ML / Embeddings
+# Note: sentence-transformers pulls in torch; expect a large image on first build.
+sentence-transformers==3.0.1
+
+# Utilities
+python-dotenv==1.0.1
+httpx==0.27.0         # async HTTP (for potential future upstream calls)
