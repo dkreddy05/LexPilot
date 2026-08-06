@@ -10,9 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Model names — override via docker-compose environment
-ENV MODEL_EMBED=BAAI/bge-small-en-v1.5
-ENV MODEL_RERANK=BAAI/bge-reranker-base
+# Model name — override via docker-compose environment
+ENV MODEL_EMBED=sentence-transformers/all-MiniLM-L6-v2
 
 WORKDIR /app
 
@@ -28,14 +27,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application source
 COPY main.py .
 
+# Pre-download the model so the first startup doesn't timeout the healthcheck.
+# This runs as root before switching to non-root user (needs write access to cache).
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('${MODEL_EMBED}')"
+
 # Create non-root user
 RUN useradd -m -s /bin/bash lexpilot
 USER lexpilot
 
 EXPOSE 8000
-
-# TODO (embedding-service): add model pre-download step here so the first
-#   startup doesn't time out the Docker Compose health check.
-#   Example: RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('${MODEL_EMBED}')"
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

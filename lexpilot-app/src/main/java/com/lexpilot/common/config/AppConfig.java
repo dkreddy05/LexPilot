@@ -24,7 +24,9 @@ public record AppConfig(
     public record IngestionConfig(
             String kafkaTopic,
             int chunkSize,
-            int chunkOverlap
+            int chunkOverlap,
+            String uploadDir,
+            int maxFileSizeMb
     ) {}
 
     public record RetrievalConfig(

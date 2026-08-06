@@ -17,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate  # use Flyway/Liquibase for schema management in prod
+      ddl-auto: none  # schema managed by init.sql (docker-entrypoint-initdb.d)
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -47,6 +47,8 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.lexpilot.*"
 
   # ---------------------------------------------------------------------------
   # Virtual Threads — Java 21 / Project Loom
@@ -63,6 +65,14 @@ spring:
       header-name: X-Api-Key
       # TODO: Move to a secrets manager (AWS Secrets Manager / Vault) in production.
       #       For local dev, the key is set via the LEXPILOT_API_KEY env var.
+
+  # ---------------------------------------------------------------------------
+  # Multipart file upload limits
+  # ---------------------------------------------------------------------------
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
 
 # ---------------------------------------------------------------------------
 # Actuator
@@ -103,9 +113,10 @@ lexpilot:
 
   ingestion:
     kafka-topic: lexpilot.ingestion.documents
-    # TODO: chunk size / overlap configurable here
-    chunk-size: 512
-    chunk-overlap: 64
+    chunk-size: 500      # approximate token count per chunk
+    chunk-overlap: 75    # ~15% overlap
+    upload-dir: ${LEXPILOT_UPLOAD_DIR:./uploads}
+    max-file-size-mb: 20
 
   retrieval:
     vector-top-k: 20

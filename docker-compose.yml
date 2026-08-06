@@ -14,6 +14,7 @@ volumes:
   postgres-data:
   redis-data:
   kafka-data:
+  uploads-data:
 
 services:
 
@@ -110,7 +111,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      MODEL_EMBED: "BAAI/bge-small-en-v1.5"
+      MODEL_EMBED: "sentence-transformers/all-MiniLM-L6-v2"
       MODEL_RERANK: "BAAI/bge-reranker-base"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
@@ -143,6 +144,9 @@ services:
       LEXPILOT_API_KEY: ${LEXPILOT_API_KEY:-dev-api-key-change-me}
       LLM_API_KEY: ${LLM_API_KEY:-}
       LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LEXPILOT_UPLOAD_DIR: /app/uploads
+    volumes:
+      - uploads-data:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy

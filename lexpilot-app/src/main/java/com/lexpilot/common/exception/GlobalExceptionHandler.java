@@ -14,6 +14,18 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(InvalidDocumentException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDocument(InvalidDocumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now()));
+    }
+
+    @ExceptionHandler(ExtractionException.class)
+    public ResponseEntity<ErrorResponse> handleExtraction(ExtractionException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now()));
+    }
+
     @ExceptionHandler(DocumentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleDocumentNotFound(DocumentNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
