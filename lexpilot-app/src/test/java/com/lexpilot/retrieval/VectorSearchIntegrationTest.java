@@ -140,6 +140,10 @@ class VectorSearchIntegrationTest {
         insertChunk(CHUNK_REFUND, 0, "How to get a refund when a seller refuses", refundVector);
         insertChunk(CHUNK_WARRANTY, 1, "Filing a warranty claim under consumer protection", warrantyVector);
         insertChunk(CHUNK_TELECOM, 2, "Telecom service provider complaint resolution process", telecomVector);
+
+        // With only 3 rows and ivfflat lists=100, default probes=1 misses most
+        // neighbors. Set probes high enough to scan all lists in this test.
+        jdbcTemplate.execute("SET ivfflat.probes = 100");
     }
 
     private void insertChunk(UUID chunkId, int index, String content, float[] embedding) {
