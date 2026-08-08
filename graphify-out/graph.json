@@ -9,7 +9,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L1",
       "id": "embedding_service_main_py",
-      "community": 8,
+      "community": 11,
       "norm_label": "main.py"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L29",
       "id": "embedding_service_main_embedrequest",
-      "community": 8,
+      "community": 11,
       "norm_label": "embedrequest"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "",
       "source_location": "",
       "id": "basemodel",
-      "community": 8,
+      "community": 11,
       "norm_label": "basemodel"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L33",
       "id": "embedding_service_main_embedresponse",
-      "community": 8,
+      "community": 11,
       "norm_label": "embedresponse"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L38",
       "id": "embedding_service_main_rerankrequest",
-      "community": 8,
+      "community": 11,
       "norm_label": "rerankrequest"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L43",
       "id": "embedding_service_main_rerankresponse",
-      "community": 8,
+      "community": 11,
       "norm_label": "rerankresponse"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L53",
       "id": "embedding_service_main_health",
-      "community": 8,
+      "community": 11,
       "norm_label": "health()"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L58",
       "id": "embedding_service_main_embed",
-      "community": 8,
+      "community": 11,
       "norm_label": "embed()"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "embedding-service\\main.py",
       "source_location": "L68",
       "id": "embedding_service_main_rerank",
-      "community": 8,
+      "community": 11,
       "norm_label": "rerank()"
     },
     {
@@ -89,7 +89,7 @@
       "file_type": "rationale",
       "source_file": "embedding-service\\main.py",
       "source_location": "L59",
-      "community": 8,
+      "community": 11,
       "norm_label": "encode a batch of texts into normalised embeddings.     returns one 384-dim vect",
       "id": "embedding_service_main_rationale_59"
     },
@@ -180,7 +180,7 @@
       "source_file": "frontend\\lib\\api.ts",
       "source_location": "L1",
       "id": "frontend_lib_api_ts",
-      "community": 9,
+      "community": 12,
       "norm_label": "api.ts"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "frontend\\lib\\api.ts",
       "source_location": "L50",
       "id": "lib_api_query",
-      "community": 9,
+      "community": 12,
       "norm_label": "query()"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "frontend\\lib\\api.ts",
       "source_location": "L54",
       "id": "lib_api_uploaddocument",
-      "community": 9,
+      "community": 12,
       "norm_label": "uploaddocument()"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "frontend\\lib\\api.ts",
       "source_location": "L61",
       "id": "lib_api_getingestionstatus",
-      "community": 9,
+      "community": 12,
       "norm_label": "getingestionstatus()"
     },
     {
@@ -337,12 +337,21 @@
       "norm_label": "queryresponse.java"
     },
     {
+      "label": "SearchResultsResponse.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\dto\\SearchResultsResponse.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_common_dto_searchresultsresponse_java",
+      "community": 38,
+      "norm_label": "searchresultsresponse.java"
+    },
+    {
       "label": "DocumentNotFoundException.java",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\DocumentNotFoundException.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_documentnotfoundexception_java",
-      "community": 4,
+      "community": 6,
       "norm_label": "documentnotfoundexception.java"
     },
     {
@@ -351,7 +360,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\DocumentNotFoundException.java",
       "source_location": "L6",
       "id": "exception_documentnotfoundexception_documentnotfoundexception",
-      "community": 4,
+      "community": 6,
       "norm_label": "documentnotfoundexception"
     },
     {
@@ -360,7 +369,7 @@
       "source_file": "",
       "source_location": "",
       "id": "lexpilotexception",
-      "community": 4,
+      "community": 6,
       "norm_label": "lexpilotexception"
     },
     {
@@ -369,7 +378,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\DocumentNotFoundException.java",
       "source_location": "L9",
       "id": "exception_documentnotfoundexception_documentnotfoundexception_documentnotfoundexception",
-      "community": 4,
+      "community": 6,
       "norm_label": ".documentnotfoundexception()"
     },
     {
@@ -378,7 +387,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\ErrorResponse.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_errorresponse_java",
-      "community": 38,
+      "community": 39,
       "norm_label": "errorresponse.java"
     },
     {
@@ -387,7 +396,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\ExtractionException.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_extractionexception_java",
-      "community": 4,
+      "community": 6,
       "norm_label": "extractionexception.java"
     },
     {
@@ -396,7 +405,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\ExtractionException.java",
       "source_location": "L10",
       "id": "exception_extractionexception_extractionexception",
-      "community": 4,
+      "community": 6,
       "norm_label": "extractionexception"
     },
     {
@@ -405,7 +414,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\ExtractionException.java",
       "source_location": "L13",
       "id": "exception_extractionexception_extractionexception_extractionexception",
-      "community": 4,
+      "community": 6,
       "norm_label": ".extractionexception()"
     },
     {
@@ -414,7 +423,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_globalexceptionhandler_java",
-      "community": 3,
+      "community": 4,
       "norm_label": "globalexceptionhandler.java"
     },
     {
@@ -423,7 +432,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L14",
       "id": "exception_globalexceptionhandler_globalexceptionhandler",
-      "community": 3,
+      "community": 4,
       "norm_label": "globalexceptionhandler"
     },
     {
@@ -432,7 +441,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L17",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleinvaliddocument",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handleinvaliddocument()"
     },
     {
@@ -441,7 +450,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L23",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleextraction",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handleextraction()"
     },
     {
@@ -450,7 +459,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L29",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handledocumentnotfound",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handledocumentnotfound()"
     },
     {
@@ -459,7 +468,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L35",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handleupstreamservice",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handleupstreamservice()"
     },
     {
@@ -468,7 +477,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L41",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handlelexpilot",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handlelexpilot()"
     },
     {
@@ -477,7 +486,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L47",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handlevalidation",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handlevalidation()"
     },
     {
@@ -486,7 +495,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\GlobalExceptionHandler.java",
       "source_location": "L58",
       "id": "exception_globalexceptionhandler_globalexceptionhandler_handlegeneric",
-      "community": 3,
+      "community": 4,
       "norm_label": ".handlegeneric()"
     },
     {
@@ -495,7 +504,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\InvalidDocumentException.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_invaliddocumentexception_java",
-      "community": 4,
+      "community": 6,
       "norm_label": "invaliddocumentexception.java"
     },
     {
@@ -504,7 +513,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\InvalidDocumentException.java",
       "source_location": "L10",
       "id": "exception_invaliddocumentexception_invaliddocumentexception",
-      "community": 4,
+      "community": 6,
       "norm_label": "invaliddocumentexception"
     },
     {
@@ -513,7 +522,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\InvalidDocumentException.java",
       "source_location": "L13",
       "id": "exception_invaliddocumentexception_invaliddocumentexception_invaliddocumentexception",
-      "community": 4,
+      "community": 6,
       "norm_label": ".invaliddocumentexception()"
     },
     {
@@ -522,7 +531,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\LexPilotException.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_lexpilotexception_java",
-      "community": 3,
+      "community": 4,
       "norm_label": "lexpilotexception.java"
     },
     {
@@ -531,7 +540,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\LexPilotException.java",
       "source_location": "L6",
       "id": "exception_lexpilotexception_lexpilotexception",
-      "community": 3,
+      "community": 4,
       "norm_label": "lexpilotexception"
     },
     {
@@ -540,7 +549,7 @@
       "source_file": "",
       "source_location": "",
       "id": "runtimeexception",
-      "community": 3,
+      "community": 4,
       "norm_label": "runtimeexception"
     },
     {
@@ -549,7 +558,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\LexPilotException.java",
       "source_location": "L11",
       "id": "exception_lexpilotexception_lexpilotexception_lexpilotexception",
-      "community": 3,
+      "community": 4,
       "norm_label": ".lexpilotexception()"
     },
     {
@@ -558,7 +567,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\LexPilotException.java",
       "source_location": "L21",
       "id": "exception_lexpilotexception_lexpilotexception_geterrorcode",
-      "community": 3,
+      "community": 4,
       "norm_label": ".geterrorcode()"
     },
     {
@@ -567,7 +576,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\UpstreamServiceException.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_common_exception_upstreamserviceexception_java",
-      "community": 4,
+      "community": 6,
       "norm_label": "upstreamserviceexception.java"
     },
     {
@@ -576,7 +585,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\UpstreamServiceException.java",
       "source_location": "L6",
       "id": "exception_upstreamserviceexception_upstreamserviceexception",
-      "community": 4,
+      "community": 6,
       "norm_label": "upstreamserviceexception"
     },
     {
@@ -585,7 +594,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\common\\exception\\UpstreamServiceException.java",
       "source_location": "L9",
       "id": "exception_upstreamserviceexception_upstreamserviceexception_upstreamserviceexception",
-      "community": 4,
+      "community": 6,
       "norm_label": ".upstreamserviceexception()"
     },
     {
@@ -594,7 +603,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\DocumentController.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_gateway_controller_documentcontroller_java",
-      "community": 2,
+      "community": 1,
       "norm_label": "documentcontroller.java"
     },
     {
@@ -603,7 +612,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\DocumentController.java",
       "source_location": "L12",
       "id": "controller_documentcontroller_documentcontroller",
-      "community": 2,
+      "community": 1,
       "norm_label": "documentcontroller"
     },
     {
@@ -612,7 +621,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\DocumentController.java",
       "source_location": "L18",
       "id": "controller_documentcontroller_documentcontroller_documentcontroller",
-      "community": 2,
+      "community": 1,
       "norm_label": ".documentcontroller()"
     },
     {
@@ -621,7 +630,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\DocumentController.java",
       "source_location": "L27",
       "id": "controller_documentcontroller_documentcontroller_uploaddocument",
-      "community": 2,
+      "community": 1,
       "norm_label": ".uploaddocument()"
     },
     {
@@ -630,7 +639,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\DocumentController.java",
       "source_location": "L39",
       "id": "controller_documentcontroller_documentcontroller_getingestionstatus",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getingestionstatus()"
     },
     {
@@ -639,35 +648,44 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_gateway_controller_querycontroller_java",
-      "community": 10,
+      "community": 5,
       "norm_label": "querycontroller.java"
     },
     {
       "label": "QueryController",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L14",
+      "source_location": "L20",
       "id": "controller_querycontroller_querycontroller",
-      "community": 10,
+      "community": 5,
       "norm_label": "querycontroller"
     },
     {
       "label": ".QueryController()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L18",
+      "source_location": "L28",
       "id": "controller_querycontroller_querycontroller_querycontroller",
-      "community": 10,
+      "community": 5,
       "norm_label": ".querycontroller()"
     },
     {
       "label": ".query()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L21",
+      "source_location": "L42",
       "id": "controller_querycontroller_querycontroller_query",
-      "community": 10,
+      "community": 5,
       "norm_label": ".query()"
+    },
+    {
+      "label": ".queryWithAnswer()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L65",
+      "id": "controller_querycontroller_querycontroller_querywithanswer",
+      "community": 5,
+      "norm_label": ".querywithanswer()"
     },
     {
       "label": "RateLimitingFilter.java",
@@ -675,7 +693,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\ratelimit\\RateLimitingFilter.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_gateway_ratelimit_ratelimitingfilter_java",
-      "community": 7,
+      "community": 9,
       "norm_label": "ratelimitingfilter.java"
     },
     {
@@ -684,7 +702,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\ratelimit\\RateLimitingFilter.java",
       "source_location": "L12",
       "id": "ratelimit_ratelimitingfilter_ratelimitingfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": "ratelimitingfilter"
     },
     {
@@ -693,7 +711,7 @@
       "source_file": "",
       "source_location": "",
       "id": "onceperrequestfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": "onceperrequestfilter"
     },
     {
@@ -702,7 +720,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\ratelimit\\RateLimitingFilter.java",
       "source_location": "L15",
       "id": "ratelimit_ratelimitingfilter_ratelimitingfilter_ratelimitingfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": ".ratelimitingfilter()"
     },
     {
@@ -711,7 +729,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\ratelimit\\RateLimitingFilter.java",
       "source_location": "L18",
       "id": "ratelimit_ratelimitingfilter_ratelimitingfilter_dofilterinternal",
-      "community": 7,
+      "community": 9,
       "norm_label": ".dofilterinternal()"
     },
     {
@@ -720,7 +738,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\ratelimit\\RateLimitingFilter.java",
       "source_location": "L26",
       "id": "ratelimit_ratelimitingfilter_ratelimitingfilter_shouldnotfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": ".shouldnotfilter()"
     },
     {
@@ -729,7 +747,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\ApiKeyAuthFilter.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_gateway_security_apikeyauthfilter_java",
-      "community": 7,
+      "community": 9,
       "norm_label": "apikeyauthfilter.java"
     },
     {
@@ -738,7 +756,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\ApiKeyAuthFilter.java",
       "source_location": "L17",
       "id": "security_apikeyauthfilter_apikeyauthfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": "apikeyauthfilter"
     },
     {
@@ -747,7 +765,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\ApiKeyAuthFilter.java",
       "source_location": "L23",
       "id": "security_apikeyauthfilter_apikeyauthfilter_apikeyauthfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": ".apikeyauthfilter()"
     },
     {
@@ -756,7 +774,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\ApiKeyAuthFilter.java",
       "source_location": "L27",
       "id": "security_apikeyauthfilter_apikeyauthfilter_dofilterinternal",
-      "community": 7,
+      "community": 9,
       "norm_label": ".dofilterinternal()"
     },
     {
@@ -765,7 +783,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\ApiKeyAuthFilter.java",
       "source_location": "L45",
       "id": "security_apikeyauthfilter_apikeyauthfilter_shouldnotfilter",
-      "community": 7,
+      "community": 9,
       "norm_label": ".shouldnotfilter()"
     },
     {
@@ -774,7 +792,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\SecurityConfig.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_gateway_security_securityconfig_java",
-      "community": 1,
+      "community": 2,
       "norm_label": "securityconfig.java"
     },
     {
@@ -783,7 +801,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\SecurityConfig.java",
       "source_location": "L11",
       "id": "security_securityconfig_securityconfig",
-      "community": 1,
+      "community": 2,
       "norm_label": "securityconfig"
     },
     {
@@ -792,7 +810,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\SecurityConfig.java",
       "source_location": "L17",
       "id": "security_securityconfig_securityconfig_securityconfig",
-      "community": 1,
+      "community": 2,
       "norm_label": ".securityconfig()"
     },
     {
@@ -801,7 +819,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\security\\SecurityConfig.java",
       "source_location": "L21",
       "id": "security_securityconfig_securityconfig_securityfilterchain",
-      "community": 1,
+      "community": 2,
       "norm_label": ".securityfilterchain()"
     },
     {
@@ -810,26 +828,80 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\CitationFormatter.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_generation_citation_citationformatter_java",
-      "community": 5,
+      "community": 7,
       "norm_label": "citationformatter.java"
     },
     {
       "label": "CitationFormatter",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\CitationFormatter.java",
-      "source_location": "L8",
+      "source_location": "L12",
       "id": "citation_citationformatter_citationformatter",
-      "community": 5,
+      "community": 7,
       "norm_label": "citationformatter"
     },
     {
       "label": ".format()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\CitationFormatter.java",
-      "source_location": "L11",
+      "source_location": "L22",
       "id": "citation_citationformatter_citationformatter_format",
-      "community": 5,
+      "community": 7,
       "norm_label": ".format()"
+    },
+    {
+      "label": "RegexCitationFormatter.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_citation_regexcitationformatter_java",
+      "community": 8,
+      "norm_label": "regexcitationformatter.java"
+    },
+    {
+      "label": "RegexCitationFormatter",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L31",
+      "id": "citation_regexcitationformatter_regexcitationformatter",
+      "community": 8,
+      "norm_label": "regexcitationformatter"
+    },
+    {
+      "label": "CitationFormatter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "citationformatter",
+      "community": 8,
+      "norm_label": "citationformatter"
+    },
+    {
+      "label": ".format()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L39",
+      "id": "citation_regexcitationformatter_regexcitationformatter_format",
+      "community": 10,
+      "norm_label": ".format()"
+    },
+    {
+      "label": "Citation.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\dto\\Citation.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_dto_citation_java",
+      "community": 40,
+      "norm_label": "citation.java"
+    },
+    {
+      "label": "GeneratedAnswer.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\dto\\GeneratedAnswer.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_dto_generatedanswer_java",
+      "community": 41,
+      "norm_label": "generatedanswer.java"
     },
     {
       "label": "LowConfidenceGuardrail.java",
@@ -844,19 +916,55 @@
       "label": "LowConfidenceGuardrail",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\LowConfidenceGuardrail.java",
-      "source_location": "L8",
+      "source_location": "L15",
       "id": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail",
       "community": 15,
       "norm_label": "lowconfidenceguardrail"
     },
     {
-      "label": ".evaluate()",
+      "label": ".isLowConfidence()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\LowConfidenceGuardrail.java",
-      "source_location": "L11",
-      "id": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_evaluate",
+      "source_location": "L25",
+      "id": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_islowconfidence",
       "community": 15,
-      "norm_label": ".evaluate()"
+      "norm_label": ".islowconfidence()"
+    },
+    {
+      "label": "NoOpLowConfidenceGuardrail.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_guardrail_nooplowconfidenceguardrail_java",
+      "community": 2,
+      "norm_label": "nooplowconfidenceguardrail.java"
+    },
+    {
+      "label": "NoOpLowConfidenceGuardrail",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L17",
+      "id": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "community": 2,
+      "norm_label": "nooplowconfidenceguardrail"
+    },
+    {
+      "label": "LowConfidenceGuardrail",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "lowconfidenceguardrail",
+      "community": 8,
+      "norm_label": "lowconfidenceguardrail"
+    },
+    {
+      "label": ".isLowConfidence()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L20",
+      "id": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "community": 2,
+      "norm_label": ".islowconfidence()"
     },
     {
       "label": "LlmApiClient.java",
@@ -871,7 +979,7 @@
       "label": "LlmApiClient",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\LlmApiClient.java",
-      "source_location": "L3",
+      "source_location": "L11",
       "id": "llm_llmapiclient_llmapiclient",
       "community": 16,
       "norm_label": "llmapiclient"
@@ -880,10 +988,19 @@
       "label": ".complete()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\LlmApiClient.java",
-      "source_location": "L4",
+      "source_location": "L19",
       "id": "llm_llmapiclient_llmapiclient_complete",
       "community": 16,
       "norm_label": ".complete()"
+    },
+    {
+      "label": "LlmResponse.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\LlmResponse.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_llmresponse_java",
+      "community": 42,
+      "norm_label": "llmresponse.java"
     },
     {
       "label": "OpenAiLlmClient.java",
@@ -891,16 +1008,16 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_openaillmclient_java",
-      "community": 1,
+      "community": 6,
       "norm_label": "openaillmclient.java"
     },
     {
       "label": "OpenAiLlmClient",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L7",
+      "source_location": "L25",
       "id": "llm_openaillmclient_openaillmclient",
-      "community": 1,
+      "community": 2,
       "norm_label": "openaillmclient"
     },
     {
@@ -909,26 +1026,62 @@
       "source_file": "",
       "source_location": "",
       "id": "llmapiclient",
-      "community": 1,
+      "community": 8,
       "norm_label": "llmapiclient"
     },
     {
       "label": ".OpenAiLlmClient()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L13",
+      "source_location": "L33",
       "id": "llm_openaillmclient_openaillmclient_openaillmclient",
-      "community": 1,
+      "community": 2,
       "norm_label": ".openaillmclient()"
     },
     {
       "label": ".complete()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L21",
+      "source_location": "L42",
       "id": "llm_openaillmclient_openaillmclient_complete",
-      "community": 1,
+      "community": 2,
       "norm_label": ".complete()"
+    },
+    {
+      "label": "LegalPromptBuilder.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_legalpromptbuilder_java",
+      "community": 8,
+      "norm_label": "legalpromptbuilder.java"
+    },
+    {
+      "label": "LegalPromptBuilder",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L16",
+      "id": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "community": 8,
+      "norm_label": "legalpromptbuilder"
+    },
+    {
+      "label": "PromptBuilder",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "promptbuilder",
+      "community": 8,
+      "norm_label": "promptbuilder"
+    },
+    {
+      "label": ".build()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L38",
+      "id": "prompt_legalpromptbuilder_legalpromptbuilder_build",
+      "community": 8,
+      "norm_label": ".build()"
     },
     {
       "label": "PromptBuilder.java",
@@ -936,26 +1089,71 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptBuilder.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_promptbuilder_java",
-      "community": 1,
+      "community": 2,
       "norm_label": "promptbuilder.java"
     },
     {
       "label": "PromptBuilder",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptBuilder.java",
-      "source_location": "L7",
+      "source_location": "L11",
       "id": "prompt_promptbuilder_promptbuilder",
-      "community": 1,
+      "community": 2,
       "norm_label": "promptbuilder"
     },
     {
       "label": ".build()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptBuilder.java",
-      "source_location": "L10",
+      "source_location": "L20",
       "id": "prompt_promptbuilder_promptbuilder_build",
-      "community": 1,
+      "community": 2,
       "norm_label": ".build()"
+    },
+    {
+      "label": "PromptMessage.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptMessage.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_promptmessage_java",
+      "community": 43,
+      "norm_label": "promptmessage.java"
+    },
+    {
+      "label": "GenerationService.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "community": 8,
+      "norm_label": "generationservice.java"
+    },
+    {
+      "label": "GenerationService",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L24",
+      "id": "service_generationservice_generationservice",
+      "community": 8,
+      "norm_label": "generationservice"
+    },
+    {
+      "label": ".GenerationService()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L34",
+      "id": "service_generationservice_generationservice_generationservice",
+      "community": 8,
+      "norm_label": ".generationservice()"
+    },
+    {
+      "label": ".generate()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L51",
+      "id": "service_generationservice_generationservice_generate",
+      "community": 2,
+      "norm_label": ".generate()"
     },
     {
       "label": "ChunkingOptions.java",
@@ -1134,7 +1332,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_entity_documententity_java",
-      "community": 2,
+      "community": 1,
       "norm_label": "documententity.java"
     },
     {
@@ -1143,7 +1341,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L10",
       "id": "entity_documententity_documententity",
-      "community": 2,
+      "community": 1,
       "norm_label": "documententity"
     },
     {
@@ -1152,7 +1350,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L34",
       "id": "entity_documententity_documententity_documententity",
-      "community": 2,
+      "community": 1,
       "norm_label": ".documententity()"
     },
     {
@@ -1161,7 +1359,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L45",
       "id": "entity_documententity_documententity_getid",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getid()"
     },
     {
@@ -1170,7 +1368,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L49",
       "id": "entity_documententity_documententity_getfilename",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getfilename()"
     },
     {
@@ -1179,7 +1377,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L53",
       "id": "entity_documententity_documententity_setfilename",
-      "community": 2,
+      "community": 1,
       "norm_label": ".setfilename()"
     },
     {
@@ -1197,7 +1395,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L61",
       "id": "entity_documententity_documententity_setcontenttype",
-      "community": 5,
+      "community": 7,
       "norm_label": ".setcontenttype()"
     },
     {
@@ -1206,7 +1404,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L65",
       "id": "entity_documententity_documententity_getstatus",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getstatus()"
     },
     {
@@ -1215,7 +1413,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L69",
       "id": "entity_documententity_documententity_setstatus",
-      "community": 2,
+      "community": 1,
       "norm_label": ".setstatus()"
     },
     {
@@ -1224,7 +1422,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L73",
       "id": "entity_documententity_documententity_getuploadedat",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getuploadedat()"
     },
     {
@@ -1233,7 +1431,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L77",
       "id": "entity_documententity_documententity_geterrormessage",
-      "community": 2,
+      "community": 1,
       "norm_label": ".geterrormessage()"
     },
     {
@@ -1242,7 +1440,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\entity\\DocumentEntity.java",
       "source_location": "L81",
       "id": "entity_documententity_documententity_seterrormessage",
-      "community": 6,
+      "community": 1,
       "norm_label": ".seterrormessage()"
     },
     {
@@ -1278,7 +1476,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\kafka\\ChunkEmbeddingConsumer.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_kafka_chunkembeddingconsumer_java",
-      "community": 6,
+      "community": 1,
       "norm_label": "chunkembeddingconsumer.java"
     },
     {
@@ -1287,7 +1485,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\kafka\\ChunkEmbeddingConsumer.java",
       "source_location": "L23",
       "id": "kafka_chunkembeddingconsumer_chunkembeddingconsumer",
-      "community": 6,
+      "community": 1,
       "norm_label": "chunkembeddingconsumer"
     },
     {
@@ -1296,7 +1494,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\kafka\\ChunkEmbeddingConsumer.java",
       "source_location": "L32",
       "id": "kafka_chunkembeddingconsumer_chunkembeddingconsumer_chunkembeddingconsumer",
-      "community": 6,
+      "community": 1,
       "norm_label": ".chunkembeddingconsumer()"
     },
     {
@@ -1305,7 +1503,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\kafka\\ChunkEmbeddingConsumer.java",
       "source_location": "L41",
       "id": "kafka_chunkembeddingconsumer_chunkembeddingconsumer_onchunkedevent",
-      "community": 6,
+      "community": 1,
       "norm_label": ".onchunkedevent()"
     },
     {
@@ -1314,7 +1512,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\kafka\\IngestionEvent.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_kafka_ingestionevent_java",
-      "community": 39,
+      "community": 44,
       "norm_label": "ingestionevent.java"
     },
     {
@@ -1359,7 +1557,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\repository\\DocumentChunkRepository.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_repository_documentchunkrepository_java",
-      "community": 6,
+      "community": 1,
       "norm_label": "documentchunkrepository.java"
     },
     {
@@ -1368,7 +1566,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\repository\\DocumentChunkRepository.java",
       "source_location": "L12",
       "id": "repository_documentchunkrepository_documentchunkrepository",
-      "community": 6,
+      "community": 1,
       "norm_label": "documentchunkrepository"
     },
     {
@@ -1377,7 +1575,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\repository\\DocumentChunkRepository.java",
       "source_location": "L18",
       "id": "repository_documentchunkrepository_documentchunkrepository_countbydocumentid",
-      "community": 6,
+      "community": 1,
       "norm_label": ".countbydocumentid()"
     },
     {
@@ -1386,7 +1584,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\repository\\DocumentChunkRepository.java",
       "source_location": "L23",
       "id": "repository_documentchunkrepository_documentchunkrepository_countembeddedbydocumentid",
-      "community": 6,
+      "community": 1,
       "norm_label": ".countembeddedbydocumentid()"
     },
     {
@@ -1395,7 +1593,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\repository\\DocumentChunkRepository.java",
       "source_location": "L31",
       "id": "repository_documentchunkrepository_documentchunkrepository_updateembedding",
-      "community": 6,
+      "community": 1,
       "norm_label": ".updateembedding()"
     },
     {
@@ -1458,7 +1656,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\DocumentUploadService.java",
       "source_location": "L190",
       "id": "service_documentuploadservice_documentuploadservice_getstatus",
-      "community": 2,
+      "community": 1,
       "norm_label": ".getstatus()"
     },
     {
@@ -1494,7 +1692,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\EmbeddingServiceClient.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_service_embeddingserviceclient_java",
-      "community": 6,
+      "community": 5,
       "norm_label": "embeddingserviceclient.java"
     },
     {
@@ -1503,7 +1701,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\EmbeddingServiceClient.java",
       "source_location": "L16",
       "id": "service_embeddingserviceclient_embeddingserviceclient",
-      "community": 6,
+      "community": 5,
       "norm_label": "embeddingserviceclient"
     },
     {
@@ -1512,7 +1710,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\EmbeddingServiceClient.java",
       "source_location": "L23",
       "id": "service_embeddingserviceclient_embeddingserviceclient_embeddingserviceclient",
-      "community": 1,
+      "community": 5,
       "norm_label": ".embeddingserviceclient()"
     },
     {
@@ -1521,7 +1719,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\EmbeddingServiceClient.java",
       "source_location": "L35",
       "id": "service_embeddingserviceclient_embeddingserviceclient_embed",
-      "community": 6,
+      "community": 5,
       "norm_label": ".embed()"
     },
     {
@@ -1530,7 +1728,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\ExtractionResult.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_ingestion_service_extractionresult_java",
-      "community": 40,
+      "community": 45,
       "norm_label": "extractionresult.java"
     },
     {
@@ -1575,7 +1773,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\client\\RerankerClient.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_retrieval_client_rerankerclient_java",
-      "community": 1,
+      "community": 2,
       "norm_label": "rerankerclient.java"
     },
     {
@@ -1584,7 +1782,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\client\\RerankerClient.java",
       "source_location": "L9",
       "id": "client_rerankerclient_rerankerclient",
-      "community": 1,
+      "community": 2,
       "norm_label": "rerankerclient"
     },
     {
@@ -1593,7 +1791,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\client\\RerankerClient.java",
       "source_location": "L15",
       "id": "client_rerankerclient_rerankerclient_rerankerclient",
-      "community": 1,
+      "community": 2,
       "norm_label": ".rerankerclient()"
     },
     {
@@ -1602,8 +1800,17 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\client\\RerankerClient.java",
       "source_location": "L22",
       "id": "client_rerankerclient_rerankerclient_rerank",
-      "community": 1,
+      "community": 2,
       "norm_label": ".rerank()"
+    },
+    {
+      "label": "ScoredChunk.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\dto\\ScoredChunk.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_main_java_com_lexpilot_retrieval_dto_scoredchunk_java",
+      "community": 46,
+      "norm_label": "scoredchunk.java"
     },
     {
       "label": "ReciprocalRankFusion.java",
@@ -1638,7 +1845,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\BM25SearchRepository.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_retrieval_repository_bm25searchrepository_java",
-      "community": 11,
+      "community": 13,
       "norm_label": "bm25searchrepository.java"
     },
     {
@@ -1647,7 +1854,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\BM25SearchRepository.java",
       "source_location": "L7",
       "id": "repository_bm25searchrepository_bm25searchrepository",
-      "community": 11,
+      "community": 13,
       "norm_label": "bm25searchrepository"
     },
     {
@@ -1656,7 +1863,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\BM25SearchRepository.java",
       "source_location": "L10",
       "id": "repository_bm25searchrepository_bm25searchrepository_bm25searchrepository",
-      "community": 11,
+      "community": 13,
       "norm_label": ".bm25searchrepository()"
     },
     {
@@ -1665,7 +1872,7 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\BM25SearchRepository.java",
       "source_location": "L13",
       "id": "repository_bm25searchrepository_bm25searchrepository_findtopkbybm25",
-      "community": 11,
+      "community": 13,
       "norm_label": ".findtopkbybm25()"
     },
     {
@@ -1674,35 +1881,53 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_retrieval_repository_vectorsearchrepository_java",
-      "community": 12,
+      "community": 3,
       "norm_label": "vectorsearchrepository.java"
     },
     {
       "label": "VectorSearchRepository",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L7",
+      "source_location": "L24",
       "id": "repository_vectorsearchrepository_vectorsearchrepository",
-      "community": 12,
+      "community": 3,
       "norm_label": "vectorsearchrepository"
     },
     {
-      "label": ".VectorSearchRepository()",
+      "label": ".findNearestRaw()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L10",
-      "id": "repository_vectorsearchrepository_vectorsearchrepository_vectorsearchrepository",
-      "community": 12,
-      "norm_label": ".vectorsearchrepository()"
+      "source_location": "L33",
+      "id": "repository_vectorsearchrepository_vectorsearchrepository_findnearestraw",
+      "community": 3,
+      "norm_label": ".findnearestraw()"
     },
     {
-      "label": ".findTopKByVector()",
+      "label": ".findNearest()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L13",
-      "id": "repository_vectorsearchrepository_vectorsearchrepository_findtopkbyvector",
-      "community": 12,
-      "norm_label": ".findtopkbyvector()"
+      "source_location": "L54",
+      "id": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "community": 3,
+      "norm_label": ".findnearest()"
+    },
+    {
+      "label": ".floatArrayToPgvector()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L67",
+      "id": "repository_vectorsearchrepository_vectorsearchrepository_floatarraytopgvector",
+      "community": 3,
+      "norm_label": ".floatarraytopgvector()"
+    },
+    {
+      "label": ".mapRow()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L81",
+      "id": "repository_vectorsearchrepository_vectorsearchrepository_maprow",
+      "community": 3,
+      "norm_label": ".maprow()"
     },
     {
       "label": "HybridSearchService.java",
@@ -1710,35 +1935,44 @@
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_main_java_com_lexpilot_retrieval_service_hybridsearchservice_java",
-      "community": 13,
+      "community": 5,
       "norm_label": "hybridsearchservice.java"
     },
     {
       "label": "HybridSearchService",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L8",
+      "source_location": "L20",
       "id": "service_hybridsearchservice_hybridsearchservice",
-      "community": 13,
+      "community": 5,
       "norm_label": "hybridsearchservice"
     },
     {
       "label": ".HybridSearchService()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L13",
+      "source_location": "L36",
       "id": "service_hybridsearchservice_hybridsearchservice_hybridsearchservice",
-      "community": 13,
+      "community": 5,
       "norm_label": ".hybridsearchservice()"
     },
     {
       "label": ".search()",
       "file_type": "code",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L17",
+      "source_location": "L54",
       "id": "service_hybridsearchservice_hybridsearchservice_search",
-      "community": 13,
+      "community": 5,
       "norm_label": ".search()"
+    },
+    {
+      "label": ".toFloatArray()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
+      "source_location": "L76",
+      "id": "service_hybridsearchservice_hybridsearchservice_tofloatarray",
+      "community": 5,
+      "norm_label": ".tofloatarray()"
     },
     {
       "label": "LexPilotIntegrationTest.java",
@@ -1746,7 +1980,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L1",
       "id": "lexpilot_app_src_test_java_com_lexpilot_lexpilotintegrationtest_java",
-      "community": 5,
+      "community": 7,
       "norm_label": "lexpilotintegrationtest.java"
     },
     {
@@ -1755,7 +1989,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L38",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest",
-      "community": 5,
+      "community": 7,
       "norm_label": "lexpilotintegrationtest"
     },
     {
@@ -1764,7 +1998,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L66",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_configureproperties",
-      "community": 5,
+      "community": 7,
       "norm_label": ".configureproperties()"
     },
     {
@@ -1773,7 +2007,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L84",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_contextloads",
-      "community": 5,
+      "community": 7,
       "norm_label": ".contextloads()"
     },
     {
@@ -1782,7 +2016,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L89",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_uploadpdf_shouldextractandchunk",
-      "community": 5,
+      "community": 7,
       "norm_label": ".uploadpdf_shouldextractandchunk()"
     },
     {
@@ -1791,7 +2025,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L132",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_uploadinvalidcontenttype_shouldreturn400",
-      "community": 5,
+      "community": 7,
       "norm_label": ".uploadinvalidcontenttype_shouldreturn400()"
     },
     {
@@ -1800,7 +2034,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L158",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_getstatusfornonexistentdoc_shouldreturn404",
-      "community": 5,
+      "community": 7,
       "norm_label": ".getstatusfornonexistentdoc_shouldreturn404()"
     },
     {
@@ -1809,7 +2043,7 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L175",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_createminimalpdf",
-      "community": 5,
+      "community": 7,
       "norm_label": ".createminimalpdf()"
     },
     {
@@ -1818,8 +2052,278 @@
       "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
       "source_location": "L232",
       "id": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_escpdf",
-      "community": 5,
+      "community": 7,
       "norm_label": ".escpdf()"
+    },
+    {
+      "label": "CitationFormatterTest.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_test_java_com_lexpilot_generation_citation_citationformattertest_java",
+      "community": 10,
+      "norm_label": "citationformattertest.java"
+    },
+    {
+      "label": "CitationFormatterTest",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L18",
+      "id": "citation_citationformattertest_citationformattertest",
+      "community": 10,
+      "norm_label": "citationformattertest"
+    },
+    {
+      "label": ".validMarkers_shouldProduceCorrectCitations()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L38",
+      "id": "citation_citationformattertest_citationformattertest_validmarkers_shouldproducecorrectcitations",
+      "community": 10,
+      "norm_label": ".validmarkers_shouldproducecorrectcitations()"
+    },
+    {
+      "label": ".hallucinatedMarker_shouldBeDropped()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L58",
+      "id": "citation_citationformattertest_citationformattertest_hallucinatedmarker_shouldbedropped",
+      "community": 10,
+      "norm_label": ".hallucinatedmarker_shouldbedropped()"
+    },
+    {
+      "label": ".zeroMarker_shouldBeDropped()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L69",
+      "id": "citation_citationformattertest_citationformattertest_zeromarker_shouldbedropped",
+      "community": 10,
+      "norm_label": ".zeromarker_shouldbedropped()"
+    },
+    {
+      "label": ".duplicateMarkers_shouldBeDeduplicated()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L79",
+      "id": "citation_citationformattertest_citationformattertest_duplicatemarkers_shouldbededuplicated",
+      "community": 10,
+      "norm_label": ".duplicatemarkers_shouldbededuplicated()"
+    },
+    {
+      "label": ".noMarkers_shouldProduceEmptyCitations()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L91",
+      "id": "citation_citationformattertest_citationformattertest_nomarkers_shouldproduceemptycitations",
+      "community": 10,
+      "norm_label": ".nomarkers_shouldproduceemptycitations()"
+    },
+    {
+      "label": ".allThreeMarkers_shouldMapCorrectly()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L101",
+      "id": "citation_citationformattertest_citationformattertest_allthreemarkers_shouldmapcorrectly",
+      "community": 10,
+      "norm_label": ".allthreemarkers_shouldmapcorrectly()"
+    },
+    {
+      "label": ".lowConfidence_shouldBeFalseByDefault()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L113",
+      "id": "citation_citationformattertest_citationformattertest_lowconfidence_shouldbefalsebydefault",
+      "community": 10,
+      "norm_label": ".lowconfidence_shouldbefalsebydefault()"
+    },
+    {
+      "label": ".emptyChunkList_allMarkersShouldBeDropped()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L122",
+      "id": "citation_citationformattertest_citationformattertest_emptychunklist_allmarkersshouldbedropped",
+      "community": 10,
+      "norm_label": ".emptychunklist_allmarkersshouldbedropped()"
+    },
+    {
+      "label": "GenerationServiceTest.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "community": 8,
+      "norm_label": "generationservicetest.java"
+    },
+    {
+      "label": "GenerationServiceTest",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L32",
+      "id": "service_generationservicetest_generationservicetest",
+      "community": 2,
+      "norm_label": "generationservicetest"
+    },
+    {
+      "label": ".setUp()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L46",
+      "id": "service_generationservicetest_generationservicetest_setup",
+      "community": 2,
+      "norm_label": ".setup()"
+    },
+    {
+      "label": ".generate_shouldOrchestratePipelineCorrectly()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L52",
+      "id": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "community": 2,
+      "norm_label": ".generate_shouldorchestratepipelinecorrectly()"
+    },
+    {
+      "label": ".generate_whenGuardrailFlagsLowConfidence_shouldPropagate()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L97",
+      "id": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "community": 2,
+      "norm_label": ".generate_whenguardrailflagslowconfidence_shouldpropagate()"
+    },
+    {
+      "label": "VectorSearchIntegrationTest.java",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L1",
+      "id": "lexpilot_app_src_test_java_com_lexpilot_retrieval_vectorsearchintegrationtest_java",
+      "community": 3,
+      "norm_label": "vectorsearchintegrationtest.java"
+    },
+    {
+      "label": "VectorSearchIntegrationTest",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L31",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "community": 3,
+      "norm_label": "vectorsearchintegrationtest"
+    },
+    {
+      "label": ".configureProperties()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L55",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_configureproperties",
+      "community": 3,
+      "norm_label": ".configureproperties()"
+    },
+    {
+      "label": ".sparseVector()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L92",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_sparsevector",
+      "community": 3,
+      "norm_label": ".sparsevector()"
+    },
+    {
+      "label": ".toPgvector()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L108",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_topgvector",
+      "community": 3,
+      "norm_label": ".topgvector()"
+    },
+    {
+      "label": ".seedData()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L128",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_seeddata",
+      "community": 3,
+      "norm_label": ".seeddata()"
+    },
+    {
+      "label": ".insertChunk()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L149",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "community": 3,
+      "norm_label": ".insertchunk()"
+    },
+    {
+      "label": ".findNearest_shouldReturnExactMatchAsTopResult()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L158",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_shouldreturnexactmatchastopresult",
+      "community": 3,
+      "norm_label": ".findnearest_shouldreturnexactmatchastopresult()"
+    },
+    {
+      "label": ".findNearest_scoresAreDescending()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L168",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_scoresaredescending",
+      "community": 3,
+      "norm_label": ".findnearest_scoresaredescending()"
+    },
+    {
+      "label": ".findNearest_partialOverlapRanksAboveNoOverlap()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L180",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_partialoverlapranksabovenooverlap",
+      "community": 3,
+      "norm_label": ".findnearest_partialoverlapranksabovenooverlap()"
+    },
+    {
+      "label": ".findNearest_noOverlapChunkHasLowScore()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L196",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_nooverlapchunkhaslowscore",
+      "community": 3,
+      "norm_label": ".findnearest_nooverlapchunkhaslowscore()"
+    },
+    {
+      "label": ".findNearest_topKLimitsResults()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L208",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_topklimitsresults",
+      "community": 3,
+      "norm_label": ".findnearest_topklimitsresults()"
+    },
+    {
+      "label": ".findNearest_returnsCorrectDocumentId()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L216",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscorrectdocumentid",
+      "community": 3,
+      "norm_label": ".findnearest_returnscorrectdocumentid()"
+    },
+    {
+      "label": ".findNearest_returnsContentText()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L226",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscontenttext",
+      "community": 3,
+      "norm_label": ".findnearest_returnscontenttext()"
+    },
+    {
+      "label": ".findNearest_returnsSourceLabel()",
+      "file_type": "code",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L233",
+      "id": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnssourcelabel",
+      "community": 3,
+      "norm_label": ".findnearest_returnssourcelabel()"
     }
   ],
   "links": [
@@ -2169,6 +2673,18 @@
       "_tgt": "lexpilotexception",
       "source": "lexpilotexception",
       "target": "exception_upstreamserviceexception_upstreamserviceexception",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_openaillmclient_java",
+      "_tgt": "lexpilotexception",
+      "source": "lexpilotexception",
+      "target": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_openaillmclient_java",
       "confidence_score": 1.0
     },
     {
@@ -2523,7 +3039,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L14",
+      "source_location": "L20",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_gateway_controller_querycontroller_java",
       "_tgt": "controller_querycontroller_querycontroller",
@@ -2535,7 +3051,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L18",
+      "source_location": "L28",
       "weight": 1.0,
       "_src": "controller_querycontroller_querycontroller",
       "_tgt": "controller_querycontroller_querycontroller_querycontroller",
@@ -2547,13 +3063,73 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
-      "source_location": "L21",
+      "source_location": "L42",
       "weight": 1.0,
       "_src": "controller_querycontroller_querycontroller",
       "_tgt": "controller_querycontroller_querycontroller_query",
       "source": "controller_querycontroller_querycontroller",
       "target": "controller_querycontroller_querycontroller_query",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "controller_querycontroller_querycontroller",
+      "_tgt": "controller_querycontroller_querycontroller_querywithanswer",
+      "source": "controller_querycontroller_querycontroller",
+      "target": "controller_querycontroller_querycontroller_querywithanswer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "controller_querycontroller_querycontroller_querywithanswer",
+      "_tgt": "controller_querycontroller_querycontroller_query",
+      "source": "controller_querycontroller_querycontroller_query",
+      "target": "controller_querycontroller_querycontroller_querywithanswer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "controller_querycontroller_querycontroller_query",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_search",
+      "source": "controller_querycontroller_querycontroller_query",
+      "target": "service_hybridsearchservice_hybridsearchservice_search"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "controller_querycontroller_querycontroller_querywithanswer",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_search",
+      "source": "controller_querycontroller_querycontroller_querywithanswer",
+      "target": "service_hybridsearchservice_hybridsearchservice_search"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\gateway\\controller\\QueryController.java",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_src": "controller_querycontroller_querycontroller_querywithanswer",
+      "_tgt": "service_generationservice_generationservice_generate",
+      "source": "controller_querycontroller_querycontroller_querywithanswer",
+      "target": "service_generationservice_generationservice_generate"
     },
     {
       "relation": "imports",
@@ -2751,7 +3327,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\CitationFormatter.java",
-      "source_location": "L8",
+      "source_location": "L12",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_citation_citationformatter_java",
       "_tgt": "citation_citationformatter_citationformatter",
@@ -2763,7 +3339,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\CitationFormatter.java",
-      "source_location": "L11",
+      "source_location": "L22",
       "weight": 1.0,
       "_src": "citation_citationformatter_citationformatter",
       "_tgt": "citation_citationformatter_citationformatter_format",
@@ -2786,8 +3362,212 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_citation_regexcitationformatter_java",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter",
+      "source": "lexpilot_app_src_main_java_com_lexpilot_generation_citation_regexcitationformatter_java",
+      "target": "citation_regexcitationformatter_regexcitationformatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "citation_regexcitationformatter_regexcitationformatter",
+      "_tgt": "citationformatter",
+      "source": "citation_regexcitationformatter_regexcitationformatter",
+      "target": "citationformatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\citation\\RegexCitationFormatter.java",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "citation_regexcitationformatter_regexcitationformatter",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter",
+      "target": "citation_regexcitationformatter_regexcitationformatter_format",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "_tgt": "citationformatter",
+      "source": "citationformatter",
+      "target": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "_tgt": "citationformatter",
+      "source": "citationformatter",
+      "target": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice_generate",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "service_generationservice_generationservice_generate"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\LexPilotIntegrationTest.java",
+      "source_location": "L217",
+      "weight": 1.0,
+      "_src": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_createminimalpdf",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_createminimalpdf"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_validmarkers_shouldproducecorrectcitations",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_validmarkers_shouldproducecorrectcitations"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_hallucinatedmarker_shouldbedropped",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_hallucinatedmarker_shouldbedropped"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_zeromarker_shouldbedropped",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_zeromarker_shouldbedropped"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_duplicatemarkers_shouldbededuplicated",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_duplicatemarkers_shouldbededuplicated"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_nomarkers_shouldproduceemptycitations",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_nomarkers_shouldproduceemptycitations"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_allthreemarkers_shouldmapcorrectly",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_allthreemarkers_shouldmapcorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_lowconfidence_shouldbefalsebydefault",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_lowconfidence_shouldbefalsebydefault"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest_emptychunklist_allmarkersshouldbedropped",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "citation_citationformattertest_citationformattertest_emptychunklist_allmarkersshouldbedropped"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "_tgt": "citation_regexcitationformatter_regexcitationformatter_format",
+      "source": "citation_regexcitationformatter_regexcitationformatter_format",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\LowConfidenceGuardrail.java",
-      "source_location": "L8",
+      "source_location": "L15",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_guardrail_lowconfidenceguardrail_java",
       "_tgt": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail",
@@ -2799,19 +3579,115 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\LowConfidenceGuardrail.java",
-      "source_location": "L11",
+      "source_location": "L25",
       "weight": 1.0,
       "_src": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail",
-      "_tgt": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_evaluate",
+      "_tgt": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_islowconfidence",
       "source": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail",
-      "target": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_evaluate",
+      "target": "guardrail_lowconfidenceguardrail_lowconfidenceguardrail_islowconfidence",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_guardrail_nooplowconfidenceguardrail_java",
+      "_tgt": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "source": "lexpilot_app_src_main_java_com_lexpilot_generation_guardrail_nooplowconfidenceguardrail_java",
+      "target": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "_tgt": "lowconfidenceguardrail",
+      "source": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "target": "lowconfidenceguardrail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\guardrail\\NoOpLowConfidenceGuardrail.java",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "_tgt": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "source": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail",
+      "target": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "_tgt": "lowconfidenceguardrail",
+      "source": "lowconfidenceguardrail",
+      "target": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "_tgt": "lowconfidenceguardrail",
+      "source": "lowconfidenceguardrail",
+      "target": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice_generate",
+      "_tgt": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "source": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "target": "service_generationservice_generationservice_generate"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "_tgt": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "source": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "_tgt": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "source": "guardrail_nooplowconfidenceguardrail_nooplowconfidenceguardrail_islowconfidence",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\LlmApiClient.java",
-      "source_location": "L3",
+      "source_location": "L11",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_llmapiclient_java",
       "_tgt": "llm_llmapiclient_llmapiclient",
@@ -2823,7 +3699,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\LlmApiClient.java",
-      "source_location": "L4",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "llm_llmapiclient_llmapiclient",
       "_tgt": "llm_llmapiclient_llmapiclient_complete",
@@ -2835,7 +3711,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L7",
+      "source_location": "L25",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_llm_openaillmclient_java",
       "_tgt": "llm_openaillmclient_openaillmclient",
@@ -2847,7 +3723,7 @@
       "relation": "implements",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L7",
+      "source_location": "L25",
       "weight": 1.0,
       "_src": "llm_openaillmclient_openaillmclient",
       "_tgt": "llmapiclient",
@@ -2859,7 +3735,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L13",
+      "source_location": "L33",
       "weight": 1.0,
       "_src": "llm_openaillmclient_openaillmclient",
       "_tgt": "llm_openaillmclient_openaillmclient_openaillmclient",
@@ -2871,12 +3747,36 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\llm\\OpenAiLlmClient.java",
-      "source_location": "L21",
+      "source_location": "L42",
       "weight": 1.0,
       "_src": "llm_openaillmclient_openaillmclient",
       "_tgt": "llm_openaillmclient_openaillmclient_complete",
       "source": "llm_openaillmclient_openaillmclient",
       "target": "llm_openaillmclient_openaillmclient_complete",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "_tgt": "llmapiclient",
+      "source": "llmapiclient",
+      "target": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "_tgt": "llmapiclient",
+      "source": "llmapiclient",
+      "target": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
       "confidence_score": 1.0
     },
     {
@@ -2892,10 +3792,106 @@
       "target": "prompt_promptbuilder_promptbuilder_build"
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice_generate",
+      "_tgt": "llm_openaillmclient_openaillmclient_complete",
+      "source": "llm_openaillmclient_openaillmclient_complete",
+      "target": "service_generationservice_generationservice_generate"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "_tgt": "llm_openaillmclient_openaillmclient_complete",
+      "source": "llm_openaillmclient_openaillmclient_complete",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "_tgt": "llm_openaillmclient_openaillmclient_complete",
+      "source": "llm_openaillmclient_openaillmclient_complete",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_legalpromptbuilder_java",
+      "_tgt": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "source": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_legalpromptbuilder_java",
+      "target": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "_tgt": "promptbuilder",
+      "source": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "target": "promptbuilder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\LegalPromptBuilder.java",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "_tgt": "prompt_legalpromptbuilder_legalpromptbuilder_build",
+      "source": "prompt_legalpromptbuilder_legalpromptbuilder",
+      "target": "prompt_legalpromptbuilder_legalpromptbuilder_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "_tgt": "promptbuilder",
+      "source": "promptbuilder",
+      "target": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "_tgt": "promptbuilder",
+      "source": "promptbuilder",
+      "target": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptBuilder.java",
-      "source_location": "L7",
+      "source_location": "L11",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_prompt_promptbuilder_java",
       "_tgt": "prompt_promptbuilder_promptbuilder",
@@ -2907,13 +3903,25 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\prompt\\PromptBuilder.java",
-      "source_location": "L10",
+      "source_location": "L20",
       "weight": 1.0,
       "_src": "prompt_promptbuilder_promptbuilder",
       "_tgt": "prompt_promptbuilder_promptbuilder_build",
       "source": "prompt_promptbuilder_promptbuilder",
       "target": "prompt_promptbuilder_promptbuilder_build",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice_generate",
+      "_tgt": "prompt_promptbuilder_promptbuilder_build",
+      "source": "prompt_promptbuilder_promptbuilder_build",
+      "target": "service_generationservice_generationservice_generate"
     },
     {
       "relation": "calls",
@@ -2938,6 +3946,90 @@
       "_tgt": "client_rerankerclient_rerankerclient_rerankerclient",
       "source": "prompt_promptbuilder_promptbuilder_build",
       "target": "client_rerankerclient_rerankerclient_rerankerclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "_tgt": "prompt_promptbuilder_promptbuilder_build",
+      "source": "prompt_promptbuilder_promptbuilder_build",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "_tgt": "prompt_promptbuilder_promptbuilder_build",
+      "source": "prompt_promptbuilder_promptbuilder_build",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "_tgt": "service_generationservice_generationservice",
+      "source": "lexpilot_app_src_main_java_com_lexpilot_generation_service_generationservice_java",
+      "target": "service_generationservice_generationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice",
+      "_tgt": "service_generationservice_generationservice_generationservice",
+      "source": "service_generationservice_generationservice",
+      "target": "service_generationservice_generationservice_generationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\generation\\service\\GenerationService.java",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "service_generationservice_generationservice",
+      "_tgt": "service_generationservice_generationservice_generate",
+      "source": "service_generationservice_generationservice",
+      "target": "service_generationservice_generationservice_generate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "_tgt": "service_generationservice_generationservice_generate",
+      "source": "service_generationservice_generationservice_generate",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L119",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "_tgt": "service_generationservice_generationservice_generate",
+      "source": "service_generationservice_generationservice_generate",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate"
     },
     {
       "relation": "contains",
@@ -3804,6 +4896,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "service_embeddingserviceclient_embeddingserviceclient_embed",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_search",
+      "source": "service_embeddingserviceclient_embeddingserviceclient_embed",
+      "target": "service_hybridsearchservice_hybridsearchservice_search"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\ingestion\\service\\TikaExtractionService.java",
@@ -3951,7 +5055,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L7",
+      "source_location": "L24",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_retrieval_repository_vectorsearchrepository_java",
       "_tgt": "repository_vectorsearchrepository_vectorsearchrepository",
@@ -3963,31 +5067,187 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L10",
+      "source_location": "L33",
       "weight": 1.0,
       "_src": "repository_vectorsearchrepository_vectorsearchrepository",
-      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_vectorsearchrepository",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_findnearestraw",
       "source": "repository_vectorsearchrepository_vectorsearchrepository",
-      "target": "repository_vectorsearchrepository_vectorsearchrepository_vectorsearchrepository",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_findnearestraw",
       "confidence_score": 1.0
     },
     {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
-      "source_location": "L13",
+      "source_location": "L54",
       "weight": 1.0,
       "_src": "repository_vectorsearchrepository_vectorsearchrepository",
-      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_findtopkbyvector",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
       "source": "repository_vectorsearchrepository_vectorsearchrepository",
-      "target": "repository_vectorsearchrepository_vectorsearchrepository_findtopkbyvector",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_floatarraytopgvector",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_floatarraytopgvector",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_maprow",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_maprow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_findnearestraw",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearestraw",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\repository\\VectorSearchRepository.java",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_floatarraytopgvector",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "repository_vectorsearchrepository_vectorsearchrepository_floatarraytopgvector",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_search",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "service_hybridsearchservice_hybridsearchservice_search"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L160",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_shouldreturnexactmatchastopresult",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_shouldreturnexactmatchastopresult"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L170",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_scoresaredescending",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_scoresaredescending"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L182",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_partialoverlapranksabovenooverlap",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_partialoverlapranksabovenooverlap"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L198",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_nooverlapchunkhaslowscore",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_nooverlapchunkhaslowscore"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L210",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_topklimitsresults",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_topklimitsresults"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L218",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscorrectdocumentid",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscorrectdocumentid"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L228",
+      "weight": 1.0,
+      "_src": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscontenttext",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscontenttext"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L235",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnssourcelabel",
+      "_tgt": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "source": "repository_vectorsearchrepository_vectorsearchrepository_findnearest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnssourcelabel"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L8",
+      "source_location": "L20",
       "weight": 1.0,
       "_src": "lexpilot_app_src_main_java_com_lexpilot_retrieval_service_hybridsearchservice_java",
       "_tgt": "service_hybridsearchservice_hybridsearchservice",
@@ -3999,7 +5259,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L13",
+      "source_location": "L36",
       "weight": 1.0,
       "_src": "service_hybridsearchservice_hybridsearchservice",
       "_tgt": "service_hybridsearchservice_hybridsearchservice_hybridsearchservice",
@@ -4011,12 +5271,36 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
-      "source_location": "L17",
+      "source_location": "L54",
       "weight": 1.0,
       "_src": "service_hybridsearchservice_hybridsearchservice",
       "_tgt": "service_hybridsearchservice_hybridsearchservice_search",
       "source": "service_hybridsearchservice_hybridsearchservice",
       "target": "service_hybridsearchservice_hybridsearchservice_search",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_src": "service_hybridsearchservice_hybridsearchservice",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_tofloatarray",
+      "source": "service_hybridsearchservice_hybridsearchservice",
+      "target": "service_hybridsearchservice_hybridsearchservice_tofloatarray",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\main\\java\\com\\lexpilot\\retrieval\\service\\HybridSearchService.java",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "service_hybridsearchservice_hybridsearchservice_search",
+      "_tgt": "service_hybridsearchservice_hybridsearchservice_tofloatarray",
+      "source": "service_hybridsearchservice_hybridsearchservice_search",
+      "target": "service_hybridsearchservice_hybridsearchservice_tofloatarray",
       "confidence_score": 1.0
     },
     {
@@ -4137,6 +5421,354 @@
       "_tgt": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_escpdf",
       "source": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_createminimalpdf",
       "target": "lexpilot_lexpilotintegrationtest_lexpilotintegrationtest_escpdf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_citation_citationformattertest_java",
+      "_tgt": "citation_citationformattertest_citationformattertest",
+      "source": "lexpilot_app_src_test_java_com_lexpilot_generation_citation_citationformattertest_java",
+      "target": "citation_citationformattertest_citationformattertest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_validmarkers_shouldproducecorrectcitations",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_validmarkers_shouldproducecorrectcitations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_hallucinatedmarker_shouldbedropped",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_hallucinatedmarker_shouldbedropped",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_zeromarker_shouldbedropped",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_zeromarker_shouldbedropped",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_duplicatemarkers_shouldbededuplicated",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_duplicatemarkers_shouldbededuplicated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_nomarkers_shouldproduceemptycitations",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_nomarkers_shouldproduceemptycitations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_allthreemarkers_shouldmapcorrectly",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_allthreemarkers_shouldmapcorrectly",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_lowconfidence_shouldbefalsebydefault",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_lowconfidence_shouldbefalsebydefault",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\citation\\CitationFormatterTest.java",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_src": "citation_citationformattertest_citationformattertest",
+      "_tgt": "citation_citationformattertest_citationformattertest_emptychunklist_allmarkersshouldbedropped",
+      "source": "citation_citationformattertest_citationformattertest",
+      "target": "citation_citationformattertest_citationformattertest_emptychunklist_allmarkersshouldbedropped",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "_tgt": "service_generationservicetest_generationservicetest",
+      "source": "lexpilot_app_src_test_java_com_lexpilot_generation_service_generationservicetest_java",
+      "target": "service_generationservicetest_generationservicetest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest",
+      "_tgt": "service_generationservicetest_generationservicetest_setup",
+      "source": "service_generationservicetest_generationservicetest",
+      "target": "service_generationservicetest_generationservicetest_setup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest",
+      "_tgt": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "source": "service_generationservicetest_generationservicetest",
+      "target": "service_generationservicetest_generationservicetest_generate_shouldorchestratepipelinecorrectly",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\generation\\service\\GenerationServiceTest.java",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_src": "service_generationservicetest_generationservicetest",
+      "_tgt": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "source": "service_generationservicetest_generationservicetest",
+      "target": "service_generationservicetest_generationservicetest_generate_whenguardrailflagslowconfidence_shouldpropagate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "lexpilot_app_src_test_java_com_lexpilot_retrieval_vectorsearchintegrationtest_java",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "source": "lexpilot_app_src_test_java_com_lexpilot_retrieval_vectorsearchintegrationtest_java",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_configureproperties",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_configureproperties",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_sparsevector",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_sparsevector",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_topgvector",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_topgvector",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_seeddata",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_seeddata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L149",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L158",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_shouldreturnexactmatchastopresult",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_shouldreturnexactmatchastopresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L168",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_scoresaredescending",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_scoresaredescending",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L180",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_partialoverlapranksabovenooverlap",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_partialoverlapranksabovenooverlap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L196",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_nooverlapchunkhaslowscore",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_nooverlapchunkhaslowscore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L208",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_topklimitsresults",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_topklimitsresults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L216",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscorrectdocumentid",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscorrectdocumentid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L226",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscontenttext",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnscontenttext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnssourcelabel",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_findnearest_returnssourcelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L153",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_topgvector",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_topgvector",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lexpilot-app\\src\\test\\java\\com\\lexpilot\\retrieval\\VectorSearchIntegrationTest.java",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_src": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_seeddata",
+      "_tgt": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
+      "source": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_seeddata",
+      "target": "retrieval_vectorsearchintegrationtest_vectorsearchintegrationtest_insertchunk",
       "confidence_score": 1.0
     }
   ],

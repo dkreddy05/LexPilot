@@ -18,7 +18,8 @@ public record AppConfig(
             String baseUrl,
             String model,
             int maxTokens,
-            double temperature
+            double temperature,
+            int timeoutSeconds
     ) {}
 
     public record IngestionConfig(

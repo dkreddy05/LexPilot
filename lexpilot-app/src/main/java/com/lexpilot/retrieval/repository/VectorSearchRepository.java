@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,6 +17,9 @@ import java.util.stream.Collectors;
  * Uses cosine distance ({@code <=>}) which is correct for the normalised
  * {@code all-MiniLM-L6-v2} embeddings produced by the embedding-service.
  * The score is {@code 1 - cosine_distance}, yielding similarity in [0, 1].
+ * <p>
+ * JOINs the {@code documents} table to retrieve the source filename for
+ * citations, avoiding N+1 lookups downstream.
  */
 @Repository
 public interface VectorSearchRepository extends JpaRepository<DocumentChunkEntity, UUID> {
@@ -29,11 +31,13 @@ public interface VectorSearchRepository extends JpaRepository<DocumentChunkEntit
      * Callers should use {@link #findNearest(float[], int)} instead.
      */
     @Query(value = """
-            SELECT id, document_id, content,
-                   1 - (embedding <=> CAST(:queryVector AS vector)) AS score
-            FROM document_chunks
-            WHERE embedding IS NOT NULL
-            ORDER BY embedding <=> CAST(:queryVector AS vector)
+            SELECT dc.id, dc.document_id, dc.content,
+                   1 - (dc.embedding <=> CAST(:queryVector AS vector)) AS score,
+                   d.filename
+            FROM document_chunks dc
+            JOIN documents d ON d.id = dc.document_id
+            WHERE dc.embedding IS NOT NULL
+            ORDER BY dc.embedding <=> CAST(:queryVector AS vector)
             LIMIT :topK
             """, nativeQuery = true)
     List<Object[]> findNearestRaw(@Param("queryVector") String queryVector,
@@ -72,13 +76,14 @@ public interface VectorSearchRepository extends JpaRepository<DocumentChunkEntit
 
     /**
      * Map a native-query {@code Object[]} row to a {@link ScoredChunk}.
-     * Column order: id (UUID), document_id (UUID), content (String), score (double).
+     * Column order: id (UUID), document_id (UUID), content (String), score (double), filename (String).
      */
     private static ScoredChunk mapRow(Object[] row) {
         UUID chunkId = (UUID) row[0];
         UUID documentId = (UUID) row[1];
         String content = (String) row[2];
         double score = ((Number) row[3]).doubleValue();
-        return new ScoredChunk(chunkId, documentId, content, score);
+        String sourceLabel = (String) row[4];
+        return new ScoredChunk(chunkId, documentId, content, score, sourceLabel);
     }
 }

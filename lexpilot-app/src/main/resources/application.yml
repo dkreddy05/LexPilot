@@ -110,6 +110,7 @@ lexpilot:
     model: gpt-4o-mini  # TODO: make configurable per request type
     max-tokens: 1024
     temperature: 0.2
+    timeout-seconds: 30
 
   ingestion:
     kafka-topic: lexpilot.ingestion.documents

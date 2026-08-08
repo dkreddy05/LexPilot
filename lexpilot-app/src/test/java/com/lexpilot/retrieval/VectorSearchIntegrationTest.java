@@ -229,4 +229,11 @@ class VectorSearchIntegrationTest {
 
         assertThat(results.get(0).content()).contains("refund");
     }
+
+    @Test
+    void findNearest_returnsSourceLabel() {
+        List<ScoredChunk> results = vectorSearchRepository.findNearest(queryVector, 1);
+
+        assertThat(results.get(0).sourceLabel()).isEqualTo("test-corpus.pdf");
+    }
 }

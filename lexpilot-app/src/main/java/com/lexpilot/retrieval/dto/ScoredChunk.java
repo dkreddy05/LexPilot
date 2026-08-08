@@ -7,14 +7,16 @@ import java.util.UUID;
  * Returned by {@link com.lexpilot.retrieval.repository.VectorSearchRepository}
  * and surfaced through the search API.
  *
- * @param chunkId    primary key of the document_chunks row
- * @param documentId foreign key to the parent document
- * @param content    the chunk's text content
- * @param score      cosine similarity in [0, 1] (1 = identical)
+ * @param chunkId     primary key of the document_chunks row
+ * @param documentId  foreign key to the parent document
+ * @param content     the chunk's text content
+ * @param score       cosine similarity in [0, 1] (1 = identical)
+ * @param sourceLabel human-readable source name (e.g. filename) for citations
  */
 public record ScoredChunk(
         UUID chunkId,
         UUID documentId,
         String content,
-        double score
+        double score,
+        String sourceLabel
 ) {}
