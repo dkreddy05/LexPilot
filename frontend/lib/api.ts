@@ -1,25 +1,24 @@
 import axios from "axios";
 
-export interface QueryRequest {
-  query: string;
-  domain?: "consumer_protection" | "rbi" | "tenant" | null;
-  sessionId?: string | null;
-}
-
+// Generated Answer DTOs
 export interface Citation {
+  marker: number;
   chunkId: string;
-  documentTitle: string;
-  excerpt: string;
-  pageNumber: number | null;
+  documentId: string;
+  sourceLabel: string;
 }
 
-export interface QueryResponse {
+export interface GeneratedAnswer {
   answer: string;
   citations: Citation[];
   lowConfidence: boolean;
-  refusalReason: string | null;
 }
 
+export interface QueryRequest {
+  query: string;
+}
+
+// Ingestion DTOs (preserved stubs)
 export interface DocumentUploadResponse {
   documentId: string;
   filename: string;
@@ -33,22 +32,28 @@ export interface IngestionStatusResponse {
   errorDetail: string | null;
 }
 
-export interface ApiError {
-  errorCode: string;
-  message: string;
-  timestamp: string;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1";
+
+export class ApiError extends Error {
+  constructor(public status: number, public body: string) {
+    super(`API error ${status}: ${body}`);
+  }
 }
 
-const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 30_000,
-});
+export async function queryDocuments(query: string): Promise<GeneratedAnswer> {
+  // TODO: Add auth header wiring once ApiKeyAuthFilter is implemented
+  const res = await fetch(`${API_BASE_URL}/query/answer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query } satisfies QueryRequest),
+  });
 
-export async function query(request: QueryRequest): Promise<QueryResponse> {
-  throw new Error("query() not yet implemented");
+  if (!res.ok) {
+    const body = await res.text();
+    throw new ApiError(res.status, body);
+  }
+
+  return res.json();
 }
 
 export async function uploadDocument(
@@ -64,4 +69,10 @@ export async function getIngestionStatus(
   throw new Error("getIngestionStatus() not yet implemented");
 }
 
-export default apiClient;
+export default axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 30_000,
+});
