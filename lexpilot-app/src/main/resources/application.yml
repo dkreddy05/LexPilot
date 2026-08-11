@@ -124,7 +124,11 @@ lexpilot:
     bm25-top-k: 20
     rrf-top-k: 10  # final candidates after fusion
 
+  security:
+    enabled: false  # Auth scaffolding built but disabled — activation deferred to polish pass
+
   rate-limiting:
+    enabled: false  # Rate limiting stub built but disabled — activation deferred to Bucket4j+Redis implementation
     # TODO: configure via Bucket4j + Redis; values below are placeholders
     requests-per-minute: 60
     requests-per-day: 1000

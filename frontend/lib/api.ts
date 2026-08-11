@@ -40,6 +40,8 @@ export class ApiError extends Error {
   }
 }
 
+export type QueryResponse = GeneratedAnswer;
+
 export async function queryDocuments(query: string): Promise<GeneratedAnswer> {
   // TODO: Add auth header wiring once ApiKeyAuthFilter is implemented
   const res = await fetch(`${API_BASE_URL}/query/answer`, {
@@ -60,13 +62,40 @@ export async function uploadDocument(
   file: File,
   sourceType?: string
 ): Promise<DocumentUploadResponse> {
-  throw new Error("uploadDocument() not yet implemented");
+  const formData = new FormData();
+  formData.append("file", file);
+  if (sourceType) {
+    formData.append("sourceType", sourceType);
+  }
+
+  const res = await fetch(`${API_BASE_URL}/documents`, {
+    method: "POST",
+    body: formData,
+    // Note: Do not set Content-Type header manually when sending FormData, 
+    // the browser will automatically set it with the correct boundary.
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new ApiError(res.status, body);
+  }
+
+  return res.json();
 }
 
 export async function getIngestionStatus(
   documentId: string
 ): Promise<IngestionStatusResponse> {
-  throw new Error("getIngestionStatus() not yet implemented");
+  const res = await fetch(`${API_BASE_URL}/documents/${documentId}/status`, {
+    method: "GET",
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new ApiError(res.status, body);
+  }
+
+  return res.json();
 }
 
 export default axios.create({

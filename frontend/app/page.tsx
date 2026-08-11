@@ -1,24 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryStore } from "@/lib/stores/useQueryStore";
 import { useQueryDocuments } from "@/lib/hooks/useQueryDocuments";
+import type { GeneratedAnswer } from "@/lib/api";
 
 export default function QueryPage() {
-  const [query, setQuery] = useState("");
+  const { queryText, setQueryText, setLatestResponse } = useQueryStore();
+  
   const { mutate, data, isPending, isError, error } = useQueryDocuments();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
-    mutate(query);
+    if (!queryText.trim()) return;
+    mutate(queryText, {
+      onSuccess: (data: GeneratedAnswer) => {
+        setLatestResponse(data);
+      }
+    });
   };
 
   return (
     <main>
       <form onSubmit={handleSubmit}>
         <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={queryText}
+          onChange={(e) => setQueryText(e.target.value)}
           placeholder="Ask about your consumer rights..."
         />
         <button type="submit" disabled={isPending}>

@@ -6,10 +6,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.io.IOException;
 
 @Component
+@ConditionalOnProperty(name = "lexpilot.rate-limiting.enabled", havingValue = "true", matchIfMissing = false)
 public class RateLimitingFilter extends OncePerRequestFilter {
 
     public RateLimitingFilter() {
