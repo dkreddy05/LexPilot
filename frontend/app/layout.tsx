@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/lib/providers/QueryProvider";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LexPilot — Legal Rights Assistant",
@@ -13,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-surface-darker text-white h-screen overflow-hidden flex`}>
         <QueryProvider>
-          <main className="min-h-screen">{children}</main>
+          {children}
         </QueryProvider>
       </body>
     </html>

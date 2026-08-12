@@ -15,7 +15,10 @@
     "@tanstack/react-query": "^5.51.23",
     "@tanstack/react-query-devtools": "^5.51.23",
     "zustand": "^4.5.4",
-    "axios": "^1.7.3"
+    "axios": "^1.7.3",
+    "lucide-react": "^0.428.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
