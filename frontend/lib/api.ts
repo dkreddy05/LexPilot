@@ -33,6 +33,19 @@ export interface IngestionStatusResponse {
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1";
+const API_KEY = process.env.NEXT_PUBLIC_LEXPILOT_API_KEY ?? "";
+
+/**
+ * Returns common headers including the API key when available.
+ * Callers that need extra headers (e.g. Content-Type) should spread this.
+ */
+function getAuthHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {};
+  if (API_KEY) {
+    headers["X-Api-Key"] = API_KEY;
+  }
+  return headers;
+}
 
 export class ApiError extends Error {
   constructor(public status: number, public body: string) {
@@ -43,10 +56,9 @@ export class ApiError extends Error {
 export type QueryResponse = GeneratedAnswer;
 
 export async function queryDocuments(query: string): Promise<GeneratedAnswer> {
-  // TODO: Add auth header wiring once ApiKeyAuthFilter is implemented
   const res = await fetch(`${API_BASE_URL}/query/answer`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
     body: JSON.stringify({ query } satisfies QueryRequest),
   });
 
@@ -70,9 +82,10 @@ export async function uploadDocument(
 
   const res = await fetch(`${API_BASE_URL}/documents`, {
     method: "POST",
-    body: formData,
+    headers: getAuthHeaders(),
     // Note: Do not set Content-Type header manually when sending FormData, 
     // the browser will automatically set it with the correct boundary.
+    body: formData,
   });
 
   if (!res.ok) {
@@ -88,6 +101,7 @@ export async function getIngestionStatus(
 ): Promise<IngestionStatusResponse> {
   const res = await fetch(`${API_BASE_URL}/documents/${documentId}/status`, {
     method: "GET",
+    headers: getAuthHeaders(),
   });
 
   if (!res.ok) {
@@ -102,6 +116,8 @@ export default axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
+    ...(API_KEY ? { "X-Api-Key": API_KEY } : {}),
   },
   timeout: 30_000,
 });
+

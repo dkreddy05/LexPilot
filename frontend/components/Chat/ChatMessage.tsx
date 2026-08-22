@@ -1,3 +1,5 @@
+"use client";
+
 import { User, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/lib/stores/useQueryStore";

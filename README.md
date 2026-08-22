@@ -143,15 +143,16 @@ Progress updates from recent commits:
   - QueryController returning ranked scored chunks on POST /query
   - VectorSearchIntegrationTest with precomputed sparse vectors
   - Testcontainers bumped to 1.20.4 and docker-java.properties added for Docker Desktop 29 compatibility
+- ✅ API key auth & per-IP rate limiting (opt-in via `lexpilot.security.enabled=true`; enabled by default in Docker Compose)
 
 Remaining work:
 - 🔲 BM25 / tsvector indexing and true hybrid fusion (RRF)
 - 🔲 Reranking (cross-encoder) + reciprocal-rank fusion
 - 🔲 LLM generation / RAG pipeline (prompting, citation formatting, guardrails)
 - 🔲 Frontend UI polish (improve UX, show citations, session management)
-- 🔲 Auth & multi-tenancy
+- 🔲 Multi-tenancy
 
-> Note: While vector search and the ingestion/embedding pipeline are functional, the end-to-end RAG generation and reranking stages are not yet implemented. The project is no longer a pure scaffold — core retrieval and ingestion are working.
+> Note: While vector search and the ingestion/embedding pipeline are functional, the end-to-end RAG generation and reranking stages are not yet implemented. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose.
 
 ---
 
@@ -167,5 +168,6 @@ Remaining work:
 2. ✅ Document ingestion pipeline
 3. 🔲 Hybrid search (vector implemented; BM25/RRF/reranker pending)
 4. 🔲 RAG generation pipeline (LLM integration + citation)
-5. 🔲 Frontend UI polish
-6. 🔲 Auth & multi-tenancy
+5. ✅ API key auth & rate limiting (opt-in via feature flag)
+6. 🔲 Frontend UI polish
+7. 🔲 Multi-tenancy

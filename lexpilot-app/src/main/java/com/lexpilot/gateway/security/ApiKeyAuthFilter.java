@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,14 +34,23 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String apiKey = request.getHeader(API_KEY_HEADER);
 
-        if (apiKey != null && apiKey.equals(appConfig.apiKey())) {
-            var auth = new UsernamePasswordAuthenticationToken(
-                    "api-key-principal",
-                    null,
-                    List.of(new SimpleGrantedAuthority("ROLE_API_USER"))
-            );
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        if (apiKey == null || apiKey.isBlank()) {
+            sendUnauthorized(response, "Missing API key. Provide the X-Api-Key header.");
+            return;
         }
+
+        if (!apiKey.equals(appConfig.apiKey())) {
+            sendUnauthorized(response, "Invalid API key.");
+            return;
+        }
+
+        // Valid key — set authentication context
+        var auth = new UsernamePasswordAuthenticationToken(
+                "api-key-principal",
+                null,
+                List.of(new SimpleGrantedAuthority("ROLE_API_USER"))
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(request, response);
     }
@@ -49,4 +60,11 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         return path.startsWith("/actuator") || path.equals("/");
     }
+
+    private void sendUnauthorized(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"" + message + "\"}");
+    }
 }
+

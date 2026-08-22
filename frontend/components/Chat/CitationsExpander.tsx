@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { ChevronDown, ChevronUp, AlertTriangle } from "lucide-react";
 import type { Citation } from "@/lib/api";

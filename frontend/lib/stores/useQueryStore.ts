@@ -29,5 +29,5 @@ export const useQueryStore = create<QueryState>((set) => ({
   updateMessage: (id, partial) => set((state) => ({
     messages: state.messages.map((m) => (m.id === id ? { ...m, ...partial } : m))
   })),
-  clearMessages: () => set({ messages: [] }),
+  clearMessages: () => set({ messages: [], queryText: "" }),
 }));

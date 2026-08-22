@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef } from "react";
 import { useQueryStore } from "@/lib/stores/useQueryStore";
 import { uploadDocument } from "@/lib/api";
@@ -26,7 +28,8 @@ function FileStatus({ documentId, fileName }: { documentId: string; fileName: st
 
 export function Sidebar() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { clearMessages } = useQueryStore();
+  const clearMessages = useQueryStore((state) => state.clearMessages);
+  const messages = useQueryStore((state) => state.messages);
   
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploads, setUploads] = useState<{ id: string; name: string }[]>([]);
@@ -127,8 +130,15 @@ export function Sidebar() {
 
       <div className="pt-4 border-t border-gray-800 mt-auto">
         <button 
+          type="button"
           onClick={clearMessages}
-          className="w-full py-2.5 bg-surface-dark hover:bg-gray-800 text-gray-300 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+          disabled={messages.length === 0}
+          className={cn(
+            "w-full py-2.5 bg-surface-dark text-gray-300 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2",
+            messages.length === 0
+              ? "opacity-50 cursor-not-allowed text-gray-500"
+              : "hover:bg-gray-800 hover:text-red-400 active:scale-95 cursor-pointer"
+          )}
         >
           <Trash2 className="w-4 h-4" /> Clear Chat
         </button>

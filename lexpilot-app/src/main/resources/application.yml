@@ -125,10 +125,9 @@ lexpilot:
     rrf-top-k: 10  # final candidates after fusion
 
   security:
-    enabled: false  # Auth scaffolding built but disabled — activation deferred to polish pass
+    enabled: false  # API key auth is fully implemented — set to true to activate (enabled in Docker Compose by default)
 
   rate-limiting:
-    enabled: false  # Rate limiting stub built but disabled — activation deferred to Bucket4j+Redis implementation
-    # TODO: configure via Bucket4j + Redis; values below are placeholders
-    requests-per-minute: 60
+    enabled: false  # Per-IP rate limiting (Bucket4j in-memory) — activates with lexpilot.security.enabled=true
+    requests-per-minute: 60  # Tune without redeploy via LEXPILOT_RATE_LIMITING_REQUESTS_PER_MINUTE env var
     requests-per-day: 1000

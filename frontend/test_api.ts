@@ -1,83 +1,169 @@
 /**
- * Standalone API Test Script
- * Run this with: npx tsx test_api.ts
- * Requires the backend to be running on http://localhost:8080
+ * Standalone API Verification Script
+ *
+ * Validates that api.ts methods correctly hit the backend gateway.
+ * Run with:
+ *   npx tsx test_api.ts
+ *   npx tsx test_api.ts --api-key <key> --base-url http://localhost:8080/api/v1
+ *
+ * Requires the backend to be running (./mvnw spring-boot:run).
+ * Exit code 0 = all pass, 1 = any failure.
  */
-import { queryDocuments, uploadDocument, getIngestionStatus, ApiError } from "./lib/api";
 
-async function runTests() {
-  try {
-    console.log("Testing queryDocuments()...");
-    const result = await queryDocuments("How do I get a refund?");
-    console.log("Unexpected success:", result);
-  } catch (error) {
-    if (error instanceof ApiError) {
-      console.log(`[PASS] Caught expected ApiError on queryDocuments (Status: ${error.status})`);
-      console.log(`Error body: ${error.body}`);
-    } else {
-      console.log(`[FAIL] Caught unexpected error type:`, error);
-    }
-  }
+// ---------------------------------------------------------------------------
+// CLI args / env
+// ---------------------------------------------------------------------------
+const args = process.argv.slice(2);
 
-  console.log("\n-----------------------\n");
-
-  // 2. Test uploadDocument
-  let testDocumentId = "dummy-uuid";
-  try {
-    console.log("Testing uploadDocument()...");
-    // We pass a fake File object to satisfy TS
-    const fakeFile = new File(["dummy content"], "test.pdf", { type: "application/pdf" });
-    const result = await uploadDocument(fakeFile, "manual_upload");
-    console.log("[PASS] uploadDocument returned:", result);
-    if (result && result.documentId) {
-       testDocumentId = result.documentId;
-    }
-  } catch (error) {
-    if (error instanceof ApiError) {
-      console.log(`[PASS? or FAIL?] Caught expected ApiError on uploadDocument (Status: ${error.status}) - body: ${error.body}`);
-    } else {
-       console.log(`[FAIL] Caught unexpected error:`, error);
-    }
-  }
-
-  console.log("\n-----------------------\n");
-
-  // 3. Test getIngestionStatus
-  try {
-    console.log(`Testing getIngestionStatus() for ID: ${testDocumentId}...`);
-    const status = await getIngestionStatus(testDocumentId);
-    console.log("[PASS] getIngestionStatus returned:", status);
-  } catch (error) {
-    if (error instanceof ApiError) {
-       console.log(`[PASS? or FAIL?] Caught expected ApiError on getIngestionStatus (Status: ${error.status}) - body: ${error.body}`);
-    } else {
-       console.log(`[FAIL] Caught unexpected error:`, error);
-    }
-  }
-
-  console.log("\n-----------------------\n");
-
-  // 4. Test CORS
-  try {
-    console.log("Testing CORS with an OPTIONS preflight to /api/v1/query/answer...");
-    const optionsRes = await fetch("http://localhost:8080/api/v1/query/answer", {
-      method: "OPTIONS",
-      headers: {
-        "Origin": "http://localhost:3000",
-        "Access-Control-Request-Method": "POST",
-      },
-    });
-
-    if (optionsRes.ok && optionsRes.headers.get("access-control-allow-origin") === "http://localhost:3000") {
-      console.log("[PASS] CORS preflight successful and origin is allowed.");
-    } else {
-      console.log(`[FAIL] CORS preflight failed or missing headers. Status: ${optionsRes.status}`);
-      console.log(`Access-Control-Allow-Origin: ${optionsRes.headers.get("access-control-allow-origin")}`);
-    }
-  } catch (error) {
-    console.log(`[FAIL] Network error during CORS test:`, error);
-  }
-
+function getArg(name: string, fallback: string): string {
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && args[idx + 1]) return args[idx + 1];
+  return fallback;
 }
 
-runTests();
+const API_KEY = getArg("api-key", process.env.NEXT_PUBLIC_LEXPILOT_API_KEY ?? "dev-api-key-change-me");
+const BASE_URL = getArg("base-url", process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1");
+
+// Inject env so api.ts reads the correct values
+process.env.NEXT_PUBLIC_API_BASE_URL = BASE_URL;
+process.env.NEXT_PUBLIC_LEXPILOT_API_KEY = API_KEY;
+
+// Dynamic import AFTER env is set so api.ts picks up the values
+const { queryDocuments, uploadDocument, getIngestionStatus, ApiError } = await import("./lib/api");
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+let passed = 0;
+let failed = 0;
+
+function pass(name: string, detail?: string) {
+  passed++;
+  console.log(`  ✅ [PASS] ${name}${detail ? ` — ${detail}` : ""}`);
+}
+
+function fail(name: string, detail: string) {
+  failed++;
+  console.error(`  ❌ [FAIL] ${name} — ${detail}`);
+}
+
+function section(title: string) {
+  console.log(`\n━━━ ${title} ━━━`);
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+async function main() {
+  console.log(`\n🔍 api.ts Standalone Verification`);
+  console.log(`   Base URL : ${BASE_URL}`);
+  console.log(`   API Key  : ${API_KEY.substring(0, 4)}${"*".repeat(Math.max(0, API_KEY.length - 4))}`);
+
+  // ── 1. queryDocuments — without API key → 401 ──
+  section("1. queryDocuments() without API key → expect 401");
+  try {
+    // Call fetch directly without the key to simulate unauthenticated
+    const res = await fetch(`${BASE_URL}/query/answer`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: "test query" }),
+    });
+    if (res.status === 401) {
+      pass("Unauthenticated request rejected", `status=${res.status}`);
+    } else {
+      fail("Unauthenticated request", `Expected 401, got ${res.status}`);
+    }
+  } catch (err: any) {
+    fail("Unauthenticated request", `Network error: ${err.message}`);
+  }
+
+  // ── 2. queryDocuments — with API key → non-401 ──
+  section("2. queryDocuments() with API key → expect non-401");
+  try {
+    const result = await queryDocuments("What are my consumer rights for a refund?");
+    pass("queryDocuments returned successfully", `answer length=${result.answer?.length ?? 0}`);
+  } catch (err: any) {
+    if (err instanceof ApiError) {
+      if (err.status === 401 || err.status === 403) {
+        fail("queryDocuments with key", `Auth rejected: status=${err.status}, body=${err.body}`);
+      } else {
+        // 500 is expected — no LLM/embedding service in local dev
+        pass("queryDocuments auth passed (downstream error expected)", `status=${err.status}`);
+      }
+    } else {
+      fail("queryDocuments with key", `Unexpected error: ${err.message}`);
+    }
+  }
+
+  // ── 3. uploadDocument — with API key → 202 ──
+  section("3. uploadDocument() with API key → expect 202");
+  try {
+    // Create a minimal valid PDF
+    const pdfContent = "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]>>endobj\nxref\n0 4\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n190\n%%EOF";
+    const blob = new Blob([pdfContent], { type: "application/pdf" });
+    const file = new File([blob], "test-verification.pdf", { type: "application/pdf" });
+
+    const result = await uploadDocument(file, "test_verification");
+    if (result && result.documentId) {
+      pass("uploadDocument accepted", `documentId=${result.documentId}, status=${result.status}`);
+
+      // ── 4. getIngestionStatus — with the real document ID ──
+      section("4. getIngestionStatus() with real documentId → expect 200");
+      try {
+        const status = await getIngestionStatus(result.documentId);
+        pass("getIngestionStatus returned", `status=${status.status}`);
+      } catch (err: any) {
+        if (err instanceof ApiError) {
+          fail("getIngestionStatus", `status=${err.status}, body=${err.body}`);
+        } else {
+          fail("getIngestionStatus", `Unexpected error: ${err.message}`);
+        }
+      }
+    } else {
+      fail("uploadDocument", "Response missing documentId");
+    }
+  } catch (err: any) {
+    if (err instanceof ApiError) {
+      if (err.status === 401 || err.status === 403) {
+        fail("uploadDocument", `Auth rejected: status=${err.status}`);
+      } else {
+        // Other errors (e.g. 400 from content validation) are informative but not auth failures
+        pass("uploadDocument auth passed (validation error)", `status=${err.status}`);
+      }
+    } else {
+      fail("uploadDocument", `Unexpected error: ${err.message}`);
+    }
+
+    // Still test getIngestionStatus with a fake UUID
+    section("4. getIngestionStatus() with fake UUID → expect 404");
+    try {
+      await getIngestionStatus("00000000-0000-0000-0000-000000000000");
+      fail("getIngestionStatus fake UUID", "Expected 404 but got success");
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 404) {
+        pass("getIngestionStatus fake UUID rejected", "404 as expected");
+      } else if (err instanceof ApiError && (err.status === 401 || err.status === 403)) {
+        fail("getIngestionStatus", `Auth rejected: status=${err.status}`);
+      } else if (err instanceof ApiError) {
+        pass("getIngestionStatus auth passed", `status=${err.status}`);
+      } else {
+        fail("getIngestionStatus", `Unexpected error: ${err.message}`);
+      }
+    }
+  }
+
+  // ── Summary ──
+  console.log(`\n━━━ Summary ━━━`);
+  console.log(`  Passed: ${passed}`);
+  console.log(`  Failed: ${failed}`);
+  console.log(`  Total:  ${passed + failed}\n`);
+
+  if (failed > 0) {
+    process.exit(1);
+  }
+}
+
+main().catch((err) => {
+  console.error("Fatal error:", err);
+  process.exit(1);
+});

@@ -8,7 +8,9 @@ import { useQueryStore } from "@/lib/stores/useQueryStore";
 import { useQueryDocuments } from "@/lib/hooks/useQueryDocuments";
 
 export default function Home() {
-  const { messages, appendMessage, updateMessage } = useQueryStore();
+  const messages = useQueryStore((state) => state.messages);
+  const appendMessage = useQueryStore((state) => state.appendMessage);
+  const updateMessage = useQueryStore((state) => state.updateMessage);
   const { mutate, isPending } = useQueryDocuments();
   const scrollRef = useRef<HTMLDivElement>(null);
 
