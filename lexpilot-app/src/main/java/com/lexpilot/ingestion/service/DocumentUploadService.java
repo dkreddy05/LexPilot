@@ -204,6 +204,52 @@ public class DocumentUploadService {
                 doc.getErrorMessage());
     }
 
+    /**
+     * Delete a document and all its associated chunks/embeddings, and clean up the file on disk.
+     */
+    @Transactional
+    public void deleteDocument(String documentId) {
+        UUID id;
+        try {
+            id = UUID.fromString(documentId);
+        } catch (IllegalArgumentException e) {
+            throw new DocumentNotFoundException(documentId);
+        }
+
+        DocumentEntity doc = documentRepository.findById(id)
+                .orElseThrow(() -> new DocumentNotFoundException(documentId));
+
+        // 1. Delete chunks
+        chunkRepository.deleteByDocumentId(id);
+
+        // 2. Delete raw file on disk
+        try {
+            Path filePath = uploadDir.resolve(id.toString() + ".pdf");
+            Files.deleteIfExists(filePath);
+            log.debug("Deleted raw file at {}", filePath);
+        } catch (IOException e) {
+            log.warn("Could not delete file for document {}: {}", documentId, e.getMessage());
+        }
+
+        // 3. Delete document row
+        documentRepository.delete(doc);
+        log.info("Document {} and its chunks deleted successfully", documentId);
+    }
+
+    /**
+     * Retrieve all tracked documents.
+     */
+    public List<DocumentUploadResponse> getAllDocuments() {
+        return documentRepository.findAll().stream()
+                .map(doc -> new DocumentUploadResponse(
+                        doc.getId().toString(),
+                        doc.getFilename(),
+                        doc.getStatus(),
+                        doc.getErrorMessage() != null ? doc.getErrorMessage() : "Document status: " + doc.getStatus()
+                ))
+                .toList();
+    }
+
     // ---- Private helpers ----
 
     private void validateFile(MultipartFile file) {

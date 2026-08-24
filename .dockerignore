@@ -1,0 +1,27 @@
+# Exclude non-deployment files from Docker build context
+.git
+.gitignore
+.dockerignore
+.agents/
+.vscode/
+graphify-out/
+scratch/
+
+# Documentation (not needed in images)
+*.md
+LICENSE
+
+# Environment files (secrets injected at runtime, not build time)
+.env
+.env.*
+
+# Frontend build artifacts (frontend has its own Dockerfile context)
+frontend/node_modules/
+frontend/.next/
+
+# Java build artifacts
+lexpilot-app/target/
+
+# Python virtualenvs
+embedding-service/venv/
+embedding-service/.venv/

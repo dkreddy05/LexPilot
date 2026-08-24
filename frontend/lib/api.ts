@@ -112,6 +112,32 @@ export async function getIngestionStatus(
   return res.json();
 }
 
+export async function getDocuments(): Promise<DocumentUploadResponse[]> {
+  const res = await fetch(`${API_BASE_URL}/documents`, {
+    method: "GET",
+    headers: getAuthHeaders(),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new ApiError(res.status, body);
+  }
+
+  return res.json();
+}
+
+export async function deleteDocument(documentId: string): Promise<void> {
+  const res = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new ApiError(res.status, body);
+  }
+}
+
 export default axios.create({
   baseURL: API_BASE_URL,
   headers: {

@@ -37,4 +37,10 @@ frontend/build/
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
+
+# Knowledge graph output (auto-generated)
 graphify-out/
+
+# Uploads (runtime data)
+uploads/
+test-uploads/

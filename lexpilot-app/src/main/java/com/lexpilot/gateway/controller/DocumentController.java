@@ -43,4 +43,21 @@ public class DocumentController {
         IngestionStatusResponse response = documentUploadService.getStatus(documentId);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * List all tracked documents.
+     */
+    @GetMapping
+    public ResponseEntity<java.util.List<DocumentUploadResponse>> listDocuments() {
+        return ResponseEntity.ok(documentUploadService.getAllDocuments());
+    }
+
+    /**
+     * Delete a document and its indexed vectors.
+     */
+    @DeleteMapping("/{documentId}")
+    public ResponseEntity<Void> deleteDocument(@PathVariable String documentId) {
+        documentUploadService.deleteDocument(documentId);
+        return ResponseEntity.noContent().build();
+    }
 }

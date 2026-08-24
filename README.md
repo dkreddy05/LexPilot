@@ -144,21 +144,28 @@ Progress updates from recent commits:
   - VectorSearchIntegrationTest with precomputed sparse vectors
   - Testcontainers bumped to 1.20.4 and docker-java.properties added for Docker Desktop 29 compatibility
 - ✅ API key auth & per-IP rate limiting (opt-in via `lexpilot.security.enabled=true`; enabled by default in Docker Compose)
+- ✅ Frontend chat flow fully wired:
+  - TanStack Query (`QueryProvider`) mounted in layout, `useQueryDocuments` mutation calls `POST /api/v1/query/answer`
+  - Chat messages managed via Zustand (`useQueryStore`) — not dead stores, active source of truth
+  - `ChatMessage` renders `CitationsExpander` with expandable source markers and low-confidence warnings
+  - Document upload + ingestion polling (`useUploadDocument`, `useIngestionStatus`, `useDocumentStore`) wired in sidebar and `/documents` page
 
 Remaining work:
 - 🔲 BM25 / tsvector indexing and true hybrid fusion (RRF)
 - 🔲 Reranking (cross-encoder) + reciprocal-rank fusion
 - 🔲 LLM generation / RAG pipeline (prompting, citation formatting, guardrails)
 - 🔲 Frontend UI polish (improve UX, show citations, session management)
+- 🔲 Docker Compose hardening (health checks, externalized secrets, pinned versions)
 - 🔲 Multi-tenancy
 
-> Note: While vector search and the ingestion/embedding pipeline are functional, the end-to-end RAG generation and reranking stages are not yet implemented. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose.
+> Note: While vector search and the ingestion/embedding pipeline are functional, the end-to-end RAG generation and reranking stages are not yet implemented. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose. The frontend chat UI is fully wired to the backend query/answer endpoint with citation rendering.
 
 ---
 
 ## Tests
 
 - Integration tests cover the vector search path (VectorSearchIntegrationTest).
+- Security filter chain tests cover API key auth (401 for missing/wrong key), rate limiting (429), and public endpoint bypass (SecurityConfigTest).
 - Testcontainers version updated to 1.20.4 to address compatibility with newer Docker Desktop versions; docker-java.properties is included to pin the Docker Engine API.
 
 ---
@@ -169,5 +176,6 @@ Remaining work:
 3. 🔲 Hybrid search (vector implemented; BM25/RRF/reranker pending)
 4. 🔲 RAG generation pipeline (LLM integration + citation)
 5. ✅ API key auth & rate limiting (opt-in via feature flag)
-6. 🔲 Frontend UI polish
-7. 🔲 Multi-tenancy
+6. ✅ Frontend chat flow wired (query → cited answer → expandable citations)
+7. 🔲 Docker Compose hardening & deployment
+8. 🔲 Multi-tenancy

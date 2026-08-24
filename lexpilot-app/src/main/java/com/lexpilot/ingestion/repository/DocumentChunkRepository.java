@@ -32,4 +32,9 @@ public interface DocumentChunkRepository extends JpaRepository<DocumentChunkEnti
     @Query(value = "UPDATE document_chunks SET embedding = cast(:embedding AS vector) WHERE id = :chunkId",
            nativeQuery = true)
     void updateEmbedding(@Param("chunkId") UUID chunkId, @Param("embedding") String embedding);
+
+    /**
+     * Delete all chunks belonging to a document.
+     */
+    void deleteByDocumentId(UUID documentId);
 }
