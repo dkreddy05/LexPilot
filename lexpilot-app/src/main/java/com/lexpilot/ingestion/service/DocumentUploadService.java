@@ -86,19 +86,17 @@ public class DocumentUploadService {
      */
     @Transactional
     public DocumentUploadResponse upload(MultipartFile file, String sourceType) {
-        // --- 1. Validate ---
-        validateFile(file);
-
-        String filename = file.getOriginalFilename() != null
-                ? file.getOriginalFilename()
-                : "unnamed.pdf";
-
         byte[] fileBytes;
         try {
             fileBytes = file.getBytes();
         } catch (IOException e) {
             throw new InvalidDocumentException("Failed to read uploaded file: " + e.getMessage());
         }
+
+        // --- 1. Validate MIME type, size, and PDF magic bytes ---
+        validateFile(file, fileBytes);
+
+        String filename = sanitizeFilename(file.getOriginalFilename());
 
         // --- 2. Persist document row (UPLOADED) ---
         DocumentEntity doc = new DocumentEntity(filename, ALLOWED_CONTENT_TYPE);
@@ -252,13 +250,13 @@ public class DocumentUploadService {
 
     // ---- Private helpers ----
 
-    private void validateFile(MultipartFile file) {
-        if (file.isEmpty()) {
+    private void validateFile(MultipartFile file, byte[] fileBytes) {
+        if (file.isEmpty() || fileBytes.length == 0) {
             throw new InvalidDocumentException("Uploaded file is empty");
         }
 
         String contentType = file.getContentType();
-        if (contentType == null || !contentType.equals(ALLOWED_CONTENT_TYPE)) {
+        if (contentType == null || !contentType.equalsIgnoreCase(ALLOWED_CONTENT_TYPE)) {
             throw new InvalidDocumentException(
                     "Invalid content type: " + contentType + ". Only application/pdf is supported.");
         }
@@ -267,6 +265,33 @@ public class DocumentUploadService {
             throw new InvalidDocumentException(
                     "File size " + (file.getSize() / (1024 * 1024)) + " MB exceeds the 20 MB limit.");
         }
+
+        // PDF Magic Bytes Check: verify the file starts with "%PDF-" (0x25, 0x50, 0x44, 0x46, 0x2D)
+        if (fileBytes.length < 5 ||
+                fileBytes[0] != 0x25 || // '%'
+                fileBytes[1] != 0x50 || // 'P'
+                fileBytes[2] != 0x44 || // 'D'
+                fileBytes[3] != 0x46 || // 'F'
+                fileBytes[4] != 0x2D) { // '-'
+            throw new InvalidDocumentException("Invalid file format: file signature does not match a valid PDF header.");
+        }
+    }
+
+    private String sanitizeFilename(String rawFilename) {
+        if (rawFilename == null || rawFilename.isBlank()) {
+            return "unnamed.pdf";
+        }
+        // Extract only the simple file name to strip path traversal sequences (/ or \)
+        String simpleName = Paths.get(rawFilename).getFileName().toString();
+        // Remove non-alphanumeric, spaces, underscores, hyphens, periods
+        String sanitized = simpleName.replaceAll("[^a-zA-Z0-9._-]", "_").trim();
+        if (sanitized.isBlank()) {
+            return "unnamed.pdf";
+        }
+        if (!sanitized.toLowerCase().endsWith(".pdf")) {
+            sanitized = sanitized + ".pdf";
+        }
+        return sanitized;
     }
 
     private void storeFile(UUID documentId, byte[] fileBytes) {

@@ -3,6 +3,7 @@ import { queryDocuments } from "../api";
 
 export function useQueryDocuments() {
   return useMutation({
-    mutationFn: queryDocuments,
+    mutationFn: ({ query, sessionId }: { query: string; sessionId?: string | null }) =>
+      queryDocuments(query, sessionId),
   });
 }

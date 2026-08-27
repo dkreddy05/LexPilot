@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -70,7 +71,7 @@ class GenerationServiceTest {
         );
         GeneratedAnswer formattedAnswer = new GeneratedAnswer(rawLlmOutput, expectedCitations, false);
 
-        when(promptBuilder.build(query, chunks)).thenReturn(messages);
+        when(promptBuilder.build(eq(query), eq(chunks), anyList())).thenReturn(messages);
         when(llmApiClient.complete(messages)).thenReturn(new LlmResponse(rawLlmOutput));
         when(citationFormatter.format(rawLlmOutput, chunks)).thenReturn(formattedAnswer);
         when(guardrail.isLowConfidence(query, chunks, formattedAnswer)).thenReturn(false);
@@ -88,7 +89,7 @@ class GenerationServiceTest {
         assertThat(result.lowConfidence()).isFalse();
 
         // Verify pipeline ordering
-        verify(promptBuilder).build(query, chunks);
+        verify(promptBuilder).build(eq(query), eq(chunks), anyList());
         verify(llmApiClient).complete(messages);
         verify(citationFormatter).format(rawLlmOutput, chunks);
         verify(guardrail).isLowConfidence(query, chunks, formattedAnswer);
@@ -110,7 +111,7 @@ class GenerationServiceTest {
         String rawAnswer = "I don't have enough information.";
         GeneratedAnswer formatted = new GeneratedAnswer(rawAnswer, List.of(), false);
 
-        when(promptBuilder.build(anyString(), anyList())).thenReturn(messages);
+        when(promptBuilder.build(anyString(), anyList(), anyList())).thenReturn(messages);
         when(llmApiClient.complete(anyList())).thenReturn(new LlmResponse(rawAnswer));
         when(citationFormatter.format(anyString(), anyList())).thenReturn(formatted);
         when(guardrail.isLowConfidence(anyString(), anyList(), any())).thenReturn(true);
@@ -121,5 +122,42 @@ class GenerationServiceTest {
         // Assert
         assertThat(result.lowConfidence()).isTrue();
         assertThat(result.citations()).isEmpty();
+    }
+
+    @Test
+    void generate_withConversationHistory_shouldForwardToPromptBuilder() {
+        // Arrange
+        String query = "What about refunds for electronics?";
+        List<ScoredChunk> chunks = List.of(
+                new ScoredChunk(CHUNK_1_ID, DOC_ID, "Electronics refund...", 0.90, "guide.pdf")
+        );
+
+        List<PromptMessage> history = List.of(
+                new PromptMessage(PromptMessage.Role.USER, "How do I get a refund?"),
+                new PromptMessage(PromptMessage.Role.ASSISTANT, "You can request a refund by...")
+        );
+
+        List<PromptMessage> messages = List.of(
+                new PromptMessage(PromptMessage.Role.SYSTEM, "system prompt"),
+                new PromptMessage(PromptMessage.Role.USER, "prior question"),
+                new PromptMessage(PromptMessage.Role.ASSISTANT, "prior answer"),
+                new PromptMessage(PromptMessage.Role.USER, "current question")
+        );
+
+        String rawAnswer = "For electronics, you can [1].";
+        GeneratedAnswer formatted = new GeneratedAnswer(rawAnswer,
+                List.of(new Citation(1, CHUNK_1_ID, DOC_ID, "guide.pdf")), false);
+
+        when(promptBuilder.build(query, chunks, history)).thenReturn(messages);
+        when(llmApiClient.complete(messages)).thenReturn(new LlmResponse(rawAnswer));
+        when(citationFormatter.format(rawAnswer, chunks)).thenReturn(formatted);
+        when(guardrail.isLowConfidence(query, chunks, formatted)).thenReturn(false);
+
+        // Act
+        GeneratedAnswer result = generationService.generate(query, chunks, history);
+
+        // Assert
+        assertThat(result.answer()).isEqualTo(rawAnswer);
+        verify(promptBuilder).build(query, chunks, history);
     }
 }

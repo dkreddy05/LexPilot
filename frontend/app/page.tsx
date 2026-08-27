@@ -13,6 +13,8 @@ export default function Home() {
   const messages = useQueryStore((state) => state.messages);
   const appendMessage = useQueryStore((state) => state.appendMessage);
   const updateMessage = useQueryStore((state) => state.updateMessage);
+  const sessionId = useQueryStore((state) => state.sessionId);
+  const setSessionId = useQueryStore((state) => state.setSessionId);
   const setDocuments = useDocumentStore((state) => state.setDocuments);
   const { mutate, isPending } = useQueryDocuments();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -43,19 +45,26 @@ export default function Home() {
     const aiMsgId = (Date.now() + 1).toString();
     appendMessage({ id: aiMsgId, role: "assistant", content: "⟳ Thinking..." });
 
-    mutate(text, {
-      onSuccess: (data) => {
-        updateMessage(aiMsgId, {
-          content: data.answer,
-          response: data,
-        });
-      },
-      onError: (err: any) => {
-        updateMessage(aiMsgId, {
-          content: `Error: ${err.message || "Something went wrong."}`,
-        });
-      },
-    });
+    mutate(
+      { query: text, sessionId },
+      {
+        onSuccess: (data) => {
+          // Persist the session ID returned by the backend
+          if (data.sessionId) {
+            setSessionId(data.sessionId);
+          }
+          updateMessage(aiMsgId, {
+            content: data.answer,
+            response: data,
+          });
+        },
+        onError: (err: any) => {
+          updateMessage(aiMsgId, {
+            content: `Error: ${err.message || "Something went wrong."}`,
+          });
+        },
+      }
+    );
   };
 
   return (

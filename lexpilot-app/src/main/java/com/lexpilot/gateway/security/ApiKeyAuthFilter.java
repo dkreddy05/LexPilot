@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.List;
 
 @Component
@@ -39,7 +41,8 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!apiKey.equals(appConfig.apiKey())) {
+        String expectedKey = appConfig.apiKey();
+        if (expectedKey == null || expectedKey.isBlank() || !isEqualConstantTime(apiKey, expectedKey)) {
             sendUnauthorized(response, "Invalid API key.");
             return;
         }
@@ -58,13 +61,19 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/actuator") || path.equals("/");
+        return path.equals("/actuator/health") || path.equals("/actuator/info") || path.equals("/") || path.equals("/error");
     }
 
     private void sendUnauthorized(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"" + message + "\"}");
+    }
+
+    private boolean isEqualConstantTime(String a, String b) {
+        byte[] aBytes = a.getBytes(StandardCharsets.UTF_8);
+        byte[] bBytes = b.getBytes(StandardCharsets.UTF_8);
+        return MessageDigest.isEqual(aBytes, bBytes);
     }
 }
 

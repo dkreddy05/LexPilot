@@ -41,7 +41,7 @@ class GenerationVerificationScriptTest {
         AppConfig appConfig = new AppConfig(
                 null, null,
                 new AppConfig.LlmConfig(finalApiKey, "https://api.openai.com/v1", "gpt-4o-mini", 1024, 0.2, 30),
-                null, null, null
+                null, null, null, new AppConfig.ConversationConfig(10)
         );
 
         OpenAiLlmClient llmClient = new OpenAiLlmClient(appConfig);

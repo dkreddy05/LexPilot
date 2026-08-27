@@ -92,19 +92,20 @@ class SecurityConfigTest {
     @Test
     void request_exceedingRateLimit_shouldReturn429() throws Exception {
         // Rate limit is set to 5 requests per minute in @TestPropertySource.
-        // Exhaust the bucket, then the next request should be 429.
+        // Exhaust the bucket for IP 192.0.2.99, then the next request should be 429.
+        String rateLimitedIp = "192.0.2.99";
         for (int i = 0; i < 5; i++) {
             mockMvc.perform(post(API_ENDPOINT)
+                    .with(req -> { req.setRemoteAddr(rateLimitedIp); return req; })
                     .header("X-Api-Key", VALID_API_KEY)
-                    .header("X-Forwarded-For", "192.0.2.99")  // unique IP to isolate from other tests
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"query\":\"test\"}"));
         }
 
         // 6th request should be throttled
         mockMvc.perform(post(API_ENDPOINT)
+                        .with(req -> { req.setRemoteAddr(rateLimitedIp); return req; })
                         .header("X-Api-Key", VALID_API_KEY)
-                        .header("X-Forwarded-For", "192.0.2.99")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"query\":\"test\"}"))
                 .andExpect(status().isTooManyRequests())
@@ -134,5 +135,11 @@ class SecurityConfigTest {
                     assert status != 401 : "Root path should not require auth, but got 401";
                     assert status != 403 : "Root path should not require auth, but got 403";
                 });
+    }
+
+    @Test
+    void actuatorMetrics_withoutAuth_shouldRequireAuth() throws Exception {
+        mockMvc.perform(get("/actuator/metrics"))
+                .andExpect(status().isUnauthorized());
     }
 }

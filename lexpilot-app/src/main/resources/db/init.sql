@@ -42,3 +42,25 @@ CREATE INDEX IF NOT EXISTS idx_doc_chunks_embedding    ON document_chunks USING 
 
 CREATE INDEX IF NOT EXISTS idx_doc_chunks_tsv          ON document_chunks USING GIN (tsv_content);
 CREATE INDEX IF NOT EXISTS idx_doc_chunks_document_id  ON document_chunks (document_id);
+
+-- =============================================================================
+-- Conversation history — multi-turn chat memory
+-- =============================================================================
+
+-- Conversations table — one row per chat session
+CREATE TABLE IF NOT EXISTS conversations (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Conversation messages — ordered turns within a conversation
+CREATE TABLE IF NOT EXISTS conversation_messages (
+    id                BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    conversation_id   UUID NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+    role              TEXT NOT NULL CHECK (role IN ('USER', 'ASSISTANT')),
+    content           TEXT NOT NULL,
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_conv_messages_conv_id ON conversation_messages (conversation_id, id);

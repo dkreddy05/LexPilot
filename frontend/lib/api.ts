@@ -12,10 +12,12 @@ export interface GeneratedAnswer {
   answer: string;
   citations: Citation[];
   lowConfidence: boolean;
+  sessionId: string;
 }
 
 export interface QueryRequest {
   query: string;
+  sessionId?: string | null;
 }
 
 // Ingestion DTOs (preserved stubs)
@@ -32,7 +34,14 @@ export interface IngestionStatusResponse {
   errorDetail: string | null;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1";
+// In browser context, route through the secure Next.js BFF proxy (/api/backend)
+// to prevent exposing master API key in client bundles.
+const isBrowser = typeof window !== "undefined";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  (isBrowser ? "/api/backend" : "http://localhost:8080/api/v1");
+
+// Only used for standalone CLI testing or direct client calls if explicitly provided
 const API_KEY = process.env.NEXT_PUBLIC_LEXPILOT_API_KEY ?? "";
 
 /**
@@ -55,11 +64,19 @@ export class ApiError extends Error {
 
 export type QueryResponse = GeneratedAnswer;
 
-export async function queryDocuments(query: string): Promise<GeneratedAnswer> {
+export async function queryDocuments(
+  query: string,
+  sessionId?: string | null
+): Promise<GeneratedAnswer> {
+  const requestBody: QueryRequest = { query };
+  if (sessionId) {
+    requestBody.sessionId = sessionId;
+  }
+
   const res = await fetch(`${API_BASE_URL}/query/answer`, {
     method: "POST",
     headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
-    body: JSON.stringify({ query } satisfies QueryRequest),
+    body: JSON.stringify(requestBody),
   });
 
   if (!res.ok) {
@@ -146,4 +163,3 @@ export default axios.create({
   },
   timeout: 30_000,
 });
-

@@ -4,7 +4,9 @@ import com.lexpilot.common.config.AppConfig;
 import com.lexpilot.common.dto.QueryRequest;
 import com.lexpilot.common.dto.QueryResponse;
 import com.lexpilot.common.dto.SearchResultsResponse;
+import com.lexpilot.conversation.service.ConversationService;
 import com.lexpilot.generation.dto.GeneratedAnswer;
+import com.lexpilot.generation.prompt.PromptMessage;
 import com.lexpilot.generation.service.GenerationService;
 import com.lexpilot.retrieval.dto.ScoredChunk;
 import com.lexpilot.retrieval.service.HybridSearchService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,13 +26,16 @@ public class QueryController {
 
     private final HybridSearchService hybridSearchService;
     private final GenerationService generationService;
+    private final ConversationService conversationService;
     private final AppConfig appConfig;
 
     public QueryController(HybridSearchService hybridSearchService,
                            GenerationService generationService,
+                           ConversationService conversationService,
                            AppConfig appConfig) {
         this.hybridSearchService = hybridSearchService;
         this.generationService = generationService;
+        this.conversationService = conversationService;
         this.appConfig = appConfig;
     }
 
@@ -59,20 +65,33 @@ public class QueryController {
     /**
      * Generate a grounded answer from retrieved context, with citations.
      * <p>
-     * Flow: embed query → vector search → build prompt → LLM call →
-     * parse citations → return structured answer.
+     * Flow: resolve/create conversation → load history → embed query → vector search
+     * → build prompt (with history) → LLM call → parse citations → persist messages
+     * → return structured answer with sessionId.
      */
     @PostMapping("/query/answer")
     public ResponseEntity<QueryResponse> queryWithAnswer(@Valid @RequestBody QueryRequest request) {
         int topK = appConfig.retrieval().vectorTopK();
 
-        // 1. Retrieve relevant chunks
+        // 1. Resolve or create the conversation session
+        UUID conversationId = conversationService.getOrCreateConversation(request.sessionId());
+
+        // 2. Load conversation history (capped at maxHistoryTurns)
+        List<PromptMessage> history = conversationService.getHistory(conversationId);
+
+        // 3. Persist the user's message
+        conversationService.appendUserMessage(conversationId, request.query());
+
+        // 4. Retrieve relevant chunks
         List<ScoredChunk> chunks = hybridSearchService.search(request.query(), topK);
 
-        // 2. Generate answer with citations
-        GeneratedAnswer generated = generationService.generate(request.query(), chunks);
+        // 5. Generate answer with citations and conversation context
+        GeneratedAnswer generated = generationService.generate(request.query(), chunks, history);
 
-        // 3. Map to API response
+        // 6. Persist the assistant's response
+        conversationService.appendAssistantMessage(conversationId, generated.answer());
+
+        // 7. Map to API response
         List<QueryResponse.CitationDto> citationDtos = generated.citations().stream()
                 .map(c -> new QueryResponse.CitationDto(
                         c.marker(),
@@ -84,7 +103,8 @@ public class QueryController {
         QueryResponse response = new QueryResponse(
                 generated.answer(),
                 citationDtos,
-                generated.lowConfidence()
+                generated.lowConfidence(),
+                conversationId.toString()
         );
 
         return ResponseEntity.ok(response);

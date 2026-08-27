@@ -131,3 +131,6 @@ lexpilot:
     enabled: false  # Per-IP rate limiting (Bucket4j in-memory) — activates with lexpilot.security.enabled=true
     requests-per-minute: 60  # Tune without redeploy via LEXPILOT_RATE_LIMITING_REQUESTS_PER_MINUTE env var
     requests-per-day: 1000
+
+  conversation:
+    max-history-turns: 10  # Number of prior user+assistant turn pairs threaded into the LLM prompt

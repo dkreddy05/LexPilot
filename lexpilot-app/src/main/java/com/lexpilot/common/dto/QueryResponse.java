@@ -5,11 +5,15 @@ import java.util.List;
 /**
  * Response payload for the generation endpoint ({@code POST /api/v1/query/answer}).
  * Contains the LLM-generated answer grounded in retrieved context, with citations.
+ *
+ * @param sessionId the conversation session ID — use this in subsequent requests
+ *                  to maintain multi-turn conversation context
  */
 public record QueryResponse(
         String answer,
         List<CitationDto> citations,
-        boolean lowConfidence
+        boolean lowConfidence,
+        String sessionId
 ) {
 
     /**

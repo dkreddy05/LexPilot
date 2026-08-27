@@ -29,8 +29,8 @@ public class TikaExtractionService {
      */
     private static final int MIN_TEXT_LENGTH = 50;
 
-    /** Max characters BodyContentHandler will buffer (-1 = unlimited). */
-    private static final int WRITE_LIMIT = -1;
+    /** Max characters BodyContentHandler will buffer (10M chars ~10MB plain text limit to prevent DoS/OOM). */
+    private static final int WRITE_LIMIT = 10 * 1024 * 1024;
 
     private final AutoDetectParser parser = new AutoDetectParser();
 

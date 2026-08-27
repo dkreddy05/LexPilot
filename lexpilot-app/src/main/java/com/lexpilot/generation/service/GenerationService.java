@@ -43,17 +43,32 @@ public class GenerationService {
 
     /**
      * Generate a grounded, cited answer for the given query using retrieved chunks.
+     * Stateless — no conversation history is included.
      *
      * @param query  the user's natural-language query
      * @param chunks scored chunks from retrieval, ordered by relevance (descending)
      * @return a generated answer with citations and confidence flag
      */
     public GeneratedAnswer generate(String query, List<ScoredChunk> chunks) {
-        log.debug("Starting generation for query ({} chars) with {} chunks",
-                query.length(), chunks.size());
+        return generate(query, chunks, List.of());
+    }
 
-        // 1. Build prompt messages
-        List<PromptMessage> messages = promptBuilder.build(query, chunks);
+    /**
+     * Generate a grounded, cited answer for the given query using retrieved chunks,
+     * with conversation history for multi-turn context.
+     *
+     * @param query               the user's natural-language query
+     * @param chunks              scored chunks from retrieval, ordered by relevance (descending)
+     * @param conversationHistory prior USER/ASSISTANT prompt messages (chronological)
+     * @return a generated answer with citations and confidence flag
+     */
+    public GeneratedAnswer generate(String query, List<ScoredChunk> chunks,
+                                    List<PromptMessage> conversationHistory) {
+        log.debug("Starting generation for query ({} chars) with {} chunks, {} history messages",
+                query.length(), chunks.size(), conversationHistory.size());
+
+        // 1. Build prompt messages (with history if available)
+        List<PromptMessage> messages = promptBuilder.build(query, chunks, conversationHistory);
 
         // 2. Call LLM
         LlmResponse llmResponse = llmApiClient.complete(messages);

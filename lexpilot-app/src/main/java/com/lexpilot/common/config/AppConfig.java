@@ -9,7 +9,8 @@ public record AppConfig(
         LlmConfig llm,
         IngestionConfig ingestion,
         RetrievalConfig retrieval,
-        RateLimitingConfig rateLimiting
+        RateLimitingConfig rateLimiting,
+        ConversationConfig conversation
 ) {
     public record EmbeddingServiceConfig(String baseUrl) {}
 
@@ -40,4 +41,14 @@ public record AppConfig(
             int requestsPerMinute,
             int requestsPerDay
     ) {}
+
+    public record ConversationConfig(
+            int maxHistoryTurns
+    ) {
+        public ConversationConfig {
+            if (maxHistoryTurns <= 0) {
+                maxHistoryTurns = 10;
+            }
+        }
+    }
 }

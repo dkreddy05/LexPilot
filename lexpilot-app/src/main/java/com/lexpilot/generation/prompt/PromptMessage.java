@@ -8,5 +8,5 @@ package com.lexpilot.generation.prompt;
  */
 public record PromptMessage(Role role, String content) {
 
-    public enum Role { SYSTEM, USER }
+    public enum Role { SYSTEM, USER, ASSISTANT }
 }
