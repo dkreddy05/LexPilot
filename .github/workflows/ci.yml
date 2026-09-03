@@ -76,7 +76,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Type Check & Build
         working-directory: ./frontend
