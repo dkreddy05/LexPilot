@@ -19,7 +19,7 @@ function DocumentChip({ documentId, filename }: { documentId: string; filename: 
   const doc = useDocumentStore((state) => state.documents[documentId]);
 
   const status = data?.status || doc?.status || "PROCESSING";
-  const isPending = status !== "INDEXED" && status !== "FAILED" && status !== "READY";
+  const isPending = status !== "INDEXED" && status !== "FAILED";
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -34,7 +34,7 @@ function DocumentChip({ documentId, filename }: { documentId: string; filename: 
       </span>
       {isPending ? (
         <Loader2 className="w-3 h-3 text-brand-400 animate-spin shrink-0" />
-      ) : status === "INDEXED" || status === "READY" ? (
+      ) : status === "INDEXED" ? (
         <CheckCircle2 className="w-3 h-3 text-green-400 shrink-0" />
       ) : (
         <AlertCircle className="w-3 h-3 text-red-400 shrink-0" />
