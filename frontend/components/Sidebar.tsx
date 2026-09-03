@@ -26,7 +26,7 @@ function FileStatusItem({ documentId, fileName }: { documentId: string; fileName
   const doc = useDocumentStore((state) => state.documents[documentId]);
 
   const status = data?.status || doc?.status || "PROCESSING";
-  const isPending = status !== "INDEXED" && status !== "FAILED" && status !== "READY";
+  const isPending = status !== "INDEXED" && status !== "FAILED";
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -41,7 +41,7 @@ function FileStatusItem({ documentId, fileName }: { documentId: string; fileName
       </span>
       {isPending ? (
         <Loader2 className="w-3.5 h-3.5 text-brand-400 animate-spin shrink-0" />
-      ) : status === "INDEXED" || status === "READY" ? (
+      ) : status === "INDEXED" ? (
         <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" />
       ) : (
         <XCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />

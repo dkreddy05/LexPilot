@@ -18,7 +18,7 @@ function DocumentTracker({ documentId }: { documentId: string }) {
   if (!doc) return null;
 
   const status = data?.status || doc.status || "PROCESSING";
-  const isPending = status !== "INDEXED" && status !== "FAILED" && status !== "READY";
+  const isPending = status !== "INDEXED" && status !== "FAILED";
 
   const handleDelete = () => {
     deleteDoc.mutate(documentId);
@@ -41,7 +41,7 @@ function DocumentTracker({ documentId }: { documentId: string }) {
             <Loader2 className="w-4 h-4 animate-spin" />
             {status}
           </span>
-        ) : status === "INDEXED" || status === "READY" ? (
+        ) : status === "INDEXED" ? (
           <span className="flex items-center gap-1.5 text-green-500 text-xs font-medium">
             <CheckCircle2 className="w-4 h-4" />
             INDEXED
