@@ -17,12 +17,17 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none  # schema managed by init.sql (docker-entrypoint-initdb.d)
+      ddl-auto: none  # schema managed by Flyway migrations
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
 
   # ---------------------------------------------------------------------------
   # Redis

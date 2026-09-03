@@ -1,20 +1,34 @@
 from __future__ import annotations
 
 import os
-from typing import List
+from typing import List, Optional
 
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import CrossEncoder, SentenceTransformer
 
 # ---------------------------------------------------------------------------
-# Model loading — done once at module level so the first request isn't slow.
-# Override via MODEL_EMBED env var if needed.
+# Model loading — embedding model loaded once at module level.
+# Reranker model loaded lazily or via get_reranker() with configurable model.
 # ---------------------------------------------------------------------------
 MODEL_NAME = os.getenv("MODEL_EMBED", "sentence-transformers/all-MiniLM-L6-v2")
-print(f"[embedding-service] Loading model: {MODEL_NAME}")
+MODEL_RERANK_NAME = os.getenv("MODEL_RERANK", "BAAI/bge-reranker-base")
+
+print(f"[embedding-service] Loading embedding model: {MODEL_NAME}")
 model = SentenceTransformer(MODEL_NAME)
 print(f"[embedding-service] Model loaded. Embedding dimension: {model.get_sentence_embedding_dimension()}")
+
+reranker: Optional[CrossEncoder] = None
+
+
+def get_reranker() -> CrossEncoder:
+    global reranker
+    if reranker is None:
+        print(f"[embedding-service] Loading reranker model: {MODEL_RERANK_NAME}")
+        reranker = CrossEncoder(MODEL_RERANK_NAME)
+        print("[embedding-service] Reranker model loaded successfully.")
+    return reranker
+
 
 app = FastAPI(
     title="LexPilot Embedding Service",
@@ -51,7 +65,11 @@ class RerankResponse(BaseModel):
 # ---------------------------------------------------------------------------
 @app.get("/health", tags=["ops"])
 def health() -> dict:
-    return {"status": "ok", "model": MODEL_NAME}
+    return {
+        "status": "ok",
+        "model_embed": MODEL_NAME,
+        "model_rerank": MODEL_RERANK_NAME,
+    }
 
 
 @app.post("/embed", response_model=EmbedResponse, tags=["embeddings"])
@@ -66,5 +84,38 @@ def embed(request: EmbedRequest) -> EmbedResponse:
 
 @app.post("/rerank", response_model=RerankResponse, tags=["reranking"])
 def rerank(request: RerankRequest) -> RerankResponse:
-    # Out of scope for this slice — will be implemented with retrieval pipeline
-    raise NotImplementedError("/rerank endpoint is a stub — not yet implemented")
+    """
+    Rerank candidate passages against a natural language query using a Cross-Encoder.
+    Returns ranked indices (0-based) and scores sorted in descending order.
+    """
+    if not request.candidates:
+        return RerankResponse(ranked_indices=[], scores=[], model=MODEL_RERANK_NAME)
+
+    cross_encoder = get_reranker()
+    pairs = [[request.query, candidate] for candidate in request.candidates]
+    raw_scores = cross_encoder.predict(pairs)
+
+    if hasattr(raw_scores, "tolist"):
+        scores_list = raw_scores.tolist()
+    else:
+        scores_list = list(raw_scores)
+
+    if not isinstance(scores_list, list):
+        scores_list = [float(scores_list)]
+    else:
+        scores_list = [float(s) for s in scores_list]
+
+    indexed_scores = sorted(
+        enumerate(scores_list),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+
+    ranked_indices = [item[0] for item in indexed_scores]
+    sorted_scores = [item[1] for item in indexed_scores]
+
+    return RerankResponse(
+        ranked_indices=ranked_indices,
+        scores=sorted_scores,
+        model=MODEL_RERANK_NAME,
+    )

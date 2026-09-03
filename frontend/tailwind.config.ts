@@ -14,10 +14,14 @@ module.exports = {
         brand: {
           50:  "#f0f4ff",
           100: "#e0e9ff",
+          200: "#c7d4ff",
+          300: "#a0b4ff",
+          400: "#7a94fb",
           500: "#4f6ef7",
           600: "#3b55e6",
           700: "#2d43c7",
           900: "#1a2880",
+          950: "#0f1850",
         },
         surface: {
           light: "#ffffff",
