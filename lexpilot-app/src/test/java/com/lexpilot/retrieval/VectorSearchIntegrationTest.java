@@ -40,8 +40,7 @@ class VectorSearchIntegrationTest {
                     .asCompatibleSubstituteFor("postgres"))
             .withDatabaseName("lexpilot")
             .withUsername("lexpilot")
-            .withPassword("lexpilot_test")
-            .withInitScript("db/init.sql");
+            .withPassword("lexpilot_test");
 
     @Container
     static KafkaContainer kafka = new KafkaContainer(

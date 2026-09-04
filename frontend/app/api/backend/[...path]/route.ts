@@ -5,10 +5,7 @@ const BACKEND_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ??
   "http://localhost:8080/api/v1";
 
-const API_KEY =
-  process.env.LEXPILOT_API_KEY ??
-  process.env.NEXT_PUBLIC_LEXPILOT_API_KEY ??
-  "";
+const API_KEY = process.env.LEXPILOT_API_KEY ?? "";
 
 async function proxyRequest(
   request: NextRequest,
