@@ -1,6 +1,8 @@
 package com.lexpilot.graph.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -30,6 +32,7 @@ public class GraphHyperedgeEntity {
     @Column(name = "edge_type", length = 64)
     private String edgeType;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSONB DEFAULT '{}'")
     private String metadata = "{}";
 

@@ -20,7 +20,7 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, UUID> 
      *
      * @return row count — 1 if updated, 0 if skipped because status was already FAILED
      */
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE documents SET status = :newStatus WHERE id = :docId AND status != 'FAILED'",
            nativeQuery = true)
     int updateStatusIfNotFailed(@Param("docId") UUID documentId, @Param("newStatus") String newStatus);

@@ -48,7 +48,7 @@ public class ConversationService {
      *
      * @param sessionId the client-supplied session ID, or null/blank for a new session
      * @return the conversation UUID (newly created or existing)
-     * @throws IllegalArgumentException if the sessionId is provided but does not exist
+     * @throws ConversationNotFoundException if the sessionId is provided but does not exist or has invalid format
      */
     @Transactional
     public UUID getOrCreateConversation(String sessionId) {

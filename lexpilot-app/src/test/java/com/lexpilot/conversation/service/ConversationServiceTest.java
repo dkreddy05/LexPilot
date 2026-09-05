@@ -1,6 +1,7 @@
 package com.lexpilot.conversation.service;
 
 import com.lexpilot.common.config.AppConfig;
+import com.lexpilot.common.exception.ConversationNotFoundException;
 import com.lexpilot.conversation.entity.ConversationEntity;
 import com.lexpilot.conversation.entity.ConversationMessageEntity;
 import com.lexpilot.conversation.repository.ConversationMessageRepository;
@@ -110,8 +111,8 @@ class ConversationServiceTest {
     @Test
     void getOrCreateConversation_whenInvalidUuid_shouldThrow() {
         assertThatThrownBy(() -> conversationService.getOrCreateConversation("not-a-uuid"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Invalid sessionId format");
+                .isInstanceOf(ConversationNotFoundException.class)
+                .hasMessageContaining("Conversation not found");
     }
 
     @Test
@@ -121,7 +122,7 @@ class ConversationServiceTest {
 
         // Act & Assert
         assertThatThrownBy(() -> conversationService.getOrCreateConversation(CONV_ID.toString()))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ConversationNotFoundException.class)
                 .hasMessageContaining("Conversation not found");
     }
 
