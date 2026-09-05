@@ -7,10 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface DocumentChunkRepository extends JpaRepository<DocumentChunkEntity, UUID> {
+
+    /**
+     * Find all chunks belonging to a document, ordered by chunk index.
+     * Replaces the previous findAll().stream().filter() heap scan.
+     */
+    List<DocumentChunkEntity> findByDocumentIdOrderByChunkIndexAsc(UUID documentId);
 
     /**
      * Count the number of chunks belonging to a document.

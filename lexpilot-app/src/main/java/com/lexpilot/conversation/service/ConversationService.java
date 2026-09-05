@@ -1,6 +1,7 @@
 package com.lexpilot.conversation.service;
 
 import com.lexpilot.common.config.AppConfig;
+import com.lexpilot.common.exception.ConversationNotFoundException;
 import com.lexpilot.conversation.entity.ConversationEntity;
 import com.lexpilot.conversation.entity.ConversationMessageEntity;
 import com.lexpilot.conversation.repository.ConversationMessageRepository;
@@ -62,11 +63,11 @@ public class ConversationService {
         try {
             conversationId = UUID.fromString(sessionId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid sessionId format: " + sessionId);
+            throw new ConversationNotFoundException(sessionId);
         }
 
         if (!conversationRepository.existsById(conversationId)) {
-            throw new IllegalArgumentException("Conversation not found: " + sessionId);
+            throw new ConversationNotFoundException(sessionId);
         }
 
         log.debug("Resuming conversation: {}", conversationId);

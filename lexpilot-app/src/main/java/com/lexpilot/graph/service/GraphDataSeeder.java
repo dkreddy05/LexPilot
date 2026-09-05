@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lexpilot.graph.entity.*;
 import com.lexpilot.graph.repository.*;
+import com.lexpilot.graph.repository.GraphHyperedgeMemberJpaRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class GraphDataSeeder {
     private final GraphService graphService;
     private final GraphRepositoryJpaRepo repositoryRepo;
     private final GraphHyperedgeJpaRepo hyperedgeRepo;
+    private final GraphHyperedgeMemberJpaRepo hyperedgeMemberRepo;
     private final ObjectMapper objectMapper;
 
     @Value("${lexpilot.graph.seed-file:graphify-out/graph.json}")
@@ -45,10 +47,12 @@ public class GraphDataSeeder {
     public GraphDataSeeder(GraphService graphService,
                            GraphRepositoryJpaRepo repositoryRepo,
                            GraphHyperedgeJpaRepo hyperedgeRepo,
+                           GraphHyperedgeMemberJpaRepo hyperedgeMemberRepo,
                            ObjectMapper objectMapper) {
         this.graphService = graphService;
         this.repositoryRepo = repositoryRepo;
         this.hyperedgeRepo = hyperedgeRepo;
+        this.hyperedgeMemberRepo = hyperedgeMemberRepo;
         this.objectMapper = objectMapper;
     }
 
@@ -181,8 +185,7 @@ public class GraphDataSeeder {
                                     ? memberJson.get("role").asText() : "member";
                             GraphHyperedgeMemberEntity member =
                                     new GraphHyperedgeMemberEntity(he.getId(), nodeUuid, role);
-                            // Save via entity manager (no dedicated repo method needed)
-                            hyperedgeRepo.flush();
+                            hyperedgeMemberRepo.save(member);
                         }
                     }
                 }

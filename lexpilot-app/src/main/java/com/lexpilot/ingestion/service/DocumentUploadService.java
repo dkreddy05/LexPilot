@@ -141,9 +141,7 @@ public class DocumentUploadService {
             documentRepository.save(doc);
 
             // Re-read saved chunks to get their generated IDs
-            List<DocumentChunkEntity> savedChunks = chunkRepository.findAll().stream()
-                    .filter(c -> c.getDocumentId().equals(documentId))
-                    .toList();
+            List<DocumentChunkEntity> savedChunks = chunkRepository.findByDocumentIdOrderByChunkIndexAsc(documentId);
 
             for (DocumentChunkEntity chunk : savedChunks) {
                 IngestionEvent event = new IngestionEvent(

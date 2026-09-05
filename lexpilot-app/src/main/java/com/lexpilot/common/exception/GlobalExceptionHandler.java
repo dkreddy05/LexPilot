@@ -32,6 +32,12 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now()));
     }
 
+    @ExceptionHandler(ConversationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleConversationNotFound(ConversationNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(ex.getErrorCode(), ex.getMessage(), Instant.now()));
+    }
+
     @ExceptionHandler(UpstreamServiceException.class)
     public ResponseEntity<ErrorResponse> handleUpstreamService(UpstreamServiceException ex) {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)

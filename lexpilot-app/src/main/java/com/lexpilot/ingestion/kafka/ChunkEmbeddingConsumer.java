@@ -78,12 +78,18 @@ public class ChunkEmbeddingConsumer {
             long embeddedChunks = chunkRepository.countEmbeddedByDocumentId(documentId);
 
             if (embeddedChunks >= totalChunks) {
-                documentRepository.findById(documentId).ifPresent(doc -> {
-                    doc.setStatus(DocumentStatus.READY);
-                    documentRepository.save(doc);
+                // NOTE: This guard prevents a successful trailing chunk from overwriting FAILED status.
+                // The reverse case (a lagging FAILED write landing after READY) is an accepted non-goal:
+                // once all chunks embed successfully and status is READY, the error-path code below
+                // only fires on embedding exceptions — which can't happen after successful completion.
+                int updated = documentRepository.updateStatusIfNotFailed(documentId, DocumentStatus.READY);
+                if (updated > 0) {
                     log.info("Document {} is now READY ({}/{} chunks embedded)",
                              documentId, embeddedChunks, totalChunks);
-                });
+                } else {
+                    log.warn("Document {} has all chunks embedded but status was not updated " +
+                             "(already FAILED by another thread)", documentId);
+                }
             }
 
         } catch (Exception e) {
