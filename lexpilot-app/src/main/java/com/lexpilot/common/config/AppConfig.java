@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "lexpilot")
 public record AppConfig(
-        String apiKey,
+        TenantConfig tenant,
         EmbeddingServiceConfig embeddingService,
         LlmConfig llm,
         IngestionConfig ingestion,
@@ -12,6 +12,10 @@ public record AppConfig(
         RateLimitingConfig rateLimiting,
         ConversationConfig conversation
 ) {
+    public record TenantConfig(
+            boolean enabled,
+            String defaultTenantId
+    ) {}
     public record EmbeddingServiceConfig(String baseUrl) {}
 
     public record LlmConfig(

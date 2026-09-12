@@ -41,7 +41,7 @@ class ConversationServiceTest {
     void setUp() {
         // maxHistoryTurns = 3 for testing the windowing logic
         AppConfig appConfig = new AppConfig(
-                "test-key",
+                new AppConfig.TenantConfig(true, "00000000-0000-0000-0000-000000000000"),
                 new AppConfig.EmbeddingServiceConfig("http://localhost:8000"),
                 new AppConfig.LlmConfig("key", "http://llm", "test-model", 1024, 0.2, 30),
                 new AppConfig.IngestionConfig("topic", 500, 75, "./uploads", 20),

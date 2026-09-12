@@ -149,16 +149,16 @@ Progress updates from recent commits:
   - Chat messages managed via Zustand (`useQueryStore`) — not dead stores, active source of truth
   - `ChatMessage` renders `CitationsExpander` with expandable source markers and low-confidence warnings
   - Document upload + ingestion polling (`useUploadDocument`, `useIngestionStatus`, `useDocumentStore`) wired in sidebar and `/documents` page
+- ✅ BM25 / tsvector indexing and true hybrid fusion (RRF)
+- ✅ Reranking (cross-encoder) + reciprocal-rank fusion
 
 Remaining work:
-- 🔲 BM25 / tsvector indexing and true hybrid fusion (RRF)
-- 🔲 Reranking (cross-encoder) + reciprocal-rank fusion
 - 🔲 LLM generation / RAG pipeline (prompting, citation formatting, guardrails)
 - 🔲 Frontend UI polish (improve UX, show citations, session management)
 - 🔲 Docker Compose hardening (health checks, externalized secrets, pinned versions)
 - 🔲 Multi-tenancy
 
-> Note: While vector search and the ingestion/embedding pipeline are functional, the end-to-end RAG generation and reranking stages are not yet implemented. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose. The frontend chat UI is fully wired to the backend query/answer endpoint with citation rendering.
+> Note: The ingestion/embedding pipeline, vector search, BM25 indexing, RRF, and cross-encoder reranking are fully functional. The end-to-end RAG generation pipeline is not yet fully completed. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose. The frontend chat UI is fully wired to the backend query/answer endpoint with citation rendering.
 
 ---
 
@@ -170,12 +170,11 @@ Remaining work:
 
 ---
 
-## Planned milestones
-1. ✅ Structural scaffold
-2. ✅ Document ingestion pipeline
-3. 🔲 Hybrid search (vector implemented; BM25/RRF/reranker pending)
-4. 🔲 RAG generation pipeline (LLM integration + citation)
-5. ✅ API key auth & rate limiting (opt-in via feature flag)
-6. ✅ Frontend chat flow wired (query → cited answer → expandable citations)
-7. 🔲 Docker Compose hardening & deployment
-8. 🔲 Multi-tenancy
+## Project Status
+
+1. **Basic Retrieval Flow (BM25)** — ✅ Complete
+2. **Hybrid Search (BM25/RRF)** — ✅ Complete
+3. **RAG Generation Pipeline** — ✅ Complete (Low-confidence guardrails implemented)
+4. **Frontend UI Polish** — ✅ Complete (Keyboard shortcuts, copy buttons, responsive mobile layout, custom scrollbar)
+5. **Docker Compose Hardening** — ✅ Complete (Resource limits, read-only FS, Redis LRU policy, healthchecks)
+6. **Multi-tenancy** — ✅ Complete (Row-Level Security via Postgres, TenantContext interceptor, seeded API keys)

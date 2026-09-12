@@ -17,8 +17,22 @@ import {
   X,
   MessageSquarePlus,
   MessageSquare,
+  PanelLeftClose,
+  PanelLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+/** Format a timestamp to a human-readable relative time */
+function timeAgo(timestamp: number): string {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
 
 function FileStatusItem({ documentId, fileName }: { documentId: string; fileName: string }) {
   const { data } = useIngestionStatus(documentId);
@@ -59,7 +73,12 @@ function FileStatusItem({ documentId, fileName }: { documentId: string; fileName
   );
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onToggle?: () => void;
+}
+
+export function Sidebar({ isOpen = true, onToggle }: SidebarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const messages = useQueryStore((state) => state.messages);
@@ -108,180 +127,216 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-80 h-full bg-[#16161a] border-r border-gray-800 flex flex-col p-4 shrink-0">
-      {/* App Header */}
-      <div className="mb-4 px-2">
-        <h1 className="text-xl font-bold text-white flex items-center gap-2">
-          <span className="text-2xl">⚖️</span> LexPilot
-        </h1>
-        <p className="text-xs text-gray-400 mt-0.5">Legal Rights & Grievance Assistant</p>
-      </div>
+    <>
+      {/* Mobile overlay backdrop */}
+      {isOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-30 backdrop-blur-sm"
+          onClick={onToggle}
+        />
+      )}
 
-      {/* New Chat Action Button */}
-      <button
-        type="button"
-        onClick={startNewSession}
-        className="w-full mb-4 py-2.5 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm shadow-brand-500/20 active:scale-98 cursor-pointer"
-      >
-        <MessageSquarePlus className="w-4 h-4" /> New Conversation
-      </button>
-
-      <div className="flex-1 overflow-y-auto pr-1 space-y-6">
-        {/* Recent Chat Sessions Section */}
-        {sessions.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                Recent Chats
-              </h2>
-              <span className="text-[11px] text-gray-500 font-mono">
-                {sessions.length}
-              </span>
-            </div>
-            <div className="space-y-1">
-              {sessions.map((s) => {
-                const isActive = s.id === currentSessionId;
-                return (
-                  <div
-                    key={s.id}
-                    onClick={() => switchSession(s.id)}
-                    className={cn(
-                      "flex items-center justify-between gap-2 px-2.5 py-2 rounded-lg text-xs cursor-pointer transition-colors group",
-                      isActive
-                        ? "bg-brand-950/60 border border-brand-500/30 text-white font-medium"
-                        : "text-gray-300 hover:bg-gray-800/60 hover:text-white"
-                    )}
-                  >
-                    <div className="flex items-center gap-2 truncate min-w-0">
-                      <MessageSquare
-                        className={cn(
-                          "w-3.5 h-3.5 shrink-0",
-                          isActive ? "text-brand-400" : "text-gray-500"
-                        )}
-                      />
-                      <span className="truncate" title={s.title}>
-                        {s.title || "Conversation"}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteSession(s.id);
-                      }}
-                      className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-gray-700/60 text-gray-400 hover:text-red-400 transition-all"
-                      title="Delete conversation"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+      <aside
+        className={cn(
+          "h-full bg-[#16161a] border-r border-gray-800 flex flex-col p-4 shrink-0 z-40 transition-all duration-300 ease-in-out",
+          // Mobile: overlay sidebar
+          "fixed md:relative",
+          isOpen
+            ? "w-80 translate-x-0"
+            : "w-80 -translate-x-full md:w-0 md:p-0 md:border-0 md:overflow-hidden"
         )}
-
-        {/* Documents Management Section */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-              📁 Attached Documents
-            </h2>
-            <span className="text-[11px] text-gray-400 bg-surface-dark px-2 py-0.5 rounded border border-gray-800">
-              {activeCount}/{MAX_DOCUMENTS}
-            </span>
+      >
+        {/* App Header */}
+        <div className="mb-4 px-2 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+              <span className="text-2xl">⚖️</span> LexPilot
+            </h1>
+            <p className="text-xs text-gray-400 mt-0.5">Legal Rights & Grievance Assistant</p>
           </div>
-
-          <div className="space-y-3">
-            <div
-              className={cn(
-                "border-2 border-dashed rounded-xl p-3.5 text-center transition-colors",
-                isMaxReached
-                  ? "border-gray-800 bg-gray-900/40 opacity-60 cursor-not-allowed"
-                  : "border-gray-700 cursor-pointer hover:border-brand-500 hover:bg-surface-dark"
-              )}
-              onClick={() => {
-                if (!isMaxReached) fileInputRef.current?.click();
-              }}
+          {onToggle && (
+            <button
+              type="button"
+              onClick={onToggle}
+              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+              title="Collapse sidebar"
             >
-              <Upload className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
-              <p className="text-xs text-gray-300">
-                {isMaxReached
-                  ? "Max 5 documents reached"
-                  : selectedFiles.length > 0
-                  ? `${selectedFiles.length} file(s) selected`
-                  : "Click to select PDF"}
-              </p>
-            </div>
-            <input
-              type="file"
-              accept=".pdf,application/pdf"
-              multiple
-              className="hidden"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              disabled={isMaxReached}
-            />
-
-            {error && <p className="text-xs text-red-400">{error}</p>}
-
-            {selectedFiles.length > 0 && (
-              <button
-                onClick={handleProcess}
-                disabled={uploadDoc.isPending}
-                className="w-full py-2 rounded-lg text-xs font-medium bg-brand-600 text-white hover:bg-brand-500 transition-all flex items-center justify-center gap-2"
-              >
-                {uploadDoc.isPending ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading...
-                  </>
-                ) : (
-                  `Upload ${selectedFiles.length} Document(s)`
-                )}
-              </button>
-            )}
-          </div>
-
-          {documents.length > 0 && (
-            <div className="mt-3 space-y-1.5">
-              {documents.map((u) => (
-                <FileStatusItem
-                  key={u.documentId}
-                  documentId={u.documentId}
-                  fileName={u.filename}
-                />
-              ))}
-            </div>
+              <PanelLeftClose className="w-4 h-4" />
+            </button>
           )}
-        </section>
+        </div>
 
-        {/* About Section */}
-        <section className="bg-surface-dark p-3.5 rounded-xl border border-gray-800 text-xs">
-          <div className="flex items-center gap-2 mb-1.5 text-brand-400 font-medium">
-            <Info className="w-3.5 h-3.5" /> About LexPilot
-          </div>
-          <p className="text-gray-400 leading-relaxed text-[11px]">
-            Grounded legal rights assistant for Indian consumer, banking, and tenancy grievances with verifiable source citations.
-          </p>
-        </section>
-      </div>
-
-      {/* Clear Chat Footer */}
-      <div className="pt-3 border-t border-gray-800 mt-auto">
+        {/* New Chat Action Button */}
         <button
           type="button"
-          onClick={clearMessages}
-          disabled={messages.length === 0}
-          className={cn(
-            "w-full py-2 bg-surface-dark text-gray-300 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-2",
-            messages.length === 0
-              ? "opacity-50 cursor-not-allowed text-gray-500"
-              : "hover:bg-gray-800 hover:text-red-400 active:scale-95 cursor-pointer"
-          )}
+          onClick={startNewSession}
+          className="w-full mb-4 py-2.5 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm shadow-brand-500/20 active:scale-98 cursor-pointer"
         >
-          <Trash2 className="w-3.5 h-3.5" /> Clear Current Chat
+          <MessageSquarePlus className="w-4 h-4" /> New Conversation
         </button>
-      </div>
-    </aside>
+
+        <div className="flex-1 overflow-y-auto pr-1 space-y-6">
+          {/* Recent Chat Sessions Section */}
+          {sessions.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Recent Chats
+                </h2>
+                <span className="text-[11px] text-gray-500 font-mono">
+                  {sessions.length}
+                </span>
+              </div>
+              <div className="space-y-1">
+                {sessions.map((s) => {
+                  const isActive = s.id === currentSessionId;
+                  return (
+                    <div
+                      key={s.id}
+                      onClick={() => switchSession(s.id)}
+                      className={cn(
+                        "flex items-center justify-between gap-2 px-2.5 py-2 rounded-lg text-xs cursor-pointer transition-colors group",
+                        isActive
+                          ? "bg-brand-950/60 border border-brand-500/30 text-white font-medium"
+                          : "text-gray-300 hover:bg-gray-800/60 hover:text-white"
+                      )}
+                    >
+                      <div className="flex items-center gap-2 truncate min-w-0">
+                        <MessageSquare
+                          className={cn(
+                            "w-3.5 h-3.5 shrink-0",
+                            isActive ? "text-brand-400" : "text-gray-500"
+                          )}
+                        />
+                        <div className="truncate min-w-0">
+                          <span className="block truncate" title={s.title}>
+                            {s.title || "Conversation"}
+                          </span>
+                          <span className="text-[10px] text-gray-500 font-normal">
+                            {timeAgo(s.updatedAt)}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteSession(s.id);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-gray-700/60 text-gray-400 hover:text-red-400 transition-all"
+                        title="Delete conversation"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* Documents Management Section */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                📁 Attached Documents
+              </h2>
+              <span className="text-[11px] text-gray-400 bg-surface-dark px-2 py-0.5 rounded border border-gray-800">
+                {activeCount}/{MAX_DOCUMENTS}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <div
+                className={cn(
+                  "border-2 border-dashed rounded-xl p-3.5 text-center transition-colors",
+                  isMaxReached
+                    ? "border-gray-800 bg-gray-900/40 opacity-60 cursor-not-allowed"
+                    : "border-gray-700 cursor-pointer hover:border-brand-500 hover:bg-surface-dark"
+                )}
+                onClick={() => {
+                  if (!isMaxReached) fileInputRef.current?.click();
+                }}
+              >
+                <Upload className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
+                <p className="text-xs text-gray-300">
+                  {isMaxReached
+                    ? "Max 5 documents reached"
+                    : selectedFiles.length > 0
+                    ? `${selectedFiles.length} file(s) selected`
+                    : "Click to select PDF"}
+                </p>
+              </div>
+              <input
+                type="file"
+                accept=".pdf,application/pdf"
+                multiple
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                disabled={isMaxReached}
+              />
+
+              {error && <p className="text-xs text-red-400">{error}</p>}
+
+              {selectedFiles.length > 0 && (
+                <button
+                  onClick={handleProcess}
+                  disabled={uploadDoc.isPending}
+                  className="w-full py-2 rounded-lg text-xs font-medium bg-brand-600 text-white hover:bg-brand-500 transition-all flex items-center justify-center gap-2"
+                >
+                  {uploadDoc.isPending ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading...
+                    </>
+                  ) : (
+                    `Upload ${selectedFiles.length} Document(s)`
+                  )}
+                </button>
+              )}
+            </div>
+
+            {documents.length > 0 && (
+              <div className="mt-3 space-y-1.5">
+                {documents.map((u) => (
+                  <FileStatusItem
+                    key={u.documentId}
+                    documentId={u.documentId}
+                    fileName={u.filename}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* About Section */}
+          <section className="bg-surface-dark p-3.5 rounded-xl border border-gray-800 text-xs">
+            <div className="flex items-center gap-2 mb-1.5 text-brand-400 font-medium">
+              <Info className="w-3.5 h-3.5" /> About LexPilot
+            </div>
+            <p className="text-gray-400 leading-relaxed text-[11px]">
+              Grounded legal rights assistant for Indian consumer, banking, and tenancy grievances with verifiable source citations.
+            </p>
+          </section>
+        </div>
+
+        {/* Clear Chat Footer */}
+        <div className="pt-3 border-t border-gray-800 mt-auto">
+          <button
+            type="button"
+            onClick={clearMessages}
+            disabled={messages.length === 0}
+            className={cn(
+              "w-full py-2 bg-surface-dark text-gray-300 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-2",
+              messages.length === 0
+                ? "opacity-50 cursor-not-allowed text-gray-500"
+                : "hover:bg-gray-800 hover:text-red-400 active:scale-95 cursor-pointer"
+            )}
+          >
+            <Trash2 className="w-3.5 h-3.5" /> Clear Current Chat
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

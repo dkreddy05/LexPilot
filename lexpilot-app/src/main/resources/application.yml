@@ -103,7 +103,9 @@ server:
 # LexPilot custom configuration namespace
 # ---------------------------------------------------------------------------
 lexpilot:
-  api-key: ${LEXPILOT_API_KEY:dev-api-key-change-me}
+  tenant:
+    enabled: true
+    default-tenant-id: 00000000-0000-0000-0000-000000000000
 
   embedding-service:
     base-url: ${LEXPILOT_EMBEDDING_SERVICE_URL:http://localhost:8000}
@@ -139,3 +141,28 @@ lexpilot:
 
   conversation:
     max-history-turns: 10  # Number of prior user+assistant turn pairs threaded into the LLM prompt
+
+  cors:
+    allowed-origins: ${LEXPILOT_CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+# ---------------------------------------------------------------------------
+# Production Profile (spring.profiles.active=prod)
+# ---------------------------------------------------------------------------
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 20000
+
+logging:
+  level:
+    root: INFO
+    com.lexpilot: INFO
+  pattern:
+    console: '{"timestamp":"%d{yyyy-MM-dd''T''HH:mm:ss.SSSZ}","level":"%p","thread":"%t","logger":"%logger{36}","message":"%m"}%n'

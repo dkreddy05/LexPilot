@@ -43,6 +43,27 @@ class SecurityConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private com.lexpilot.gateway.security.repository.ApiKeyRepository apiKeyRepository;
+
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() throws Exception {
+        java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(VALID_API_KEY.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        String hashedKey = java.util.Base64.getEncoder().encodeToString(hashBytes);
+        
+        com.lexpilot.gateway.security.entity.ApiKeyEntity mockKey = 
+            new com.lexpilot.gateway.security.entity.ApiKeyEntity(
+                java.util.UUID.randomUUID(), 
+                hashedKey, 
+                java.util.UUID.randomUUID(), 
+                "Test Key"
+            );
+        
+        org.mockito.Mockito.when(apiKeyRepository.findByKeyHash(hashedKey))
+                .thenReturn(java.util.Optional.of(mockKey));
+    }
+
     // -------------------------------------------------------------------------
     // API Key Authentication
     // -------------------------------------------------------------------------

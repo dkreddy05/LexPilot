@@ -1,10 +1,13 @@
 package com.lexpilot.gateway.security;
 
-import com.lexpilot.common.config.AppConfig;
+import com.lexpilot.common.tenant.TenantContext;
+import com.lexpilot.gateway.security.entity.ApiKeyEntity;
+import com.lexpilot.gateway.security.repository.ApiKeyRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,22 +15,24 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @ConditionalOnProperty(name = "lexpilot.security.enabled", havingValue = "true", matchIfMissing = false)
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     private static final String API_KEY_HEADER = "X-Api-Key";
-    private final AppConfig appConfig;
+    private final ApiKeyRepository apiKeyRepository;
 
-    public ApiKeyAuthFilter(AppConfig appConfig) {
-        this.appConfig = appConfig;
+    public ApiKeyAuthFilter(ApiKeyRepository apiKeyRepository) {
+        this.apiKeyRepository = apiKeyRepository;
     }
 
     @Override
@@ -41,21 +46,38 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        String expectedKey = appConfig.apiKey();
-        if (expectedKey == null || expectedKey.isBlank() || !isEqualConstantTime(apiKey, expectedKey)) {
+        String hash = hashKey(apiKey);
+        Optional<ApiKeyEntity> apiKeyEntityOpt = apiKeyRepository.findByKeyHash(hash);
+
+        if (apiKeyEntityOpt.isEmpty()) {
             sendUnauthorized(response, "Invalid API key.");
             return;
         }
 
-        // Valid key — set authentication context
-        var auth = new UsernamePasswordAuthenticationToken(
-                "api-key-principal",
-                null,
-                List.of(new SimpleGrantedAuthority("ROLE_API_USER"))
-        );
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        ApiKeyEntity apiKeyEntity = apiKeyEntityOpt.get();
 
-        filterChain.doFilter(request, response);
+        if (apiKeyEntity.isRevoked()) {
+            sendUnauthorized(response, "API key has been revoked.");
+            return;
+        }
+
+        // Set multi-tenancy context
+        TenantContext.setTenantId(apiKeyEntity.getTenantId());
+
+        try {
+            // Set authentication context
+            var auth = new UsernamePasswordAuthenticationToken(
+                    "api-key-principal",
+                    null,
+                    List.of(new SimpleGrantedAuthority("ROLE_API_USER"))
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            filterChain.doFilter(request, response);
+        } finally {
+            // Always clean up tenant context to prevent leakages across thread pools
+            TenantContext.clear();
+        }
     }
 
     @Override
@@ -70,10 +92,13 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"" + message + "\"}");
     }
 
-    private boolean isEqualConstantTime(String a, String b) {
-        byte[] aBytes = a.getBytes(StandardCharsets.UTF_8);
-        byte[] bBytes = b.getBytes(StandardCharsets.UTF_8);
-        return MessageDigest.isEqual(aBytes, bBytes);
+    private String hashKey(String plainTextKey) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(plainTextKey.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hashBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
+        }
     }
 }
-

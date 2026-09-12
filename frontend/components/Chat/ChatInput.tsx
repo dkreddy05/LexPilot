@@ -52,6 +52,8 @@ function DocumentChip({ documentId, filename }: { documentId: string; filename: 
   );
 }
 
+const MAX_QUERY_LENGTH = 2000;
+
 export function ChatInput({ onSend, disabled }: Props) {
   const [text, setText] = useState("");
   const [isDragging, setIsDragging] = useState(false);
@@ -125,11 +127,15 @@ export function ChatInput({ onSend, disabled }: Props) {
   };
 
   const handleSubmit = () => {
-    if (text.trim() && !disabled) {
+    if (text.trim() && !disabled && text.length <= MAX_QUERY_LENGTH) {
       onSend(text.trim());
       setText("");
     }
   };
+
+  const charCount = text.length;
+  const isOverLimit = charCount > MAX_QUERY_LENGTH;
+  const showCharCount = charCount > MAX_QUERY_LENGTH * 0.7;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -233,6 +239,7 @@ export function ChatInput({ onSend, disabled }: Props) {
           disabled={disabled}
           className="w-full bg-transparent text-white placeholder-gray-500 resize-none outline-none py-1.5 px-2 text-sm max-h-[120px] overflow-y-auto"
           rows={1}
+          maxLength={MAX_QUERY_LENGTH + 50}
         />
 
         {/* Send Button */}
@@ -250,6 +257,24 @@ export function ChatInput({ onSend, disabled }: Props) {
         >
           {disabled ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
         </button>
+      </div>
+
+      {/* Footer hints */}
+      <div className="flex items-center justify-between px-1">
+        <span className="text-[11px] text-gray-600">
+          <kbd className="px-1 py-0.5 bg-gray-800/60 rounded text-gray-500 font-mono text-[10px]">⏎</kbd>
+          {" "}to send{" · "}
+          <kbd className="px-1 py-0.5 bg-gray-800/60 rounded text-gray-500 font-mono text-[10px]">⇧⏎</kbd>
+          {" "}new line
+        </span>
+        {showCharCount && (
+          <span className={cn(
+            "text-[11px] font-mono tabular-nums transition-colors",
+            isOverLimit ? "text-red-400" : "text-gray-500"
+          )}>
+            {charCount}/{MAX_QUERY_LENGTH}
+          </span>
+        )}
       </div>
     </div>
   );

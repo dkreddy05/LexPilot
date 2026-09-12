@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useCallback, useState } from "react";
-import { User, Bot, Loader2, AlertCircle } from "lucide-react";
+import { User, Bot, Loader2, AlertCircle, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/lib/stores/useQueryStore";
 import { CitationsExpander } from "./CitationsExpander";
@@ -35,24 +35,55 @@ function parseAnswerWithMarkers(text: string): (string | number)[] {
 }
 
 /**
- * Formats prose text with basic Markdown features:
+ * Formats prose text with Markdown features:
  * - Bold: **term**
  * - Inline code: `section 35`
  * - Bullets: - item or * item
+ * - Numbered lists: 1. item
+ * - Headings: ### heading
  */
 function FormattedProse({ text }: { text: string }) {
-  // If text contains newlines, render structured blocks
   const lines = text.split("\n");
 
   return (
     <>
       {lines.map((line, lIdx) => {
         const trimmed = line.trim();
-        const isBullet = trimmed.startsWith("- ") || trimmed.startsWith("* ");
-        const content = isBullet ? trimmed.slice(2) : line;
 
-        // Split on bold (**...**) and inline code (`...`)
-        const segments = content.split(/(\*\*.*?\*\*|`.*?`)/g);
+        // Heading detection (### heading, ## heading, # heading)
+        const headingMatch = trimmed.match(/^(#{1,3})\s+(.+)$/);
+        if (headingMatch) {
+          const level = headingMatch[1].length;
+          const headingText = headingMatch[2];
+          const HeadingTag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
+          const headingClasses =
+            level === 1
+              ? "text-base font-bold text-white mt-3 mb-1.5"
+              : level === 2
+              ? "text-sm font-semibold text-white mt-2 mb-1"
+              : "text-sm font-medium text-gray-200 mt-1.5 mb-0.5";
+          return (
+            <HeadingTag key={lIdx} className={cn("block", headingClasses)}>
+              <InlineFormatted text={headingText} />
+            </HeadingTag>
+          );
+        }
+
+        const isBullet = trimmed.startsWith("- ") || trimmed.startsWith("* ");
+        const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
+
+        if (numberedMatch) {
+          return (
+            <span key={lIdx} className="block pl-5 relative my-1 text-gray-200">
+              <span className="absolute left-0 text-brand-400 font-semibold text-xs tabular-nums">
+                {numberedMatch[1]}.
+              </span>
+              <InlineFormatted text={numberedMatch[2]} />
+            </span>
+          );
+        }
+
+        const content = isBullet ? trimmed.slice(2) : line;
 
         return (
           <span
@@ -63,28 +94,38 @@ function FormattedProse({ text }: { text: string }) {
             )}
           >
             {isBullet && <span className="absolute left-1 text-brand-400 font-bold">•</span>}
-            {segments.map((seg, sIdx) => {
-              if (seg.startsWith("**") && seg.endsWith("**") && seg.length >= 4) {
-                return (
-                  <strong key={sIdx} className="font-semibold text-white">
-                    {seg.slice(2, -2)}
-                  </strong>
-                );
-              }
-              if (seg.startsWith("`") && seg.endsWith("`") && seg.length >= 2) {
-                return (
-                  <code
-                    key={sIdx}
-                    className="px-1 py-0.5 rounded bg-gray-800 text-brand-300 font-mono text-[11px]"
-                  >
-                    {seg.slice(1, -1)}
-                  </code>
-                );
-              }
-              return <span key={sIdx}>{seg}</span>;
-            })}
+            <InlineFormatted text={content} />
           </span>
         );
+      })}
+    </>
+  );
+}
+
+/** Inline formatting: bold, code */
+function InlineFormatted({ text }: { text: string }) {
+  const segments = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+  return (
+    <>
+      {segments.map((seg, sIdx) => {
+        if (seg.startsWith("**") && seg.endsWith("**") && seg.length >= 4) {
+          return (
+            <strong key={sIdx} className="font-semibold text-white">
+              {seg.slice(2, -2)}
+            </strong>
+          );
+        }
+        if (seg.startsWith("`") && seg.endsWith("`") && seg.length >= 2) {
+          return (
+            <code
+              key={sIdx}
+              className="px-1 py-0.5 rounded bg-gray-800 text-brand-300 font-mono text-[11px]"
+            >
+              {seg.slice(1, -1)}
+            </code>
+          );
+        }
+        return <span key={sIdx}>{seg}</span>;
       })}
     </>
   );
@@ -110,6 +151,37 @@ function ThinkingIndicator() {
       </div>
       <span className="text-sm text-gray-400 ml-1.5">Thinking…</span>
     </div>
+  );
+}
+
+/** Copy-to-clipboard button */
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback — ignore
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className={cn(
+        "opacity-0 group-hover/msg:opacity-100 absolute top-3 right-3 p-1.5 rounded-lg transition-all duration-200",
+        copied
+          ? "bg-emerald-500/20 text-emerald-400"
+          : "bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-700"
+      )}
+      title={copied ? "Copied!" : "Copy answer"}
+    >
+      {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+    </button>
   );
 }
 
@@ -146,7 +218,7 @@ export function ChatMessage({ message }: { message: Message }) {
     >
       <div
         className={cn(
-          "flex max-w-[80%] gap-4 p-5 rounded-2xl shadow-sm",
+          "group/msg relative flex max-w-[80%] gap-4 p-5 rounded-2xl shadow-sm",
           isUser
             ? "bg-brand-600 text-white rounded-br-sm"
             : isError
@@ -228,6 +300,11 @@ export function ChatMessage({ message }: { message: Message }) {
             />
           )}
         </div>
+
+        {/* Copy button for assistant messages */}
+        {!isUser && !isThinking && !isError && (
+          <CopyButton text={message.content} />
+        )}
 
         {isUser && (
           <div className="shrink-0 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
