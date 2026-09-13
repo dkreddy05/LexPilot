@@ -24,6 +24,7 @@ export default function Home() {
   const updateMessage = useQueryStore((state) => state.updateMessage);
   const sessionId = useQueryStore((state) => state.sessionId);
   const setSessionId = useQueryStore((state) => state.setSessionId);
+  const replaceSessionId = useQueryStore((state) => state.replaceSessionId);
   const setDocuments = useDocumentStore((state) => state.setDocuments);
   const { mutate, isPending } = useQueryDocuments();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,6 +52,9 @@ export default function Home() {
     }
   }, []);
 
+  // Auto-scroll
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -59,6 +63,7 @@ export default function Home() {
 
   const handleSend = (text: string) => {
     const userMsgId = Date.now().toString();
+    const activeSessionId = sessionId ?? userMsgId;
     appendMessage({ id: userMsgId, role: "user", content: text });
 
     const aiMsgId = (Date.now() + 1).toString();
@@ -74,8 +79,8 @@ export default function Home() {
       {
         onSuccess: (data) => {
           // Persist the session ID returned by the backend
-          if (data.sessionId) {
-            setSessionId(data.sessionId);
+          if (data.sessionId && data.sessionId !== activeSessionId) {
+            replaceSessionId(activeSessionId, data.sessionId);
           }
           updateMessage(aiMsgId, {
             content: data.answer,

@@ -16,5 +16,9 @@ public interface LlmApiClient {
      * @param messages ordered list of prompt messages (system first, then user)
      * @return the LLM's generated response
      */
-    LlmResponse complete(List<PromptMessage> messages);
+    default LlmResponse complete(List<PromptMessage> messages) {
+        return complete(messages, false);
+    }
+    
+    LlmResponse complete(List<PromptMessage> messages, boolean useFastModel);
 }

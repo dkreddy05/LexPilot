@@ -21,7 +21,8 @@ public record AppConfig(
     public record LlmConfig(
             String apiKey,
             String baseUrl,
-            String model,
+            String defaultModel,
+            String fastModel,
             int maxTokens,
             double temperature,
             int timeoutSeconds

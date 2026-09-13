@@ -114,7 +114,8 @@ lexpilot:
   llm:
     api-key: ${LLM_API_KEY:}
     base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
-    model: gpt-4o-mini  # TODO: make configurable per request type
+    default-model: gpt-4o
+    fast-model: gpt-4o-mini
     max-tokens: 1024
     temperature: 0.2
     timeout-seconds: 30

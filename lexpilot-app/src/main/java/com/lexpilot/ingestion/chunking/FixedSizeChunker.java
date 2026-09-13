@@ -14,6 +14,7 @@ import java.util.List;
  * staying close enough for embedding model inputs.
  */
 @Component("fixedSizeChunker")
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name = "lexpilot.chunking.strategy", havingValue = "fixed-size", matchIfMissing = true)
 public class FixedSizeChunker implements ChunkingStrategy<String> {
 
     /**

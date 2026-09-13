@@ -40,9 +40,10 @@ public class OpenAiLlmClient implements LlmApiClient {
     }
 
     @Override
-    public LlmResponse complete(List<PromptMessage> messages) {
+    public LlmResponse complete(List<PromptMessage> messages, boolean useFastModel) {
+        String model = useFastModel ? llmConfig.fastModel() : llmConfig.defaultModel();
         log.debug("Calling LLM ({}) with {} message(s), maxTokens={}",
-                llmConfig.model(), messages.size(), llmConfig.maxTokens());
+                model, messages.size(), llmConfig.maxTokens());
 
         List<Map<String, String>> messagePayload = messages.stream()
                 .map(m -> Map.of(
@@ -51,7 +52,7 @@ public class OpenAiLlmClient implements LlmApiClient {
                 .toList();
 
         Map<String, Object> requestBody = Map.of(
-                "model", llmConfig.model(),
+                "model", model,
                 "messages", messagePayload,
                 "max_tokens", llmConfig.maxTokens(),
                 "temperature", llmConfig.temperature()

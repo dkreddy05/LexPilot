@@ -27,6 +27,7 @@ interface QueryState {
   appendMessage: (msg: Message) => void;
   updateMessage: (id: string, partial: Partial<Message>) => void;
   setSessionId: (sessionId: string | null) => void;
+  replaceSessionId: (oldId: string | null, newId: string) => void;
   clearMessages: () => void;
 
   startNewSession: () => void;
@@ -139,15 +140,21 @@ export const useQueryStore = create<QueryState>((set, get) => ({
     set((state) => {
       if (!sessionId) return { sessionId: null };
 
-      // If switching to this session ID, update session list as well
+      return { sessionId };
+    });
+  },
+
+  replaceSessionId: (oldId, newId) => {
+    set((state) => {
+      if (!oldId || !newId) return {};
       const updatedSessions = state.sessions.map((s) =>
-        s.id === state.sessionId ? { ...s, id: sessionId } : s
+        s.id === oldId ? { ...s, id: newId } : s
       );
       saveSessions(updatedSessions);
 
       return {
-        sessionId,
         sessions: updatedSessions,
+        sessionId: state.sessionId === oldId ? newId : state.sessionId,
       };
     });
   },

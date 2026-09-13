@@ -61,7 +61,7 @@ public class DocumentUploadService {
             DocumentRepository documentRepository,
             DocumentChunkRepository chunkRepository,
             TikaExtractionService tikaExtractionService,
-            @Qualifier("fixedSizeChunker") ChunkingStrategy<String> chunker,
+            ChunkingStrategy<String> chunker,
             IngestionKafkaProducer kafkaProducer,
             AppConfig appConfig) {
         this.documentRepository = documentRepository;
