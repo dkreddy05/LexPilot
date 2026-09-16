@@ -8,8 +8,10 @@ import com.lexpilot.conversation.service.ConversationService;
 import com.lexpilot.generation.dto.GeneratedAnswer;
 import com.lexpilot.generation.prompt.PromptMessage;
 import com.lexpilot.generation.service.GenerationService;
+import com.lexpilot.common.audit.AuditService;
 import com.lexpilot.retrieval.dto.ScoredChunk;
 import com.lexpilot.retrieval.service.HybridSearchService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +30,18 @@ public class QueryController {
     private final GenerationService generationService;
     private final ConversationService conversationService;
     private final AppConfig appConfig;
+    private final AuditService auditService;
 
     public QueryController(HybridSearchService hybridSearchService,
                            GenerationService generationService,
                            ConversationService conversationService,
-                           AppConfig appConfig) {
+                           AppConfig appConfig,
+                           AuditService auditService) {
         this.hybridSearchService = hybridSearchService;
         this.generationService = generationService;
         this.conversationService = conversationService;
         this.appConfig = appConfig;
+        this.auditService = auditService;
     }
 
     /**
@@ -70,7 +75,8 @@ public class QueryController {
      * → return structured answer with sessionId.
      */
     @PostMapping("/query/answer")
-    public ResponseEntity<QueryResponse> queryWithAnswer(@Valid @RequestBody QueryRequest request) {
+    public ResponseEntity<QueryResponse> queryWithAnswer(@Valid @RequestBody QueryRequest request,
+                                                         HttpServletRequest httpRequest) {
         int topK = appConfig.retrieval().vectorTopK();
 
         // 1. Resolve or create the conversation session
@@ -90,6 +96,9 @@ public class QueryController {
 
         // 6. Persist the assistant's response
         conversationService.appendAssistantMessage(conversationId, generated.answer());
+
+        // 6.5 Log the audit event asynchronously
+        auditService.logQuery(request.query(), chunks, generated, httpRequest.getRemoteAddr());
 
         // 7. Map to API response
         List<QueryResponse.CitationDto> citationDtos = generated.citations().stream()

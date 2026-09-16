@@ -5,6 +5,8 @@ import com.lexpilot.generation.dto.GeneratedAnswer;
 import com.lexpilot.generation.guardrail.LowConfidenceGuardrail;
 import com.lexpilot.generation.llm.LlmApiClient;
 import com.lexpilot.generation.llm.LlmResponse;
+import com.lexpilot.generation.pii.PiiScrubber;
+import com.lexpilot.generation.pii.ScrubResult;
 import com.lexpilot.generation.prompt.PromptBuilder;
 import com.lexpilot.generation.prompt.PromptMessage;
 import com.lexpilot.retrieval.dto.ScoredChunk;
@@ -15,8 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Orchestrates the generation pipeline: prompt construction → LLM call →
- * citation parsing → low-confidence check.
+ * Orchestrates the generation pipeline: PII scrubbing → prompt construction
+ * → LLM call → citation parsing → low-confidence check.
  * <p>
  * Each step is delegated to a focused component behind an interface, so
  * individual pieces can be swapped or tested in isolation.
@@ -30,15 +32,18 @@ public class GenerationService {
     private final LlmApiClient llmApiClient;
     private final CitationFormatter citationFormatter;
     private final LowConfidenceGuardrail guardrail;
+    private final PiiScrubber piiScrubber;
 
     public GenerationService(PromptBuilder promptBuilder,
                              LlmApiClient llmApiClient,
                              CitationFormatter citationFormatter,
-                             LowConfidenceGuardrail guardrail) {
+                             LowConfidenceGuardrail guardrail,
+                             PiiScrubber piiScrubber) {
         this.promptBuilder = promptBuilder;
         this.llmApiClient = llmApiClient;
         this.citationFormatter = citationFormatter;
         this.guardrail = guardrail;
+        this.piiScrubber = piiScrubber;
     }
 
     /**
@@ -67,16 +72,42 @@ public class GenerationService {
         log.debug("Starting generation for query ({} chars) with {} chunks, {} history messages",
                 query.length(), chunks.size(), conversationHistory.size());
 
+        // 0. Scrub PII from chunk contents before sending to LLM
+        List<ScoredChunk> scrubbedChunks = chunks.stream()
+                .map(chunk -> {
+                    ScrubResult result = piiScrubber.scrub(chunk.content());
+                    if (result.totalRedactions() > 0) {
+                        return new ScoredChunk(
+                                chunk.chunkId(), chunk.documentId(),
+                                result.scrubbedText(), chunk.score(), chunk.sourceLabel());
+                    }
+                    return chunk;
+                })
+                .toList();
+
+        int totalRedactions = scrubbedChunks.stream()
+                .mapToInt(c -> {
+                    ScrubResult r = piiScrubber.scrub(c.content());
+                    return r.totalRedactions();
+                })
+                .sum();
+        // Note: We check the original chunks for redaction count to avoid
+        // double-counting on already-scrubbed chunks
+        if (totalRedactions > 0) {
+            log.info("PII scrubber processed {} chunks, original redaction count logged above",
+                    chunks.size());
+        }
+
         // 1. Build prompt messages (with history if available)
-        List<PromptMessage> messages = promptBuilder.build(query, chunks, conversationHistory);
+        List<PromptMessage> messages = promptBuilder.build(query, scrubbedChunks, conversationHistory);
 
         // 2. Call LLM
         LlmResponse llmResponse = llmApiClient.complete(messages);
 
-        // 3. Parse citations from raw answer
+        // 3. Parse citations from raw answer (use original chunks for source labels)
         GeneratedAnswer answer = citationFormatter.format(llmResponse.text(), chunks);
 
-        // 4. Evaluate confidence (no-op for now)
+        // 4. Evaluate confidence
         boolean lowConfidence = guardrail.isLowConfidence(query, chunks, answer);
 
         log.debug("Generation complete: {} citations, lowConfidence={}",

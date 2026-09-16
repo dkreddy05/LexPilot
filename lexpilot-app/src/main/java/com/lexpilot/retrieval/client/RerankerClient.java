@@ -2,6 +2,7 @@ package com.lexpilot.retrieval.client;
 
 import com.lexpilot.common.config.AppConfig;
 import com.lexpilot.retrieval.dto.ScoredChunk;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -15,6 +16,9 @@ import java.util.List;
 /**
  * Client for the embedding-service {@code POST /rerank} endpoint.
  * Uses a cross-encoder model to compute deep query-passage cross-attention scores.
+ * <p>
+ * Protected by a circuit breaker sharing the 'embedding-service' instance.
+ * Falls back to returning chunks in their pre-reranked (RRF) order on failure.
  */
 @Component
 public class RerankerClient {
@@ -40,6 +44,7 @@ public class RerankerClient {
      * @param topN       number of top candidates to keep
      * @return reranked chunks with updated cross-encoder scores
      */
+    @CircuitBreaker(name = "embedding-service")
     public List<ScoredChunk> rerank(String query, List<ScoredChunk> candidates, int topN) {
         if (candidates == null || candidates.isEmpty()) {
             return Collections.emptyList();
@@ -93,6 +98,7 @@ public class RerankerClient {
     /**
      * String-based overload for backward compatibility.
      */
+    @CircuitBreaker(name = "embedding-service")
     public List<String> rerank(String query, List<String> chunkIds, List<String> chunkTexts) {
         if (chunkIds == null || chunkIds.isEmpty()) return Collections.emptyList();
 

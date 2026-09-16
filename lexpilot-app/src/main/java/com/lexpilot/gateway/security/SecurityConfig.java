@@ -18,11 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final ApiKeyAuthFilter apiKeyAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
     private final RateLimitingFilter rateLimitingFilter;
 
     public SecurityConfig(ApiKeyAuthFilter apiKeyAuthFilter,
+                          JwtAuthFilter jwtAuthFilter,
                           @Autowired(required = false) RateLimitingFilter rateLimitingFilter) {
         this.apiKeyAuthFilter = apiKeyAuthFilter;
+        this.jwtAuthFilter = jwtAuthFilter;
         this.rateLimitingFilter = rateLimitingFilter;
     }
 
@@ -34,7 +37,7 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/actuator/health", "/actuator/info", "/", "/error").permitAll()
+                .requestMatchers("/actuator/health", "/actuator/info", "/actuator/prometheus", "/", "/error", "/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
             );
 
@@ -42,6 +45,11 @@ public class SecurityConfig {
         if (rateLimitingFilter != null) {
             http.addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class);
         }
+        
+        // Check JWT Bearer token first
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        
+        // Fallback to API Key auth if no JWT is present
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

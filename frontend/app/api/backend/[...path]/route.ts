@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const BACKEND_BASE_URL =
   process.env.INTERNAL_API_URL ??
@@ -24,7 +25,18 @@ async function proxyRequest(
     headers["content-type"] = contentType;
   }
 
-  // Inject backend master API key server-side
+  // Extract NextAuth JWT and forward as Bearer token
+  const token = await getToken({ req: request, raw: true });
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  } else {
+    const authHeader = request.headers.get("authorization");
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    }
+  }
+
+  // Inject backend master API key server-side (fallback for system integrations)
   if (API_KEY) {
     headers["X-Api-Key"] = API_KEY;
   }

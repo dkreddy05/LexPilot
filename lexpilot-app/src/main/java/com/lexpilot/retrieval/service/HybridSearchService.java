@@ -1,6 +1,7 @@
 package com.lexpilot.retrieval.service;
 
 import com.lexpilot.common.config.AppConfig;
+import com.lexpilot.common.observability.MetricsService;
 import com.lexpilot.ingestion.service.EmbeddingServiceClient;
 import com.lexpilot.retrieval.client.RerankerClient;
 import com.lexpilot.retrieval.dto.ScoredChunk;
@@ -37,6 +38,7 @@ public class HybridSearchService {
     private final EmbeddingServiceClient embeddingClient;
     private final JdbcTemplate jdbcTemplate;
     private final AppConfig appConfig;
+    private final MetricsService metricsService;
 
     public HybridSearchService(VectorSearchRepository vectorSearchRepository,
                                BM25SearchRepository bm25SearchRepository,
@@ -44,7 +46,8 @@ public class HybridSearchService {
                                RerankerClient rerankerClient,
                                EmbeddingServiceClient embeddingClient,
                                JdbcTemplate jdbcTemplate,
-                               AppConfig appConfig) {
+                               AppConfig appConfig,
+                               MetricsService metricsService) {
         this.vectorSearchRepository = vectorSearchRepository;
         this.bm25SearchRepository = bm25SearchRepository;
         this.rrf = rrf;
@@ -52,6 +55,7 @@ public class HybridSearchService {
         this.embeddingClient = embeddingClient;
         this.jdbcTemplate = jdbcTemplate;
         this.appConfig = appConfig;
+        this.metricsService = metricsService;
     }
 
     /**
@@ -82,7 +86,8 @@ public class HybridSearchService {
             if (!embeddings.isEmpty()) {
                 float[] queryEmbedding = toFloatArray(embeddings.get(0));
                 jdbcTemplate.execute("SET LOCAL ivfflat.probes = " + IVFFLAT_PROBES);
-                vectorChunks = vectorSearchRepository.findNearest(queryEmbedding, vectorK);
+                vectorChunks = metricsService.timeRetrieval("vector", () -> 
+                        vectorSearchRepository.findNearest(queryEmbedding, vectorK));
             }
         } catch (Exception e) {
             log.warn("Vector search failed for query '{}': {}", query, e.getMessage());
@@ -91,7 +96,8 @@ public class HybridSearchService {
         // 2. Sparse BM25 full-text search
         List<ScoredChunk> bm25Chunks = Collections.emptyList();
         try {
-            bm25Chunks = bm25SearchRepository.findTopKByBM25(query, bm25K);
+            bm25Chunks = metricsService.timeRetrieval("bm25", () -> 
+                    bm25SearchRepository.findTopKByBM25(query, bm25K));
         } catch (Exception e) {
             log.warn("BM25 search failed for query '{}': {}", query, e.getMessage());
         }
@@ -104,12 +110,29 @@ public class HybridSearchService {
         }
 
         // 3. Reciprocal Rank Fusion
-        List<ScoredChunk> fusedChunks = rrf.fuseChunks(vectorChunks, bm25Chunks, rrfK);
-        log.debug("RRF fused candidates: {}", fusedChunks.size());
+        List<ScoredChunk> fusedChunks;
+        try {
+            List<ScoredChunk> finalVectorChunks = vectorChunks;
+            List<ScoredChunk> finalBm25Chunks = bm25Chunks;
+            fusedChunks = metricsService.timeRetrieval("rrf", () -> 
+                    rrf.fuseChunks(finalVectorChunks, finalBm25Chunks, rrfK));
+            log.debug("RRF fused candidates: {}", fusedChunks.size());
+        } catch (Exception e) {
+            log.error("RRF fusion failed", e);
+            fusedChunks = Collections.emptyList();
+        }
 
         // 4. Cross-encoder reranking
-        List<ScoredChunk> rerankedChunks = rerankerClient.rerank(query, fusedChunks, topK);
-        log.debug("Reranking completed, returning {} chunks", rerankedChunks.size());
+        List<ScoredChunk> rerankedChunks;
+        try {
+            List<ScoredChunk> finalFusedChunks = fusedChunks;
+            rerankedChunks = metricsService.timeRetrieval("rerank", () -> 
+                    rerankerClient.rerank(query, finalFusedChunks, topK));
+            log.debug("Reranking completed, returning {} chunks", rerankedChunks.size());
+        } catch (Exception e) {
+            log.error("Reranking failed", e);
+            rerankedChunks = fusedChunks; // fallback
+        }
 
         return rerankedChunks;
     }

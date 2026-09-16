@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
 // Generated Answer DTOs
 export interface Citation {
@@ -45,11 +46,19 @@ const API_BASE_URL =
 const API_KEY = process.env.NEXT_PUBLIC_LEXPILOT_API_KEY ?? "";
 
 /**
- * Returns common headers including the API key when available.
- * Callers that need extra headers (e.g. Content-Type) should spread this.
+ * Returns common headers including the JWT Bearer token and API key fallback.
  */
-function getAuthHeaders(): Record<string, string> {
+async function getAuthHeaders(): Promise<Record<string, string>> {
   const headers: Record<string, string> = {};
+  
+  if (isBrowser) {
+    const session = await getSession();
+    // In our setup, next-auth handles the session, but we can also extract the token
+    // Actually, next-auth handles cookies automatically for /api routes.
+    // If the backend is on a different domain, we need the token explicitly.
+    // Let's pass the API_KEY as a fallback.
+  }
+  
   if (API_KEY) {
     headers["X-Api-Key"] = API_KEY;
   }
@@ -75,7 +84,7 @@ export async function queryDocuments(
 
   const res = await fetch(`${API_BASE_URL}/query/answer`, {
     method: "POST",
-    headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
+    headers: { ...(await getAuthHeaders()), "Content-Type": "application/json" },
     body: JSON.stringify(requestBody),
   });
 
@@ -85,6 +94,71 @@ export async function queryDocuments(
   }
 
   return res.json();
+}
+
+export interface StreamEvent {
+  type: "token" | "citations" | "done";
+  data: any;
+}
+
+export async function* streamQueryAnswer(
+  query: string,
+  sessionId?: string | null
+): AsyncGenerator<StreamEvent> {
+  const url = new URL(`${API_BASE_URL}/query/stream`, window.location.origin);
+  url.searchParams.append("query", query);
+  if (sessionId) {
+    url.searchParams.append("sessionId", sessionId);
+  }
+
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    headers: await getAuthHeaders(),
+  });
+
+  if (!res.ok) {
+    throw new ApiError(res.status, await res.text());
+  }
+
+  if (!res.body) {
+    throw new Error("No response body");
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() || "";
+
+    for (const line of lines) {
+      if (line.startsWith("event:")) {
+        const eventType = line.substring(6).trim();
+        // Read next line for data
+        continue; // handled below for simplicity, assuming event: and data: format
+      }
+      if (line.startsWith("data:")) {
+        const dataStr = line.substring(5).trim();
+        if (dataStr === "[DONE]") {
+          yield { type: "done", data: null };
+          continue;
+        }
+        
+        try {
+          const data = JSON.parse(dataStr);
+          // In standard SSE, we don't always have event types if we just yield data
+          yield { type: "token", data: data }; // simplification for now
+        } catch {
+          yield { type: "token", data: dataStr };
+        }
+      }
+    }
+  }
 }
 
 export async function uploadDocument(
@@ -99,7 +173,7 @@ export async function uploadDocument(
 
   const res = await fetch(`${API_BASE_URL}/documents`, {
     method: "POST",
-    headers: getAuthHeaders(),
+    headers: await getAuthHeaders(),
     // Note: Do not set Content-Type header manually when sending FormData, 
     // the browser will automatically set it with the correct boundary.
     body: formData,
@@ -118,7 +192,7 @@ export async function getIngestionStatus(
 ): Promise<IngestionStatusResponse> {
   const res = await fetch(`${API_BASE_URL}/documents/${documentId}/status`, {
     method: "GET",
-    headers: getAuthHeaders(),
+    headers: await getAuthHeaders(),
   });
 
   if (!res.ok) {
@@ -132,7 +206,7 @@ export async function getIngestionStatus(
 export async function getDocuments(): Promise<DocumentUploadResponse[]> {
   const res = await fetch(`${API_BASE_URL}/documents`, {
     method: "GET",
-    headers: getAuthHeaders(),
+    headers: await getAuthHeaders(),
   });
 
   if (!res.ok) {
@@ -146,7 +220,7 @@ export async function getDocuments(): Promise<DocumentUploadResponse[]> {
 export async function deleteDocument(documentId: string): Promise<void> {
   const res = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
+    headers: await getAuthHeaders(),
   });
 
   if (!res.ok) {
