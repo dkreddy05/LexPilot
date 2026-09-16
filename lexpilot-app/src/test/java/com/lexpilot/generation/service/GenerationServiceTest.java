@@ -9,6 +9,8 @@ import com.lexpilot.generation.llm.LlmResponse;
 import com.lexpilot.generation.prompt.PromptBuilder;
 import com.lexpilot.generation.prompt.PromptMessage;
 import com.lexpilot.retrieval.dto.ScoredChunk;
+import com.lexpilot.generation.pii.PiiScrubber;
+import com.lexpilot.generation.pii.ScrubResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +39,7 @@ class GenerationServiceTest {
     @Mock private LlmApiClient llmApiClient;
     @Mock private CitationFormatter citationFormatter;
     @Mock private LowConfidenceGuardrail guardrail;
+    @Mock private PiiScrubber piiScrubber;
 
     private GenerationService generationService;
 
@@ -47,7 +50,7 @@ class GenerationServiceTest {
     @BeforeEach
     void setUp() {
         generationService = new GenerationService(promptBuilder, llmApiClient,
-                citationFormatter, guardrail);
+                citationFormatter, guardrail, piiScrubber);
     }
 
     @Test
@@ -57,6 +60,10 @@ class GenerationServiceTest {
         List<ScoredChunk> chunks = List.of(
                 new ScoredChunk(CHUNK_1_ID, DOC_ID, "Refund policy...", 0.95, "guide.pdf"),
                 new ScoredChunk(CHUNK_2_ID, DOC_ID, "Warranty info...", 0.80, "warranty.pdf")
+        );
+        
+        when(piiScrubber.scrub(anyString())).thenAnswer(invocation -> 
+            new ScrubResult((String) invocation.getArgument(0), List.of(), 0)
         );
 
         List<PromptMessage> messages = List.of(
@@ -103,6 +110,10 @@ class GenerationServiceTest {
                 new ScoredChunk(CHUNK_1_ID, DOC_ID, "Unrelated content", 0.20, "random.pdf")
         );
 
+        when(piiScrubber.scrub(anyString())).thenAnswer(invocation -> 
+            new ScrubResult((String) invocation.getArgument(0), List.of(), 0)
+        );
+
         List<PromptMessage> messages = List.of(
                 new PromptMessage(PromptMessage.Role.SYSTEM, "system prompt"),
                 new PromptMessage(PromptMessage.Role.USER, "user message")
@@ -130,6 +141,10 @@ class GenerationServiceTest {
         String query = "What about refunds for electronics?";
         List<ScoredChunk> chunks = List.of(
                 new ScoredChunk(CHUNK_1_ID, DOC_ID, "Electronics refund...", 0.90, "guide.pdf")
+        );
+
+        when(piiScrubber.scrub(anyString())).thenAnswer(invocation -> 
+            new ScrubResult((String) invocation.getArgument(0), List.of(), 0)
         );
 
         List<PromptMessage> history = List.of(

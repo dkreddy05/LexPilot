@@ -1,6 +1,7 @@
 package com.lexpilot.retrieval.service;
 
 import com.lexpilot.common.config.AppConfig;
+import com.lexpilot.common.observability.MetricsService;
 import com.lexpilot.ingestion.service.EmbeddingServiceClient;
 import com.lexpilot.retrieval.client.RerankerClient;
 import com.lexpilot.retrieval.dto.ScoredChunk;
@@ -48,6 +49,9 @@ class HybridSearchServiceTest {
     @Mock
     private AppConfig.RetrievalConfig retrievalConfig;
 
+    @Mock
+    private MetricsService metricsService;
+
     private HybridSearchService hybridSearchService;
 
     @BeforeEach
@@ -64,8 +68,14 @@ class HybridSearchServiceTest {
                 rerankerClient,
                 embeddingClient,
                 jdbcTemplate,
-                appConfig
+                appConfig,
+                metricsService
         );
+
+        lenient().when(metricsService.timeRetrieval(anyString(), any())).thenAnswer(invocation -> {
+            java.util.function.Supplier<?> supplier = invocation.getArgument(1);
+            return supplier.get();
+        });
     }
 
     @Test

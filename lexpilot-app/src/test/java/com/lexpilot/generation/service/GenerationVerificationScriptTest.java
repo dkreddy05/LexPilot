@@ -12,6 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lexpilot.common.observability.MetricsService;
+import com.lexpilot.generation.pii.NoOpPiiScrubber;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.mockito.Mockito;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -44,12 +50,14 @@ class GenerationVerificationScriptTest {
                 null, null, null, new AppConfig.ConversationConfig(10)
         );
 
-        OpenAiLlmClient llmClient = new OpenAiLlmClient(appConfig);
+        MetricsService metricsService = Mockito.mock(MetricsService.class);
+        OpenAiLlmClient llmClient = new OpenAiLlmClient(appConfig, metricsService, WebClient.builder(), new ObjectMapper());
         LegalPromptBuilder promptBuilder = new LegalPromptBuilder();
         RegexCitationFormatter formatter = new RegexCitationFormatter();
         NoOpLowConfidenceGuardrail guardrail = new NoOpLowConfidenceGuardrail();
+        NoOpPiiScrubber piiScrubber = new NoOpPiiScrubber();
 
-        return new GenerationService(promptBuilder, llmClient, formatter, guardrail);
+        return new GenerationService(promptBuilder, llmClient, formatter, guardrail, piiScrubber);
     }
 
     @Test
