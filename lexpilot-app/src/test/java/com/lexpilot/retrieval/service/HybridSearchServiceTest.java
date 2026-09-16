@@ -55,7 +55,7 @@ class HybridSearchServiceTest {
     private HybridSearchService hybridSearchService;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         lenient().when(appConfig.retrieval()).thenReturn(retrievalConfig);
         lenient().when(retrievalConfig.vectorTopK()).thenReturn(20);
         lenient().when(retrievalConfig.bm25TopK()).thenReturn(20);
@@ -73,8 +73,12 @@ class HybridSearchServiceTest {
         );
 
         lenient().when(metricsService.timeRetrieval(anyString(), any())).thenAnswer(invocation -> {
-            java.util.function.Supplier<?> supplier = invocation.getArgument(1);
-            return supplier.get();
+            java.util.concurrent.Callable<?> callable = invocation.getArgument(1);
+            try {
+                return callable.call();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
