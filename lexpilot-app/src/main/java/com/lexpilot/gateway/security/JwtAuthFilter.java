@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,11 +39,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
     private static final String BEARER_PREFIX = "Bearer ";
 
-    private final AppConfig appConfig;
+    private final boolean securityEnabled;
     private final JwtService jwtService;
 
-    public JwtAuthFilter(AppConfig appConfig, JwtService jwtService) {
-        this.appConfig = appConfig;
+    public JwtAuthFilter(@Value("${lexpilot.security.enabled:true}") boolean securityEnabled, 
+                         JwtService jwtService) {
+        this.securityEnabled = securityEnabled;
         this.jwtService = jwtService;
     }
 
@@ -52,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
                                         
         // If security is disabled globally, skip
-        if (!appConfig.security().enabled()) {
+        if (!securityEnabled) {
             filterChain.doFilter(request, response);
             return;
         }

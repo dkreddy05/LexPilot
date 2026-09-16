@@ -8,7 +8,7 @@ import { ChatInput } from "@/components/Chat/ChatInput";
 import { useQueryStore } from "@/lib/stores/useQueryStore";
 import { useDocumentStore } from "@/lib/stores/useDocumentStore";
 import { useQueryDocuments } from "@/lib/hooks/useQueryDocuments";
-import { getDocuments } from "@/lib/api";
+import { getDocuments, streamQueryAnswer } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const STARTER_QUESTIONS = [
@@ -67,33 +67,37 @@ export default function Home() {
     appendMessage({ id: userMsgId, role: "user", content: text });
 
     const aiMsgId = (Date.now() + 1).toString();
-    appendMessage({ id: aiMsgId, role: "assistant", content: "⟳ Thinking..." });
+    appendMessage({ id: aiMsgId, role: "assistant", content: "" });
 
     // On mobile, close sidebar when sending
     if (typeof window !== "undefined" && window.innerWidth < 768) {
       setSidebarOpen(false);
     }
 
-    mutate(
-      { query: text, sessionId },
-      {
-        onSuccess: (data) => {
-          // Persist the session ID returned by the backend
-          if (data.sessionId && data.sessionId !== activeSessionId) {
-            replaceSessionId(activeSessionId, data.sessionId);
+    const streamResponse = async () => {
+      try {
+        let fullText = "";
+        for await (const event of streamQueryAnswer(text, activeSessionId)) {
+          if (event.type === "token") {
+            // Because our simplified backend streams raw JSON string, event.data is likely the chunk
+            const chunk = typeof event.data === "string" ? event.data : (event.data?.content || event.data || "");
+            fullText += chunk;
+            updateMessage(aiMsgId, {
+              content: fullText,
+            });
           }
-          updateMessage(aiMsgId, {
-            content: data.answer,
-            response: data,
-          });
-        },
-        onError: (err: any) => {
-          updateMessage(aiMsgId, {
-            content: `Error: ${err.message || "Something went wrong."}`,
-          });
-        },
+        }
+        
+        // At the end, we should ideally fetch citations, but for now we'll just show the text.
+        // We can do a background fetch for citations if needed, or update the backend to stream citations at the end.
+      } catch (err: any) {
+        updateMessage(aiMsgId, {
+          content: `Error: ${err.message || "Something went wrong."}`,
+        });
       }
-    );
+    };
+    
+    streamResponse();
   };
 
   return (

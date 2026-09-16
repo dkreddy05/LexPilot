@@ -1,5 +1,6 @@
 package com.lexpilot.generation.llm;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lexpilot.common.config.AppConfig;
 import com.lexpilot.common.exception.LexPilotException;
 import com.lexpilot.common.exception.UpstreamServiceException;
@@ -13,6 +14,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Map;
@@ -34,13 +38,21 @@ public class OpenAiLlmClient implements LlmApiClient {
     private static final Logger log = LoggerFactory.getLogger(OpenAiLlmClient.class);
 
     private final RestClient restClient;
+    private final WebClient webClient;
     private final AppConfig.LlmConfig llmConfig;
     private final MetricsService metricsService;
+    private final ObjectMapper objectMapper;
 
-    public OpenAiLlmClient(AppConfig appConfig, MetricsService metricsService) {
+    public OpenAiLlmClient(AppConfig appConfig, MetricsService metricsService, WebClient.Builder webClientBuilder, ObjectMapper objectMapper) {
         this.llmConfig = appConfig.llm();
         this.metricsService = metricsService;
+        this.objectMapper = objectMapper;
         this.restClient = RestClient.builder()
+                .baseUrl(llmConfig.baseUrl())
+                .defaultHeader("Authorization", "Bearer " + llmConfig.apiKey())
+                .defaultHeader("Content-Type", "application/json")
+                .build();
+        this.webClient = webClientBuilder
                 .baseUrl(llmConfig.baseUrl())
                 .defaultHeader("Authorization", "Bearer " + llmConfig.apiKey())
                 .defaultHeader("Content-Type", "application/json")
@@ -132,11 +144,77 @@ public class OpenAiLlmClient implements LlmApiClient {
                 "your query has been logged and will be addressed.");
     }
 
+    @SuppressWarnings("unused")
+    private Flux<String> streamFallback(List<PromptMessage> messages, boolean useFastModel, Throwable t) {
+        log.warn("LLM circuit breaker stream fallback triggered: {}", t.getMessage());
+        return Flux.just("I'm sorry, the AI service is temporarily unavailable. " +
+                "Please try again in a few moments. If the issue persists, " +
+                "your query has been logged and will be addressed.");
+    }
+
+    @Override
+    @Retry(name = "llm-service")
+    @CircuitBreaker(name = "llm-service", fallbackMethod = "streamFallback")
+    public Flux<String> stream(List<PromptMessage> messages, boolean useFastModel) {
+        String model = useFastModel ? llmConfig.fastModel() : llmConfig.defaultModel();
+        log.debug("Streaming LLM ({}) with {} message(s), maxTokens={}",
+                model, messages.size(), llmConfig.maxTokens());
+
+        List<Map<String, String>> messagePayload = messages.stream()
+                .map(m -> Map.of(
+                        "role", m.role().name().toLowerCase(),
+                        "content", m.content()))
+                .toList();
+
+        Map<String, Object> requestBody = Map.of(
+                "model", model,
+                "messages", messagePayload,
+                "max_tokens", llmConfig.maxTokens(),
+                "temperature", llmConfig.temperature(),
+                "stream", true
+        );
+
+        return webClient.post()
+                .uri("/chat/completions")
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToFlux(String.class) // OpenAI streams JSON chunks prefixed with "data: "
+                .mapNotNull(chunk -> {
+                    String trimmed = chunk.trim();
+                    if (trimmed.isEmpty() || trimmed.equals("[DONE]")) return null;
+                    if (trimmed.startsWith("data: ")) {
+                        trimmed = trimmed.substring(6);
+                    }
+                    if (trimmed.equals("[DONE]")) return null;
+                    
+                    try {
+                        ChatCompletionResponse chunkResponse = objectMapper.readValue(trimmed, ChatCompletionResponse.class);
+                        if (chunkResponse != null && chunkResponse.choices() != null && !chunkResponse.choices().isEmpty()) {
+                            Choice choice = chunkResponse.choices().get(0);
+                            
+                            // Try message first (for non-streaming or if provider returns message)
+                            if (choice.message() != null && choice.message().content() != null) {
+                                return choice.message().content();
+                            }
+                            
+                            // Try delta (for streaming)
+                            if (choice.delta() != null && choice.delta().content() != null) {
+                                return choice.delta().content();
+                            }
+                        }
+                        return null;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                });
+    }
+
     // ---- OpenAI response DTOs (minimal) ----
 
     record ChatCompletionResponse(List<Choice> choices) {}
 
-    record Choice(Message message) {}
+    // We add delta for streaming
+    record Choice(Message message, Message delta) {}
 
     record Message(String role, String content) {}
 }

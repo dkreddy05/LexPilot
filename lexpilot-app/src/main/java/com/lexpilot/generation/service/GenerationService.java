@@ -115,4 +115,34 @@ public class GenerationService {
 
         return new GeneratedAnswer(answer.answer(), answer.citations(), lowConfidence);
     }
+
+    /**
+     * Streams the generated answer for the given query using retrieved chunks.
+     *
+     * @param query               the user's natural-language query
+     * @param chunks              scored chunks from retrieval
+     * @param conversationHistory prior USER/ASSISTANT prompt messages
+     * @return a Flux of raw text chunks
+     */
+    public reactor.core.publisher.Flux<String> stream(String query, List<ScoredChunk> chunks,
+                                                      List<PromptMessage> conversationHistory) {
+        // Scrub PII
+        List<ScoredChunk> scrubbedChunks = chunks.stream()
+                .map(chunk -> {
+                    ScrubResult result = piiScrubber.scrub(chunk.content());
+                    if (result.totalRedactions() > 0) {
+                        return new ScoredChunk(
+                                chunk.chunkId(), chunk.documentId(),
+                                result.scrubbedText(), chunk.score(), chunk.sourceLabel());
+                    }
+                    return chunk;
+                })
+                .toList();
+
+        // Build prompt
+        List<PromptMessage> messages = promptBuilder.build(query, scrubbedChunks, conversationHistory);
+
+        // Stream from LLM
+        return llmApiClient.stream(messages);
+    }
 }
