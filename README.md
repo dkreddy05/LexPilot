@@ -1,180 +1,178 @@
 # LexPilot 🏛️
 
-> **RAG-based legal & grievance rights assistant for Indian consumers**  
-> Covers: Consumer Protection Act, RBI / Banking grievances, Tenant disputes
+> **A retrieval-augmented legal and grievance-rights assistant for Indian consumers.**
+>
+> LexPilot helps users find relevant information about consumer protection, RBI and banking grievances, and tenant disputes—with source citations and confidence-aware responses.
 
----
+> **Disclaimer:** LexPilot provides informational assistance, not legal advice. Users should consult a qualified professional for advice about their specific circumstances.
 
-## Architecture Overview
+## What it does
 
+- Ingests PDFs and other supported documents with Apache Tika.
+- Splits documents into searchable chunks and generates embeddings.
+- Combines vector similarity, BM25/`tsvector` search, and reciprocal-rank fusion (RRF).
+- Uses a cross-encoder reranker to improve result relevance.
+- Generates cited answers through an LLM integration with low-confidence guardrails.
+- Provides API-key authentication, per-IP rate limiting, and tenant isolation through PostgreSQL row-level security.
+- Offers a Next.js interface for document upload, ingestion status, and conversational queries.
+
+## Architecture
+
+```text
+Browser (Next.js 15 / TypeScript)
+                │ REST + BFF proxy
+                ▼
+      lexpilot-app (Spring Boot / Java 21)
+       ├── gateway       API keys, CORS, rate limiting
+       ├── ingestion     Tika extraction, chunking, Kafka events
+       ├── retrieval     pgvector, BM25, hybrid RRF, reranking
+       ├── generation    prompts, LLM client, citations, guardrails
+       └── common        shared DTOs, configuration, exceptions
+                │
+       ┌────────┼─────────┬───────────────┐
+       ▼        ▼         ▼               ▼
+   Postgres   Kafka      Redis       embedding-service
+   +pgvector  (KRaft)    cache        FastAPI / Python
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        CLIENT (Browser)                         │
-│                  Next.js 15 — TypeScript / Tailwind              │
-└───────────────────────────┬─────────────────────────────────────┘
-                            │ HTTP (REST)
-┌───────────────────────────▼─────────────────────────────────────┐
-│                     lexpilot-app                                 │
-│              Spring Boot 3.x Modular Monolith                    │
-│                                                                  │
-│  ┌──────────┐ ┌───────────┐ ┌───────────┐ ┌──────────────────┐  │
-│  │ gateway/ │ │ingestion/ │ │retrieval/ │ │  generation/     │  │
-│  │ API Key  │ │Tika +     │ │Vector +   │ │PromptBuilder +   │  │
-│  │ Auth     │ │Chunking + │ │BM25* +    │ │LLM Client +      │  │
-│  │ Bucket4j │ │Kafka prod │ │pgvector   │ │Citation + Guard  │  │
-│  └──────────┘ └─────┬─────┘ └─────▲─────┘ └──────────────────┘  │
-└───────────────────────────────────┼─────────────────────────────┘
-                                    │ Kafka events
-          ┌─────────────────────────┘
-          │
-┌─────────▼─────────┐   ┌──────────────────────┐
-│   Kafka (KRaft)   │   │  embedding-service    │
-│   ingestion topic │   │  FastAPI / Python     │
-└───────────────────┘   │  POST /embed          │
-                        │  POST /rerank         │
-┌───────────────────┐   └──────────────────────┘
-│  Postgres 16      │
-│  + pgvector ext   │
-└───────────────────┘
-┌───────────────────┐
-│  Redis 7          │
-│  (rate-limit +    │
-│   session cache)  │
-└───────────────────┘
-```
-
-Notes: the retrieval service currently performs vector search using pgvector (cosine similarity). BM25/tsvector and RRF/reciprocal-rank fusion are planned but not yet active.
 
 ### Services
 
-| Service | Port | Technology |
-|---|---|---|
-| `lexpilot-app` | 8080 | Spring Boot 3.x / Java 21 |
-| `embedding-service` | 8000 | FastAPI / Python 3.11 |
-| `frontend` | 3000 | Next.js 15 |
-| `postgres` | 5432 | PostgreSQL 16 + pgvector |
-| `kafka` | 9092 | Confluent Kafka (KRaft) |
-| `redis` | 6379 | Redis 7 |
+| Service | Port | Technology | Purpose |
+|---|---:|---|---|
+| `frontend` | `3000` | Next.js 15 / TypeScript | Query and document-upload UI |
+| `lexpilot-app` | `8080` | Spring Boot 3.x / Java 21 | Main REST API and application modules |
+| `embedding-service` | `8000` | FastAPI / Python 3.11 | Embedding and cross-encoder reranking |
+| `postgres` | `5432` | PostgreSQL 16 + pgvector | Application data and vector search |
+| `kafka` | `9092` | Confluent Kafka 7.6 / KRaft | Asynchronous ingestion events |
+| `redis` | `6379` | Redis 7 | Rate-limit and session caching |
 
----
+## Repository layout
 
-## Internal Packages — lexpilot-app
-
+```text
+.
+├── lexpilot-app/       Spring Boot backend
+│   └── src/.../com/lexpilot/
+│       ├── gateway/     API authentication and rate limiting
+│       ├── ingestion/   Upload, extraction, chunking, and indexing
+│       ├── retrieval/   Vector and hybrid search
+│       ├── generation/  LLM prompts, citations, and guardrails
+│       └── common/      Shared DTOs and configuration
+├── embedding-service/  FastAPI embedding and reranking service
+├── frontend/            Next.js web application
+├── scratch/             Non-deployable prototype and learning scripts
+├── docker-compose.yml   Local multi-service environment
+└── .env.example         Environment variable template
 ```
-com.lexpilot
-├── gateway/       REST controllers, API key auth filter, Bucket4j rate limiting
-├── ingestion/     Document upload, Apache Tika extraction, chunking strategies, Kafka producer, embedding pipeline
-├── retrieval/     Vector search (pgvector cosine similarity), ScoredChunk DTO, VectorSearchRepository, SearchResultsResponse, QueryController
-├── generation/    Prompt construction, LLM API client, citation formatting, low-confidence guardrail
-└── common/        Shared DTOs (records), exceptions, config
-```
 
----
-
-## Quick Start
+## Quick start
 
 ### Prerequisites
-- Docker 24+ with Compose v2
-- Java 21 (for local dev)
-- Node.js 20+ (for frontend local dev)
-- Python 3.11+ (for embedding-service local dev)
 
-### Run everything with Docker Compose
+- Docker 24+ with Compose v2
+- Java 21 and Maven (for backend development outside Docker)
+- Node.js 20+ and npm (for frontend development outside Docker)
+- Python 3.11+ (for embedding-service development outside Docker)
+
+### Run the complete stack
 
 ```bash
-# From repo root
-docker-compose up --build
+cp .env.example .env
+# Edit .env and replace development credentials as needed
+docker compose up --build
 ```
 
-| URL | What |
-|---|---|
-| http://localhost:3000 | Frontend — query interface |
-| http://localhost:3000/documents | Frontend — document upload |
-| http://localhost:8080/api/v1 | Backend REST API |
-| http://localhost:8000/docs | FastAPI /embed & /rerank Swagger |
+The first embedding-service startup may take longer while the Hugging Face models are downloaded.
 
-### Run services individually (local dev)
+| URL | Description |
+|---|---|
+| http://localhost:3000 | Web application |
+| http://localhost:3000/documents | Document upload page |
+| http://localhost:8080/api/v1 | Backend REST API |
+| http://localhost:8000/docs | Embedding-service Swagger UI |
+| http://localhost:8080/actuator/health | Backend health check |
+
+To stop the stack while keeping volumes:
+
+```bash
+docker compose down
+```
+
+To remove persisted database, Kafka, Redis, and upload data as well:
+
+```bash
+docker compose down -v
+```
+
+### Run services locally
 
 **Backend**
+
 ```bash
 cd lexpilot-app
 ./mvnw spring-boot:run
 ```
 
 **Embedding service**
+
 ```bash
 cd embedding-service
+python -m venv .venv
+source .venv/bin/activate       # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
 **Frontend**
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
----
+## Configuration
 
-## Environment Variables
-
-Copy `.env.example` to `.env` and fill in values before running:
+Copy `.env.example` to `.env` before using Docker Compose. The most important variables are:
 
 | Variable | Description |
 |---|---|
-| `LEXPILOT_API_KEY` | Static API key for gateway auth (dev) |
-| `LLM_API_KEY` | LLM provider API key |
-| `LLM_BASE_URL` | LLM provider base URL |
-| `POSTGRES_PASSWORD` | Postgres password |
+| `LEXPILOT_API_KEY` | API key used by the backend gateway and frontend proxy |
+| `LEXPILOT_SECURITY_ENABLED` | Enables API-key authentication and rate limiting |
+| `LLM_API_KEY` | API key for the configured LLM provider |
+| `LLM_BASE_URL` | OpenAI-compatible LLM base URL |
+| `POSTGRES_PASSWORD` | PostgreSQL password |
+| `LEXPILOT_CORS_ALLOWED_ORIGINS` | Comma-separated allowed browser origins |
+| `INTERNAL_API_URL` | Backend URL used by the frontend BFF proxy |
 
----
+Do not commit real credentials. The values in `.env.example` are development placeholders only.
 
-## Development Status
+## Testing
 
-Progress updates from recent commits:
+Backend tests can be run with:
 
-- ✅ Initial scaffold
-- ✅ Document ingestion, extraction, and embedding pipeline implemented
-- ✅ Vector search implemented using pgvector (cosine similarity) with:
-  - ScoredChunk DTO and SearchResultsResponse
-  - VectorSearchRepository (JPA + native pgvector query)
-  - HybridSearchService wired to embedding client for query embeddings
-  - QueryController returning ranked scored chunks on POST /query
-  - VectorSearchIntegrationTest with precomputed sparse vectors
-  - Testcontainers bumped to 1.20.4 and docker-java.properties added for Docker Desktop 29 compatibility
-- ✅ API key auth & per-IP rate limiting (opt-in via `lexpilot.security.enabled=true`; enabled by default in Docker Compose)
-- ✅ Frontend chat flow fully wired:
-  - TanStack Query (`QueryProvider`) mounted in layout, `useQueryDocuments` mutation calls `POST /api/v1/query/answer`
-  - Chat messages managed via Zustand (`useQueryStore`) — not dead stores, active source of truth
-  - `ChatMessage` renders `CitationsExpander` with expandable source markers and low-confidence warnings
-  - Document upload + ingestion polling (`useUploadDocument`, `useIngestionStatus`, `useDocumentStore`) wired in sidebar and `/documents` page
-- ✅ BM25 / tsvector indexing and true hybrid fusion (RRF)
-- ✅ Reranking (cross-encoder) + reciprocal-rank fusion
+```bash
+cd lexpilot-app
+./mvnw test
+```
 
-Remaining work:
-- 🔲 LLM generation / RAG pipeline (prompting, citation formatting, guardrails)
-- 🔲 Frontend UI polish (improve UX, show citations, session management)
-- 🔲 Docker Compose hardening (health checks, externalized secrets, pinned versions)
-- 🔲 Multi-tenancy
+The test suite includes vector-search integration coverage, API-key authentication and rate-limit tests, and Testcontainers-based infrastructure tests. Docker must be available for tests that start containers.
 
-> Note: The ingestion/embedding pipeline, vector search, BM25 indexing, RRF, and cross-encoder reranking are fully functional. The end-to-end RAG generation pipeline is not yet fully completed. API key authentication and per-IP rate limiting are fully implemented and tested but gated behind a feature flag (`lexpilot.security.enabled`) — disabled for local dev, enabled in Docker Compose. The frontend chat UI is fully wired to the backend query/answer endpoint with citation rendering.
+Frontend checks can be run from `frontend/` using the scripts defined in `package.json`.
 
----
+## Project status
 
-## Tests
+The core retrieval and application platform is implemented:
 
-- Integration tests cover the vector search path (VectorSearchIntegrationTest).
-- Security filter chain tests cover API key auth (401 for missing/wrong key), rate limiting (429), and public endpoint bypass (SecurityConfigTest).
-- Testcontainers version updated to 1.20.4 to address compatibility with newer Docker Desktop versions; docker-java.properties is included to pin the Docker Engine API.
+- ✅ Document ingestion, extraction, chunking, and embedding pipeline
+- ✅ pgvector search with BM25/`tsvector` indexing and hybrid RRF fusion
+- ✅ Cross-encoder reranking
+- ✅ LLM-backed RAG generation with citations and low-confidence guardrails
+- ✅ API-key security, rate limiting, and tenant isolation with PostgreSQL RLS
+- ✅ Frontend chat, document upload, ingestion polling, citations, and responsive UX
+- ✅ Docker Compose health checks, resource limits, and hardened container settings
 
----
+Planned improvements include broader legal-source coverage, production observability, stronger secret-management guidance, and additional end-to-end test coverage.
 
-## Project Status
+## License
 
-1. **Basic Retrieval Flow (BM25)** — ✅ Complete
-2. **Hybrid Search (BM25/RRF)** — ✅ Complete
-3. **RAG Generation Pipeline** — ✅ Complete (Low-confidence guardrails implemented)
-4. **Frontend UI Polish** — ✅ Complete (Keyboard shortcuts, copy buttons, responsive mobile layout, custom scrollbar)
-5. **Docker Compose Hardening** — ✅ Complete (Resource limits, read-only FS, Redis LRU policy, healthchecks)
-6. **Multi-tenancy** — ✅ Complete (Row-Level Security via Postgres, TenantContext interceptor, seeded API keys)
+No license has been specified yet. See the repository settings for the current licensing status.
