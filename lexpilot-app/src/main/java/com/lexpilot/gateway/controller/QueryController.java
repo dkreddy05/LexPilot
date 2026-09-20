@@ -148,17 +148,15 @@ public class QueryController {
 
         // 5. Stream answer chunks
         Flux<String> answerStream = generationService.stream(query, chunks, history);
-
-        // Note: For full audit logging and conversation persistence on a stream,
-        // we'd typically buffer the stream or use a doOnComplete hook.
-        // For simplicity in this demo, we'll log the query intent here.
-        auditService.logQuery(query, chunks, new GeneratedAnswer("[Streaming Response]", List.of(), false), httpRequest.getRemoteAddr());
+        
+        StringBuilder answerBuilder = new StringBuilder();
 
         return answerStream
+                .doOnNext(answerBuilder::append)
                 .doOnComplete(() -> {
-                    // In a production scenario, we'd accumulate the chunks here and persist
-                    // the final assistant message to conversationService.
-                    conversationService.appendAssistantMessage(conversationId, "[Streamed Response]");
+                    String fullAnswer = answerBuilder.toString();
+                    conversationService.appendAssistantMessage(conversationId, fullAnswer);
+                    auditService.logQuery(query, chunks, new GeneratedAnswer(fullAnswer, List.of(), false), httpRequest.getRemoteAddr());
                 });
     }
 }

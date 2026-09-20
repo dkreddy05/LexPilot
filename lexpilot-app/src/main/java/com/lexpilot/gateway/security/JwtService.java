@@ -37,4 +37,13 @@ public class JwtService {
 
         return new JwtClaims(subject, tenantId, role);
     }
+
+    public String generateToken(String subject, UUID tenantId, String role) {
+        return Jwts.builder()
+                .subject(subject)
+                .claim("tenantId", tenantId != null ? tenantId.toString() : null)
+                .claim("role", role)
+                .signWith(key)
+                .compact();
+    }
 }

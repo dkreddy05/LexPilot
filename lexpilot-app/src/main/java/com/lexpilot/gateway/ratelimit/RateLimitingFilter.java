@@ -108,11 +108,15 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Resolves the client IP safely.
-     * Raw X-Forwarded-For headers from untrusted clients are not blindly trusted;
-     * uses getRemoteAddr() as the secure default to prevent spoofing.
+     * Resolves the client IP safely, accounting for reverse proxies.
+     * Extracts the first IP from the X-Forwarded-For header if present,
+     * otherwise falls back to getRemoteAddr().
      */
     private String resolveClientIp(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader != null && !xfHeader.isBlank()) {
+            return xfHeader.split(",")[0].trim();
+        }
         String remoteAddr = request.getRemoteAddr();
         return (remoteAddr != null && !remoteAddr.isBlank()) ? remoteAddr : "unknown";
     }

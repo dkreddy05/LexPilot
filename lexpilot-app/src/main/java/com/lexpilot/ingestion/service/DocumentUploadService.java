@@ -4,8 +4,8 @@ import com.lexpilot.common.config.AppConfig;
 import com.lexpilot.common.dto.DocumentUploadResponse;
 import com.lexpilot.common.dto.IngestionStatusResponse;
 import com.lexpilot.common.exception.DocumentNotFoundException;
-import com.lexpilot.common.exception.ExtractionException;
 import com.lexpilot.common.exception.InvalidDocumentException;
+import com.lexpilot.common.tenant.TenantContext;
 import com.lexpilot.ingestion.chunking.ChunkingOptions;
 import com.lexpilot.ingestion.chunking.ChunkingStrategy;
 import com.lexpilot.ingestion.entity.DocumentChunkEntity;
@@ -51,24 +51,18 @@ public class DocumentUploadService {
 
     private final DocumentRepository documentRepository;
     private final DocumentChunkRepository chunkRepository;
-    private final TikaExtractionService tikaExtractionService;
-    private final ChunkingStrategy<String> chunker;
-    private final IngestionKafkaProducer kafkaProducer;
+    private final DocumentProcessingService documentProcessingService;
     private final ChunkingOptions chunkingOptions;
     private final Path uploadDir;
 
     public DocumentUploadService(
             DocumentRepository documentRepository,
             DocumentChunkRepository chunkRepository,
-            TikaExtractionService tikaExtractionService,
-            ChunkingStrategy<String> chunker,
-            IngestionKafkaProducer kafkaProducer,
+            DocumentProcessingService documentProcessingService,
             AppConfig appConfig) {
         this.documentRepository = documentRepository;
         this.chunkRepository = chunkRepository;
-        this.tikaExtractionService = tikaExtractionService;
-        this.chunker = chunker;
-        this.kafkaProducer = kafkaProducer;
+        this.documentProcessingService = documentProcessingService;
         this.chunkingOptions = new ChunkingOptions(
                 appConfig.ingestion().chunkSize(),
                 appConfig.ingestion().chunkOverlap());
@@ -109,74 +103,22 @@ public class DocumentUploadService {
             // --- 3. Store raw file to disk ---
             storeFile(documentId, fileBytes);
 
-            // --- 4. Extract text (EXTRACTING) ---
-            doc.setStatus(DocumentStatus.EXTRACTING);
-            documentRepository.save(doc);
-
-            ExtractionResult extraction = tikaExtractionService.extract(fileBytes, ALLOWED_CONTENT_TYPE);
-            log.info("Document {} extracted: {} chars, {} pages",
-                     documentId, extraction.text().length(), extraction.pageCount());
-
-            // --- 5. Chunk text (CHUNKING) ---
-            doc.setStatus(DocumentStatus.CHUNKING);
-            documentRepository.save(doc);
-
-            List<String> chunkContents = chunker.chunk(extraction.text(), chunkingOptions);
-
-            if (chunkContents.isEmpty()) {
-                throw new ExtractionException("Chunking produced zero chunks from extracted text");
-            }
-
-            log.info("Document {} chunked into {} chunks", documentId, chunkContents.size());
-
-            // --- 6. Persist chunk rows (without embeddings) ---
-            for (int i = 0; i < chunkContents.size(); i++) {
-                DocumentChunkEntity chunk = new DocumentChunkEntity(
-                        documentId, i, chunkContents.get(i));
-                chunkRepository.save(chunk);
-            }
-
-            // --- 7. Publish Kafka events (one per chunk) then set EMBEDDING ---
-            doc.setStatus(DocumentStatus.EMBEDDING);
-            documentRepository.save(doc);
-
-            // Re-read saved chunks to get their generated IDs
-            List<DocumentChunkEntity> savedChunks = chunkRepository.findByDocumentIdOrderByChunkIndexAsc(documentId);
-
-            for (DocumentChunkEntity chunk : savedChunks) {
-                IngestionEvent event = new IngestionEvent(
-                        UUID.randomUUID().toString(),
-                        documentId.toString(),
-                        "CHUNKED",
-                        new IngestionEvent.ChunkPayload(
-                                chunk.getId().toString(),
-                                chunk.getChunkIndex(),
-                                chunk.getContent(),
-                                chunkContents.size()),
-                        IngestionEvent.CURRENT_SCHEMA_VERSION);
-                kafkaProducer.publish(event);
-            }
-
-            log.info("Document {} published {} CHUNKED events to Kafka",
-                     documentId, savedChunks.size());
+            // --- 4. Trigger Async Processing ---
+            UUID tenantId = TenantContext.getTenantId();
+            documentProcessingService.processDocumentAsync(documentId, fileBytes, ALLOWED_CONTENT_TYPE, chunkingOptions, tenantId);
 
             return new DocumentUploadResponse(
                     documentId.toString(),
                     filename,
-                    DocumentStatus.EMBEDDING,
-                    "Document accepted. Text extracted and chunked; embedding in progress.");
+                    DocumentStatus.UPLOADED,
+                    "Document accepted. Text extraction and chunking are in progress.");
 
-        } catch (ExtractionException e) {
-            doc.setStatus(DocumentStatus.FAILED);
-            doc.setErrorMessage(e.getMessage());
-            documentRepository.save(doc);
-            throw e;
         } catch (Exception e) {
             doc.setStatus(DocumentStatus.FAILED);
             doc.setErrorMessage(e.getMessage());
             documentRepository.save(doc);
-            log.error("Document {} ingestion failed", documentId, e);
-            throw new ExtractionException("Ingestion pipeline failed: " + e.getMessage(), e);
+            log.error("Document {} ingestion setup failed", documentId, e);
+            throw new InvalidDocumentException("Ingestion pipeline setup failed: " + e.getMessage());
         }
     }
 

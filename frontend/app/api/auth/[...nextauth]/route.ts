@@ -10,16 +10,31 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // In a real app, we would POST to our Spring Boot /api/v1/auth/login endpoint
-        // For the LexPilot demo, we'll accept any email and mint a mock user
-        if (credentials?.email && credentials?.password) {
-          return {
-            id: "1",
-            email: credentials.email,
-            name: credentials.email.split('@')[0],
-            role: "USER",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          };
+        if (!credentials?.email || !credentials?.password) return null;
+
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api/v1'}/auth/login`, {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" }
+          });
+          
+          if (res.ok) {
+            const user = await res.json();
+            // The backend returns { token, id, email, name, role, tenantId }
+            // NextAuth expects us to return an object. We'll stuff the backend JWT inside as well
+            // so we can proxy it in route.ts
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              role: user.role,
+              tenantId: user.tenantId,
+              accessToken: user.token
+            };
+          }
+        } catch (e) {
+          console.error("Login failed:", e);
         }
         return null;
       }
@@ -30,6 +45,7 @@ const handler = NextAuth({
       if (user) {
         token.role = (user as any).role;
         token.tenantId = (user as any).tenantId;
+        token.accessToken = (user as any).accessToken;
       }
       return token;
     },
@@ -37,6 +53,7 @@ const handler = NextAuth({
       if (session.user) {
         (session.user as any).role = token.role;
         (session.user as any).tenantId = token.tenantId;
+        (session.user as any).accessToken = token.accessToken;
       }
       return session;
     }

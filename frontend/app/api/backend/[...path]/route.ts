@@ -25,10 +25,10 @@ async function proxyRequest(
     headers["content-type"] = contentType;
   }
 
-  // Extract NextAuth JWT and forward as Bearer token
-  const token = await getToken({ req: request, raw: true });
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+  // Extract NextAuth JWT and forward the *backend* accessToken as Bearer token
+  const token = await getToken({ req: request, raw: false });
+  if (token && token.accessToken) {
+    headers["Authorization"] = `Bearer ${token.accessToken}`;
   } else {
     const authHeader = request.headers.get("authorization");
     if (authHeader) {
