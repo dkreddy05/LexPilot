@@ -2,8 +2,6 @@ package com.lexpilot.ingestion.service;
 
 import com.lexpilot.common.config.AppConfig;
 import com.lexpilot.common.exception.InvalidDocumentException;
-import com.lexpilot.ingestion.chunking.ChunkingStrategy;
-import com.lexpilot.ingestion.kafka.IngestionKafkaProducer;
 import com.lexpilot.ingestion.repository.DocumentChunkRepository;
 import com.lexpilot.ingestion.repository.DocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,9 +21,7 @@ class DocumentUploadServiceTest {
 
     @Mock private DocumentRepository documentRepository;
     @Mock private DocumentChunkRepository chunkRepository;
-    @Mock private TikaExtractionService tikaExtractionService;
-    @Mock private ChunkingStrategy<String> chunker;
-    @Mock private IngestionKafkaProducer kafkaProducer;
+    @Mock private DocumentProcessingService documentProcessingService;
 
     @TempDir
     Path tempUploadDir;
@@ -47,9 +43,7 @@ class DocumentUploadServiceTest {
         uploadService = new DocumentUploadService(
                 documentRepository,
                 chunkRepository,
-                tikaExtractionService,
-                chunker,
-                kafkaProducer,
+                documentProcessingService,
                 appConfig
         );
     }
